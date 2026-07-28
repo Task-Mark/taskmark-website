@@ -2,16 +2,18 @@ import Link from "next/link"
 
 import { BrandLogo } from "@/components/brand-logo"
 import { Button } from "@/components/ui/button"
+import { SITE } from "@/lib/site"
 
 const nav = [
-  { href: "/#product", label: "Product" },
-  { href: "/#docs", label: "Docs" },
+  { href: "/#features", label: "Features" },
+  { href: "/docs", label: "Docs" },
+  { href: "/#contact", label: "Contact" },
 ] as const
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b-2 border-border bg-card/95 shadow-sm backdrop-blur">
-      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-3 px-4 pt-3.5 pb-4">
+      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-3 px-4 pt-3.5 pb-4">
         <Link
           href="/"
           className="group flex min-w-0 flex-1 items-center gap-3 transition-[gap] duration-200 hover:gap-4"
@@ -44,10 +46,10 @@ export function SiteHeader() {
           ))}
           <Button
             nativeButton={false}
-            render={<Link href="/#get-started" />}
+            render={<Link href={SITE.startPath} />}
             size="sm"
           >
-            Get started
+            Start now
           </Button>
         </nav>
       </div>

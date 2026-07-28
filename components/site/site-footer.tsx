@@ -2,11 +2,12 @@ import Link from "next/link"
 
 import { BrandLogo } from "@/components/brand-logo"
 import { Separator } from "@/components/ui/separator"
+import { SITE } from "@/lib/site"
 
 export function SiteFooter() {
   return (
     <footer className="mt-auto border-t-2 border-border bg-card">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-10">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             <BrandLogo
@@ -29,29 +30,43 @@ export function SiteFooter() {
             aria-label="Footer"
           >
             <Link
-              href="/#product"
+              href="/#features"
               className="underline-offset-2 hover:text-foreground hover:underline"
             >
-              Product
+              Features
             </Link>
             <Link
-              href="/#docs"
+              href="/docs"
               className="underline-offset-2 hover:text-foreground hover:underline"
             >
               Docs
             </Link>
             <Link
-              href="/#get-started"
+              href="/#contact"
               className="underline-offset-2 hover:text-foreground hover:underline"
             >
-              Get started
+              Contact
+            </Link>
+            <a
+              href={SITE.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline-offset-2 hover:text-foreground hover:underline"
+            >
+              GitHub
+            </a>
+            <Link
+              href={SITE.startPath}
+              className="underline-offset-2 hover:text-foreground hover:underline"
+            >
+              Start now
             </Link>
           </nav>
         </div>
         <Separator />
         <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Taskmark. Website placeholder — docs and
-          marketing content coming soon.
+          © {new Date().getFullYear()} Taskmark. Open source · MIT · Built for
+          Cursor.
         </p>
       </div>
     </footer>

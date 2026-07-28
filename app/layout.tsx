@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s · Taskmark",
   },
   description:
-    "Taskmark — local boards, clear backlog. Product site and documentation.",
+    "Taskmark — product memory for agent work. Local markdown boards for Cursor with sizing, work logs, and velocity.",
   icons: {
     icon: "/tm_light.png",
   },

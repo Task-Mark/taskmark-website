@@ -7,6 +7,7 @@ import { SITE } from "@/lib/site"
 const nav = [
   { href: "/#features", label: "Features" },
   { href: "/docs", label: "Docs" },
+  { href: "/docs/commands", label: "Commands" },
   { href: "/#contact", label: "Contact" },
 ] as const
 

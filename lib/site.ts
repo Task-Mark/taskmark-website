@@ -4,7 +4,7 @@ export const SITE = {
     process.env.NEXT_PUBLIC_GITHUB_URL ??
     "https://github.com/taskmark/taskmark-cursor",
   docsPath: "/docs",
-  startPath: "/docs#install",
+  startPath: "/docs/setup#install",
   contactPath: "/#contact",
   featuresPath: "/#features",
 } as const

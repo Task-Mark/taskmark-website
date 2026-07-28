@@ -42,6 +42,12 @@ export function SiteFooter() {
               Docs
             </Link>
             <Link
+              href="/docs/setup"
+              className="underline-offset-2 hover:text-foreground hover:underline"
+            >
+              Setup
+            </Link>
+            <Link
               href="/#contact"
               className="underline-offset-2 hover:text-foreground hover:underline"
             >

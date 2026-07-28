@@ -1,140 +1,65 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
-import { SITE } from "@/lib/site"
+import {
+  DocsProse,
+  DocsShell,
+  DocsTitle,
+} from "@/components/docs/docs-shell"
+import { DOCS_NAV } from "@/lib/docs-nav"
 
 export const metadata: Metadata = {
   title: "Documentation",
   description:
-    "Install Taskmark for Cursor, initialize a board, and use the core slash commands.",
+    "Taskmark product documentation — setup, commands, board structure, sizing, velocity, and workflows.",
 }
 
-export default function DocsPage() {
+export default function DocsOverviewPage() {
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-14 sm:py-16">
-      <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-        Documentation
-      </p>
-      <h1 className="mt-2 font-head text-4xl tracking-tight sm:text-5xl">
-        Get started with Taskmark
-      </h1>
-      <p className="mt-4 text-base text-muted-foreground sm:text-lg">
-        Taskmark is a Cursor plugin for hierarchical product planning as
-        markdown: epics → stories → tasks/bugs under a board in your
-        project(s).
-      </p>
-
-      <section id="install" className="scroll-mt-28 mt-12 space-y-4">
-        <h2 className="font-head text-2xl tracking-tight sm:text-3xl">
-          Install
-        </h2>
-        <ol className="list-decimal space-y-3 pl-5 text-muted-foreground">
-          <li>
-            Open <strong className="text-foreground">Customize → Plugins</strong>.
-          </li>
-          <li>
-            Remove any broken <strong className="text-foreground">taskmark</strong>{" "}
-            entry first.
-          </li>
-          <li>
-            <strong className="text-foreground">Add local</strong> → select the{" "}
-            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-sm text-foreground">
-              taskmark-cursor
-            </code>{" "}
-            repo root (folder with{" "}
-            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-sm text-foreground">
-              .cursor-plugin/marketplace.json
-            </code>
-            ).
-          </li>
-          <li>
-            Enable <strong className="text-foreground">taskmark</strong>, then{" "}
-            <strong className="text-foreground">Developer: Reload Window</strong>.
-          </li>
-        </ol>
-        <p className="text-sm text-muted-foreground">
-          For local development copies, use the plugin{" "}
-          <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-foreground">
-            rsync-plugin-local.sh
-          </code>{" "}
-          script (Cursor rejects external symlinks).
+    <DocsShell currentPath="/docs">
+      <DocsTitle
+        title="Taskmark documentation"
+        lead="Local markdown boards for Cursor agents: epics, stories, and tasks with honest sizing, work logs, and velocity."
+      />
+      <DocsProse>
+        <p>
+          Taskmark is a Cursor plugin that keeps product work as hierarchical
+          markdown the agent can read and update. The board is product memory —
+          not a separate SaaS backlog that drifts from what shipped.
         </p>
-      </section>
-
-      <section id="quick-start" className="scroll-mt-28 mt-12 space-y-4">
-        <h2 className="font-head text-2xl tracking-tight sm:text-3xl">
-          Quick start
-        </h2>
-        <ol className="list-decimal space-y-3 pl-5 text-muted-foreground">
-          <li>Install the plugin.</li>
+        <h2 id="how-docs-are-organized">How docs are organized</h2>
+        <ul>
+          {DOCS_NAV.filter((item) => item.href !== "/docs").map((item) => (
+            <li key={item.href}>
+              <Link href={item.href}>{item.title}</Link> — {item.description}
+            </li>
+          ))}
+        </ul>
+        <h2 id="suggested-path">Suggested path</h2>
+        <ol>
           <li>
-            Run <strong className="text-foreground">taskmark-init</strong> in a
-            product repo.
+            <Link href="/docs/setup">Setup</Link> — install the plugin and
+            initialize a board
           </li>
           <li>
-            Multi-git workspaces: run{" "}
-            <strong className="text-foreground">/sync-repos</strong>.
+            <Link href="/docs/commands">Commands</Link> — create work and run
+            sessions
           </li>
           <li>
-            Create work with{" "}
-            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-sm text-foreground">
-              /new-epic
-            </code>
-            ,{" "}
-            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-sm text-foreground">
-              /new-story
-            </code>
-            ,{" "}
-            <code className="rounded border border-border bg-muted px-1.5 py-0.5 text-sm text-foreground">
-              /new-task
-            </code>
-            .
+            <Link href="/docs/structure">Folder structure</Link> — know where
+            files live
+          </li>
+          <li>
+            <Link href="/docs/workflows">Workflows</Link> — daily loop, actuals,
+            and multi-repo
           </li>
         </ol>
-      </section>
-
-      <section id="commands" className="scroll-mt-28 mt-12 space-y-4">
-        <h2 className="font-head text-2xl tracking-tight sm:text-3xl">
-          Core commands
-        </h2>
-        <ul className="space-y-2 text-muted-foreground">
-          <li>
-            <code className="text-foreground">/start-work</code> — open a billable
-            session
-          </li>
-          <li>
-            <code className="text-foreground">/complete-work</code> — close session
-            + actual minutes
-          </li>
-          <li>
-            <code className="text-foreground">/sync-status</code> — status, actuals,
-            INDEX
-          </li>
-          <li>
-            <code className="text-foreground">/velocity</code> — team speed / ETA
-          </li>
-          <li>
-            <code className="text-foreground">/board-status</code> — board overview
-          </li>
-        </ul>
-      </section>
-
-      <div className="mt-14 flex flex-wrap gap-3 border-t-2 border-border pt-8">
-        <Button nativeButton={false} render={<Link href="/" />} size="lg">
-          Back to home
-        </Button>
-        <Button
-          nativeButton={false}
-          render={
-            <a href={SITE.githubUrl} target="_blank" rel="noopener noreferrer" />
-          }
-          variant="outline"
-          size="lg"
-        >
-          GitHub
-        </Button>
-      </div>
-    </div>
+        <p>
+          Slash commands use names like <code>/new-epic</code>. Matching skills
+          are often named <code>create-epic</code> — docs call out both when it
+          helps.
+        </p>
+      </DocsProse>
+    </DocsShell>
   )
 }

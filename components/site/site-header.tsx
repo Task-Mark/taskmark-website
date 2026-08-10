@@ -25,9 +25,28 @@ export function SiteHeader() {
             height={45}
             className="mb-0.5 h-10 w-auto shrink-0 origin-center select-none object-contain transition-transform duration-200 group-hover:scale-110"
           />
-          <span className="font-head text-2xl leading-none tracking-tight">
-            Taskmark
-          </span>
+          <div className="flex min-w-0 flex-col gap-0.5">
+            <p className="w-fit font-head text-2xl leading-none tracking-tight">
+              <span className="relative inline-block transition-transform duration-200 group-hover:-rotate-2">
+                Taskmark
+                <svg
+                  aria-hidden
+                  viewBox="0 0 120 10"
+                  preserveAspectRatio="none"
+                  className="pointer-events-none absolute -bottom-1.5 -left-1 h-2.5 w-[calc(100%+1rem)] origin-left text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                >
+                  {/* Linear hand stroke: thin at start, thicker at end */}
+                  <path
+                    fill="currentColor"
+                    d="M1 5.2 L119 3.2 L119 8.8 L1 5.9 Z"
+                  />
+                </svg>
+              </span>
+            </p>
+            <p className="truncate text-xs text-muted-foreground transition-transform duration-200 group-hover:translate-y-1">
+              Product memory for agent work
+            </p>
+          </div>
         </Link>
 
         <nav

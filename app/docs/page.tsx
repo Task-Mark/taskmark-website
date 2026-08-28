@@ -56,8 +56,8 @@ export default function DocsOverviewPage() {
         </ol>
         <p>
           User-facing slash commands are exactly{" "}
-          <code>/tsmk-init</code>, <code>/tsmk-create</code>,{" "}
-          <code>/tsmk-do</code>, and <code>/tsmk-commit</code>.
+          <code>/tkmd-init</code>, <code>/tkmd-create</code>,{" "}
+          <code>/tkmd-do</code>, and <code>/tkmd-commit</code>.
         </p>
       </DocsProse>
     </DocsShell>

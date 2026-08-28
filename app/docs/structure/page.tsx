@@ -57,7 +57,7 @@ export default function DocsStructurePage() {
         </pre>
         <p>
           Never copy the board into every product repo.{" "}
-          <code>/tsmk-init</code> (and local generation) refresh{" "}
+          <code>/tkmd-init</code> (and local generation) refresh{" "}
           <code>REPOS.md</code> on this machine.
         </p>
 

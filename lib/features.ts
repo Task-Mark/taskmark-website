@@ -53,7 +53,7 @@ export const FEATURES: FeatureItem[] = [
     id: "feature-multi-repo",
     title: "Multi-repo ready",
     description:
-      "One dedicated board, a local gitignored REPOS.md, and explicit /tsmk-commit across linked roots.",
+      "One dedicated board, a local gitignored REPOS.md, and explicit /tkmd-commit across linked roots.",
     icon: GitBranch,
     accent: "bg-rose-400",
   },

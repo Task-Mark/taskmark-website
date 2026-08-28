@@ -34,8 +34,8 @@ export default function DocsSpecificationPage() {
         <p>
           Taskmark stores product memory as plain markdown under the board root.
           The local board UI parses these files by scanning <code>epics/</code>{" "}
-          — not a generated index. Cursor commands (<code>/tsmk-create</code>,{" "}
-          <code>/tsmk-do</code>) generate the same shape.
+          — not a generated index. Cursor commands (<code>/tkmd-create</code>,{" "}
+          <code>/tkmd-do</code>) generate the same shape.
         </p>
         <p>That means you may:</p>
         <ul>
@@ -146,7 +146,7 @@ completed_at: null
                 </td>
                 <td className="px-3 py-2">
                   Child lists on <code>epic.md</code> / <code>story.md</code> —
-                  do not maintain them; <code>/tsmk-create</code> does not write
+                  do not maintain them; <code>/tkmd-create</code> does not write
                   them
                 </td>
               </tr>
@@ -156,7 +156,7 @@ completed_at: null
         <p>
           <strong>Status</strong> on a leaf: cancelled latch → blocked latch →
           all AC checked → <code>done</code>; else backlog.{" "}
-          <code>/tsmk-do</code> does not transition through{" "}
+          <code>/tkmd-do</code> does not transition through{" "}
           <code>in_progress</code>; when it finishes, executed leaves are{" "}
           <code>done</code>. Parent status, implementers, and lifecycle dates
           are inferred from leaves in the UI.

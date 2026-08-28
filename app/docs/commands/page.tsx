@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark slash commands: /tsmk-init, /tsmk-create, /tsmk-do, and /tsmk-commit.",
+    "Taskmark slash commands: /tkmd-init, /tkmd-create, /tkmd-do, and /tkmd-commit.",
 }
 
 export default function DocsCommandsPage() {
@@ -47,7 +47,7 @@ export default function DocsCommandsPage() {
           </table>
         </div>
 
-        <h2 id="tsmk-init">/tsmk-init</h2>
+        <h2 id="tkmd-init">/tkmd-init</h2>
         <p>
           Bootstraps a board in the workspace.{" "}
           <strong>Single git project:</strong> files live at{" "}
@@ -70,7 +70,7 @@ export default function DocsCommandsPage() {
           </li>
         </ul>
 
-        <h2 id="tsmk-create">/tsmk-create</h2>
+        <h2 id="tkmd-create">/tkmd-create</h2>
         <p>
           Creates an epic, a story, a task or bug, or a whole tree from a prose
           description. New IDs are collision-resistant (type prefix{" "}
@@ -98,7 +98,7 @@ export default function DocsCommandsPage() {
           </li>
         </ul>
 
-        <h2 id="tsmk-do">/tsmk-do</h2>
+        <h2 id="tkmd-do">/tkmd-do</h2>
         <p>
           Implements the requested work on the board. It{" "}
           <strong>never commits</strong> (no git commit, no multi-repo commit).
@@ -119,19 +119,19 @@ export default function DocsCommandsPage() {
             Does not write parent files or generated indexes
           </li>
           <li>
-            Use <Link href="/docs/commands#tsmk-commit">/tsmk-commit</Link> when
+            Use <Link href="/docs/commands#tkmd-commit">/tkmd-commit</Link> when
             you want git commits
           </li>
         </ul>
 
-        <h2 id="tsmk-commit">/tsmk-commit</h2>
+        <h2 id="tkmd-commit">/tkmd-commit</h2>
         <p>
           The <strong>only</strong> commit entrypoint. Commits every dirty
           linked git root with a simple one-line message. Does not push unless
           asked.
         </p>
         <ul>
-          <li>Does not replace <code>/tsmk-do</code> — implement first, commit when you choose</li>
+          <li>Does not replace <code>/tkmd-do</code> — implement first, commit when you choose</li>
           <li>
             Commit SHAs belong on leaf Commits tables; parent commit views are
             aggregated in the UI

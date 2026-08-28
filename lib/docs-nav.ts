@@ -49,23 +49,23 @@ export const DOCS_NAV: DocsNavItem[] = [
 
 export const DOCS_COMMANDS = [
   {
-    id: "tsmk-init",
-    slash: "/tsmk-init",
+    id: "tkmd-init",
+    slash: "/tkmd-init",
     purpose: "Initialize a Taskmark board in the workspace",
   },
   {
-    id: "tsmk-create",
-    slash: "/tsmk-create",
+    id: "tkmd-create",
+    slash: "/tkmd-create",
     purpose: "Create an epic, story, task/bug, or a full tree from a description",
   },
   {
-    id: "tsmk-do",
-    slash: "/tsmk-do",
+    id: "tkmd-do",
+    slash: "/tkmd-do",
     purpose: "Implement work; never commits; executed leaves become done",
   },
   {
-    id: "tsmk-commit",
-    slash: "/tsmk-commit",
+    id: "tkmd-commit",
+    slash: "/tkmd-commit",
     purpose: "Commit dirty linked repos (the only commit command)",
   },
 ] as const

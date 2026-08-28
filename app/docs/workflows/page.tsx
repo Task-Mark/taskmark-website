@@ -29,16 +29,16 @@ export default function DocsWorkflowsPage() {
             <code>taskmark/</code> in single mode)
           </li>
           <li>
-            <code>/tsmk-create</code> to add an epic, story, task/bug, or tree
+            <code>/tkmd-create</code> to add an epic, story, task/bug, or tree
             (new files only)
           </li>
           <li>
-            Implement with <code>/tsmk-do</code> in product repos — never
+            Implement with <code>/tkmd-do</code> in product repos — never
             commits; does not set <code>in_progress</code>; finished leaves are{" "}
             <code>done</code>
           </li>
           <li>
-            <code>/tsmk-commit</code> when you want git commits (simple
+            <code>/tkmd-commit</code> when you want git commits (simple
             one-liners; no push by default)
           </li>
         </ol>
@@ -46,7 +46,7 @@ export default function DocsWorkflowsPage() {
         <h2 id="leaf-only">Leaf-only writes</h2>
         <p>
           Two people can create and finish different tasks without merging parent
-          files. <code>/tsmk-create</code> and <code>/tsmk-do</code> change only
+          files. <code>/tkmd-create</code> and <code>/tkmd-do</code> change only
           new or target item markdown — not parent <code>epic.md</code> /{" "}
           <code>story.md</code> lists, rollups, or generated board files.
         </p>
@@ -95,8 +95,8 @@ export default function DocsWorkflowsPage() {
           Append-only table on the leaf: SHA | Repo | Date (UTC) | Author |
           Message. In multi-repo workspaces the Repo column is the short folder
           name from local <code>REPOS.md</code>.{" "}
-          <code>/tsmk-commit</code> is how commits land;{" "}
-          <code>/tsmk-do</code> does not commit.
+          <code>/tkmd-commit</code> is how commits land;{" "}
+          <code>/tkmd-do</code> does not commit.
         </p>
         <p>
           Related: <Link href="/docs/commands">Commands</Link>,{" "}

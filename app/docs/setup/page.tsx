@@ -50,7 +50,7 @@ export default function DocsSetupPage() {
         <ol>
           <li>Install the plugin (above).</li>
           <li>
-            Run <code>/tsmk-init</code> in a product workspace.
+            Run <code>/tkmd-init</code> in a product workspace.
           </li>
           <li>
             <strong>Single git project:</strong> board lives at{" "}
@@ -71,14 +71,14 @@ export default function DocsSetupPage() {
         <h2 id="first-commands">First commands</h2>
         <ol>
           <li>
-            <code>/tsmk-create</code> — epic, story, task/bug, or a full tree
+            <code>/tkmd-create</code> — epic, story, task/bug, or a full tree
           </li>
           <li>
-            <code>/tsmk-do</code> — implement; leaves you finished become{" "}
+            <code>/tkmd-do</code> — implement; leaves you finished become{" "}
             <code>done</code> (no commit, no <code>in_progress</code>)
           </li>
           <li>
-            <code>/tsmk-commit</code> — commit linked repos when you are ready
+            <code>/tkmd-commit</code> — commit linked repos when you are ready
           </li>
         </ol>
         <p>

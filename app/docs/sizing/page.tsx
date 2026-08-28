@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Sizing & points",
   description:
-    "Taskmark t-shirt sizes, Fibonacci story points, parent rollups, and estimate suggestions.",
+    "Taskmark static t-shirt sizes, points map, and parent rollups in the UI.",
 }
 
 export default function DocsSizingPage() {
@@ -19,17 +19,16 @@ export default function DocsSizingPage() {
       <DocsTitle
         eyebrow="Sizing"
         title="Sizing and story points"
-        lead="Every leaf gets a t-shirt size and Fibonacci points. Parents roll up; Est comes from velocity when possible."
+        lead="Every leaf gets a t-shirt size and matching points from a fixed table. The UI rolls parents up at read time."
       />
       <DocsProse>
-        <h2 id="map">Size → default points</h2>
+        <h2 id="map">Size → points</h2>
         <div className="overflow-x-auto border-2 border-border bg-card shadow-sm">
           <table className="w-full min-w-[28rem] text-left text-sm">
             <thead className="border-b-2 border-border bg-muted/60 font-head text-foreground">
               <tr>
                 <th className="px-3 py-2">Size</th>
                 <th className="px-3 py-2">Points</th>
-                <th className="px-3 py-2">Weight</th>
                 <th className="px-3 py-2">Meaning</th>
               </tr>
             </thead>
@@ -37,80 +36,84 @@ export default function DocsSizingPage() {
               <tr className="border-b border-border/60">
                 <td className="px-3 py-2">XS</td>
                 <td className="px-3 py-2">1</td>
-                <td className="px-3 py-2">1</td>
                 <td className="px-3 py-2 text-muted-foreground">Trivial</td>
               </tr>
               <tr className="border-b border-border/60">
                 <td className="px-3 py-2">S</td>
-                <td className="px-3 py-2">2</td>
-                <td className="px-3 py-2">2</td>
+                <td className="px-3 py-2">3</td>
                 <td className="px-3 py-2 text-muted-foreground">Small</td>
               </tr>
               <tr className="border-b border-border/60">
                 <td className="px-3 py-2">M</td>
-                <td className="px-3 py-2">3</td>
-                <td className="px-3 py-2">3</td>
+                <td className="px-3 py-2">5</td>
                 <td className="px-3 py-2 text-muted-foreground">Medium</td>
               </tr>
               <tr className="border-b border-border/60">
                 <td className="px-3 py-2">L</td>
-                <td className="px-3 py-2">5</td>
-                <td className="px-3 py-2">4</td>
+                <td className="px-3 py-2">8</td>
                 <td className="px-3 py-2 text-muted-foreground">Large</td>
               </tr>
-              <tr>
+              <tr className="border-b border-border/60">
                 <td className="px-3 py-2">XL</td>
-                <td className="px-3 py-2">8</td>
-                <td className="px-3 py-2">5</td>
+                <td className="px-3 py-2">13</td>
                 <td className="px-3 py-2 text-muted-foreground">
-                  Extra large (prefer split); 13 only for high uncertainty
+                  Extra large — prefer split
+                </td>
+              </tr>
+              <tr>
+                <td className="px-3 py-2">XXL</td>
+                <td className="px-3 py-2">21</td>
+                <td className="px-3 py-2 text-muted-foreground">
+                  Not sprint-ready — not refined for a sprint; prefer split
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
         <p>
-          Points scale: <code>1 | 2 | 3 | 5 | 8 | 13</code>. Board seeds live in{" "}
-          <code>SIZING.md</code>.
+          Points scale: <code>1 | 3 | 5 | 8 | 13 | 21</code>. Create uses this
+          table only — there is no board sizing file and no velocity calibration
+          of estimates.
         </p>
 
-        <h2 id="suggest">Suggestions on create</h2>
-        <ol>
-          <li>Find similar done items (same type; prefer tags/epic).</li>
-          <li>Size = median t-shirt; points = median points (or size map).</li>
+        <h2 id="create">Suggestions on create</h2>
+        <ul>
           <li>
-            Est = <code>round5(points × median min/pt)</code> when the 90-day
-            window has enough trustworthy samples; else Est = 0.
+            Pick a t-shirt from the table; points follow automatically.
           </li>
           <li>
-            Sources: <code>suggested</code> vs <code>manual</code> vs{" "}
-            <code>rolled_up</code>.
+            Override with a manual size when the default does not fit; keep
+            points aligned with the map.
           </li>
-        </ol>
+          <li>
+            Epics have no t-shirt size.
+          </li>
+        </ul>
 
         <h2 id="rollups">Parent rollups</h2>
+        <p>
+          Rollups are <strong>not written</strong> into parent markdown. The UI
+          derives them when it scans children:
+        </p>
         <ul>
           <li>
             <strong>Story points</strong> = sum of child task/bug points when
             children exist
           </li>
           <li>
-            <strong>Story size</strong> from sum of child t-shirt weights
-          </li>
-          <li>
             <strong>Epic points</strong> = sum of story points + epic-direct
             leaves
           </li>
           <li>
-            <strong>Epic size</strong> = none (<code>null</code> / — in INDEX)
+            <strong>Epic size</strong> = none
           </li>
           <li>
-            Est/Actual roll up from children; Actual is never calendar span
+            Actual minutes come from leaf work logs, never calendar span
           </li>
         </ul>
         <p>
-          See also <Link href="/docs/velocity">Velocity</Link> for how median
-          min/point feeds Est.
+          See <Link href="/docs/workflows">Workflows</Link> for how create and
+          do keep parent files untouched.
         </p>
       </DocsProse>
     </DocsShell>

@@ -46,25 +46,11 @@ export default function DocsSetupPage() {
           entry looks broken.
         </p>
 
-        <h2 id="local-dev-copy">Local development copy</h2>
-        <p>
-          Cursor rejects external symlinks. For a local install under{" "}
-          <code>~/.cursor/plugins/local/taskmark</code>, copy the plugin package
-          with the repo script or <code>/sync-plugin-local</code> after editing
-          skills, rules, or scripts.
-        </p>
-        <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
-          {`plugins/taskmark/scripts/rsync-plugin-local.sh
-# or:
-rsync -a --delete /path/to/taskmark-cursor/plugins/taskmark/ \\
-  ~/.cursor/plugins/local/taskmark/`}
-        </pre>
-
         <h2 id="init">Initialize a board</h2>
         <ol>
           <li>Install the plugin (above).</li>
           <li>
-            Run <strong>taskmark-init</strong> (skill) in a product workspace.
+            Run <code>/tsmk-init</code> in a product workspace.
           </li>
           <li>
             <strong>Single git project:</strong> board lives at{" "}
@@ -73,29 +59,26 @@ rsync -a --delete /path/to/taskmark-cursor/plugins/taskmark/ \\
           <li>
             <strong>Multiple git projects:</strong> board lives at a sibling{" "}
             <code>&lt;common&gt;-taskmark</code> repo root (flat — no nested{" "}
-            <code>taskmark/</code>). Run <code>/sync-repos</code> so{" "}
-            <code>REPOS.md</code> lists linked roots.
+            <code>taskmark/</code>).
           </li>
         </ol>
         <p>
           The board is never copied into every product repo.{" "}
-          <code>REPOS.md</code> is the map of board + product roots.
+          <code>REPOS.md</code> is generated locally, gitignored, and lists
+          linked roots with machine paths — it is not pushed.
         </p>
 
         <h2 id="first-commands">First commands</h2>
         <ol>
           <li>
-            <code>/new-epic</code> — create an initiative
+            <code>/tsmk-create</code> — epic, story, task/bug, or a full tree
           </li>
           <li>
-            <code>/new-story</code> / <code>/new-task</code> — break down work
+            <code>/tsmk-do</code> — implement; leaves you finished become{" "}
+            <code>done</code> (no commit, no <code>in_progress</code>)
           </li>
           <li>
-            <code>/start-work</code> → implement → <code>/complete-work</code>
-          </li>
-          <li>
-            <code>/sync-status</code> when acceptance criteria or sessions
-            change outside that loop
+            <code>/tsmk-commit</code> — commit linked repos when you are ready
           </li>
         </ol>
         <p>

@@ -22,7 +22,7 @@ export const DOCS_NAV: DocsNavItem[] = [
   {
     href: "/docs/commands",
     title: "Commands",
-    description: "Slash commands for create, work sessions, sync, and commits.",
+    description: "The four slash commands: init, create, do, and commit.",
   },
   {
     href: "/docs/structure",
@@ -38,96 +38,34 @@ export const DOCS_NAV: DocsNavItem[] = [
   {
     href: "/docs/sizing",
     title: "Sizing & points",
-    description: "T-shirt sizes, Fibonacci points, and rollups.",
-  },
-  {
-    href: "/docs/velocity",
-    title: "Velocity",
-    description: "Current Speed, ETA, and estimate intensity.",
-  },
-  {
-    href: "/docs/readme",
-    title: "README dashboard",
-    description: "Managed README sections and how they refresh.",
+    description: "Static t-shirt sizes and points; parent rollups in the UI.",
   },
   {
     href: "/docs/workflows",
     title: "Workflows",
-    description: "Work logs, actuals, multi-repo loop, and audit trails.",
+    description: "Leaf-only writes, work logs, and the create → do → commit loop.",
   },
 ]
 
 export const DOCS_COMMANDS = [
   {
-    id: "new-epic",
-    slash: "/new-epic",
-    skill: "create-epic",
-    purpose: "Create an epic on the board",
+    id: "tsmk-init",
+    slash: "/tsmk-init",
+    purpose: "Initialize a Taskmark board in the workspace",
   },
   {
-    id: "new-story",
-    slash: "/new-story",
-    skill: "create-story",
-    purpose: "Create a user story under an epic (or General)",
+    id: "tsmk-create",
+    slash: "/tsmk-create",
+    purpose: "Create an epic, story, task/bug, or a full tree from a description",
   },
   {
-    id: "new-task",
-    slash: "/new-task",
-    skill: "create-task",
-    purpose: "Create a task or bug under a story or epic",
+    id: "tsmk-do",
+    slash: "/tsmk-do",
+    purpose: "Implement work; never commits; executed leaves become done",
   },
   {
-    id: "start-work",
-    slash: "/start-work",
-    skill: "start-work",
-    purpose: "Open a billable work session on an item",
-  },
-  {
-    id: "complete-work",
-    slash: "/complete-work",
-    skill: "complete-work",
-    purpose: "Close the session and recompute Actual",
-  },
-  {
-    id: "commit-all",
-    slash: "/commit-all",
-    skill: "commit-all",
-    purpose: "Commit every dirty linked repo with simple messages",
-  },
-  {
-    id: "log-commits",
-    slash: "/log-commits",
-    skill: "log-commits",
-    purpose: "Append git SHAs to an item Commits table",
-  },
-  {
-    id: "sync-status",
-    slash: "/sync-status",
-    skill: "sync-status",
-    purpose: "Recompute status, actuals, INDEX, and README",
-  },
-  {
-    id: "sync-repos",
-    slash: "/sync-repos",
-    skill: "sync-taskmark-repos",
-    purpose: "Ensure board location and refresh REPOS.md",
-  },
-  {
-    id: "sync-plugin-local",
-    slash: "/sync-plugin-local",
-    skill: "sync-plugin-local",
-    purpose: "Rsync plugin package into local Cursor install",
-  },
-  {
-    id: "velocity",
-    slash: "/velocity",
-    skill: "taskmark-velocity",
-    purpose: "Report Current Speed and delivery ETA",
-  },
-  {
-    id: "board-status",
-    slash: "/board-status",
-    skill: "taskmark-overview",
-    purpose: "Summarize board by status and effort",
+    id: "tsmk-commit",
+    slash: "/tsmk-commit",
+    purpose: "Commit dirty linked repos (the only commit command)",
   },
 ] as const

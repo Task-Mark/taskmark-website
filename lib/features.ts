@@ -1,7 +1,6 @@
 import type { LucideIcon } from "lucide-react"
 import {
   FolderTree,
-  Gauge,
   GitBranch,
   ListChecks,
   Timer,
@@ -30,7 +29,7 @@ export const FEATURES: FeatureItem[] = [
     id: "feature-sizing",
     title: "Sizing that sticks",
     description:
-      "T-shirt sizes and Fibonacci points with suggestions calibrated from your history — not guesswork alone.",
+      "A fixed XS–XXL scale maps directly to 1, 3, 5, 8, 13, and 21 points across every board.",
     icon: ListChecks,
     accent: "bg-sky-400",
   },
@@ -43,18 +42,18 @@ export const FEATURES: FeatureItem[] = [
     accent: "bg-amber-300",
   },
   {
-    id: "feature-velocity",
-    title: "Velocity and ETA",
+    id: "feature-conflict-free",
+    title: "Conflict-free teamwork",
     description:
-      "Weekly points throughput and median minutes per point so estimates and delivery dates stay grounded.",
-    icon: Gauge,
+      "Agents update leaf markdown only; parent status, totals, people, dates, and activity are derived when read.",
+    icon: Workflow,
     accent: "bg-emerald-400",
   },
   {
     id: "feature-multi-repo",
     title: "Multi-repo ready",
     description:
-      "One dedicated board for multi-git workspaces, REPOS.md for linked projects, and commit-all across roots.",
+      "One dedicated board, a local gitignored REPOS.md, and explicit /tsmk-commit across linked roots.",
     icon: GitBranch,
     accent: "bg-rose-400",
   },
@@ -62,7 +61,7 @@ export const FEATURES: FeatureItem[] = [
     id: "feature-workflow",
     title: "Agent workflow built in",
     description:
-      "Start-work, complete-work, sync-status, and project-memory rules keep Cursor sessions tied to the board.",
+      "Four commands initialize, create, implement without committing, and explicitly commit linked projects.",
     icon: Workflow,
     accent: "bg-cyan-400",
   },

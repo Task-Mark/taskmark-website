@@ -29,49 +29,53 @@ export default function DocsStructurePage() {
         <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
           {`my-app/
 └── taskmark/
-    ├── README.md
-    ├── INDEX.md
-    ├── SIZING.md
-    ├── VELOCITY.md
-    ├── REPOS.md
+    ├── .gitignore      # ignores REPOS.md
+    ├── REPOS.md        # local only — generated, not committed
     └── epics/
-        └── E-001-user-auth/
+        └── E-k7m2p9-user-auth/
             ├── epic.md
             └── stories/
-                └── S-001-login/
+                └── S-n4q8w1-login/
                     ├── story.md
                     └── items/
-                        ├── T-001-api.md
-                        └── B-001-token.md`}
+                        ├── T-a3c9d2-api.md
+                        └── B-f8h1j4-token.md`}
         </pre>
 
         <h2 id="multi-repo">Multiple git projects</h2>
         <p>
           Dedicated sibling <code>&lt;common&gt;-taskmark</code> —{" "}
           <strong>repo root is the board</strong> (no nested{" "}
-          <code>taskmark/</code>). Product repos stay clean;{" "}
-          <code>REPOS.md</code> lists board + product roots.
+          <code>taskmark/</code>). Product repos stay clean.
         </p>
         <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
           {`acme-taskmark/
-├── README.md
-├── INDEX.md
-├── SIZING.md
-├── VELOCITY.md
-├── REPOS.md
+├── .gitignore
+├── REPOS.md        # local only
 ├── epics/
 └── .git/`}
         </pre>
         <p>
-          Run <code>/sync-repos</code> after layout changes. Never copy the board
-          into every product repo.
+          Never copy the board into every product repo.{" "}
+          <code>/tsmk-init</code> (and local generation) refresh{" "}
+          <code>REPOS.md</code> on this machine.
+        </p>
+
+        <h2 id="what-is-not-in-git">What is not in git</h2>
+        <p>
+          The UI scans <code>epics/</code>. Committed boards do not include a
+          generated index, sizing seed file, velocity file, or board README.{" "}
+          <code>REPOS.md</code> is gitignored because it contains absolute local
+          paths.
         </p>
 
         <h2 id="ids-and-files">IDs and file conventions</h2>
         <ul>
           <li>
-            IDs: <code>E-NNN</code>, <code>S-NNN</code>, <code>T-NNN</code>,{" "}
-            <code>B-NNN</code> (zero-padded, unique board-wide)
+            IDs keep a type prefix <code>E</code>, <code>S</code>,{" "}
+            <code>T</code>, or <code>B</code> plus a collision-resistant token
+            (not a global sequential counter). Historical sequential IDs such as{" "}
+            <code>T-001</code> remain valid
           </li>
           <li>
             Folder slug: <code>{"{id}-{kebab-title}"}</code>
@@ -81,8 +85,9 @@ export default function DocsStructurePage() {
             <code>items/</code> (epic-direct — no story required)
           </li>
           <li>
-            Required sections: acceptance criteria, Work log, Commits; Prompt
-            &amp; feedback on stories/tasks/bugs
+            Create and do write only new or target leaf files. Parent child
+            lists, status, points, people, dates, and logs are derived in the UI
+            at read time
           </li>
         </ul>
 

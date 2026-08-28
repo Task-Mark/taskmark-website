@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark slash commands: /new-epic, /new-story, /new-task, /start-work, /commit-all, sync, and velocity.",
+    "Taskmark slash commands: /tsmk-init, /tsmk-create, /tsmk-do, and /tsmk-commit.",
 }
 
 export default function DocsCommandsPage() {
@@ -20,7 +20,7 @@ export default function DocsCommandsPage() {
       <DocsTitle
         eyebrow="Commands"
         title="Slash commands reference"
-        lead="Type these in Cursor chat. Slash names are /new-*; matching skills are often create-*."
+        lead="Type these in Cursor chat. The plugin exposes exactly these four commands."
       />
       <DocsProse>
         <h2 id="index">Commands index</h2>
@@ -29,7 +29,6 @@ export default function DocsCommandsPage() {
             <thead className="border-b-2 border-border bg-muted/60 font-head text-foreground">
               <tr>
                 <th className="px-3 py-2">Slash</th>
-                <th className="px-3 py-2">Skill</th>
                 <th className="px-3 py-2">Purpose</th>
               </tr>
             </thead>
@@ -41,7 +40,6 @@ export default function DocsCommandsPage() {
                       {cmd.slash}
                     </a>
                   </td>
-                  <td className="px-3 py-2 font-mono text-xs">{cmd.skill}</td>
                   <td className="px-3 py-2">{cmd.purpose}</td>
                 </tr>
               ))}
@@ -49,121 +47,92 @@ export default function DocsCommandsPage() {
           </table>
         </div>
 
-        <h2 id="new-epic">/new-epic · create-epic</h2>
+        <h2 id="tsmk-init">/tsmk-init</h2>
         <p>
-          Creates <code>E-NNN</code> under the board <code>epics/</code>. Epics
-          have <strong>no t-shirt size</strong>; points start at 0 and roll up
-          from child stories and epic-direct tasks.
-        </p>
-        <ul>
-          <li>Inputs: title, goal, optional scope</li>
-          <li>Effects: <code>epic.md</code>, INDEX refresh, reporter stamp</li>
-        </ul>
-
-        <h2 id="new-story">/new-story · create-story</h2>
-        <p>
-          Creates <code>S-NNN</code> under an epic (soft-attach from context, or
-          the reserved <strong>General</strong> epic). Suggests size, points,
-          and Est from Current Speed when samples exist.
-        </p>
-        <ul>
-          <li>Parent epic is required on disk (never orphan stories)</li>
-          <li>Once tasks exist, story points = sum of child points</li>
-        </ul>
-
-        <h2 id="new-task">/new-task · create-task</h2>
-        <p>
-          Creates <code>T-NNN</code> or <code>B-NNN</code> under a story{" "}
-          <em>or</em> directly under an epic <code>items/</code>. Soft-attaches
-          from named parent or context; otherwise General.
+          Bootstraps a board in the workspace.{" "}
+          <strong>Single git project:</strong> files live at{" "}
+          <code>&lt;project&gt;/taskmark/</code>.{" "}
+          <strong>Multiple git projects:</strong> a sibling{" "}
+          <code>&lt;common&gt;-taskmark</code> repo is the board root (flat —
+          no nested <code>taskmark/</code>).
         </p>
         <ul>
           <li>
-            Under story: <code>parent</code> = story, <code>epic</code> =
-            ancestor
+            The board is never copied into every product repo
           </li>
           <li>
-            Epic-direct: <code>parent</code> and <code>epic</code> = same epic
-            id
+            <code>REPOS.md</code> is generated locally and gitignored — it maps
+            board and product roots on this machine and is not committed
           </li>
-          <li>Reopens a done parent to in progress when a new open child lands</li>
-        </ul>
-
-        <h2 id="start-work">/start-work</h2>
-        <p>
-          Opens one real Work log session on the target item (Started = now UTC,
-          Ended = —). Idle-closes stale open sessions first (deadline = next UTC
-          day at 12:00). Cascades <code>started_at</code> to parents without
-          opening parent sessions.
-        </p>
-        <ul>
-          <li>Appends a prompt row on stories/tasks/bugs</li>
           <li>
-            For a whole epic in one sitting: one session on the epic (or first
-            leaf), then split on complete — do not clone the full span onto every
-            task
+            A new board is markdown under <code>epics/</code> only; there is no
+            generated board index, sizing file, velocity file, or board README
           </li>
         </ul>
 
-        <h2 id="complete-work">/complete-work</h2>
+        <h2 id="tsmk-create">/tsmk-create</h2>
         <p>
-          Closes the open session at now (or idle/session cap), aligns AC
-          checkboxes, stamps resolvers, logs commits when present, and
-          recomputes Actual from billable sessions — never calendar span.
+          Creates an epic, a story, a task or bug, or a whole tree from a prose
+          description. New IDs are collision-resistant (type prefix{" "}
+          <code>E</code> / <code>S</code> / <code>T</code> / <code>B</code> plus
+          a unique token — not a global sequential counter). Existing sequential
+          IDs on a board remain valid.
         </p>
         <ul>
           <li>
-            Shared-batch: allocate batch minutes across leaves by points
+            Writes <strong>only new item files</strong> (and new story/epic
+            files when those are part of the create). It does not edit parent{" "}
+            <code>epic.md</code> / <code>story.md</code> child lists or rollups
           </li>
-          <li>Parents get rollup Actual from children, not N × batch</li>
+          <li>
+            Soft-attaches from named parent or context; otherwise the reserved{" "}
+            <strong>General</strong> epic
+          </li>
+          <li>
+            Leaf size and points come from the{" "}
+            <Link href="/docs/sizing">static table</Link> (XS=1 … XXL=21)
+          </li>
+          <li>
+            The UI discovers children and derives parent lists, status, and
+            points at read time
+          </li>
         </ul>
 
-        <h2 id="commit-all">/commit-all</h2>
+        <h2 id="tsmk-do">/tsmk-do</h2>
         <p>
-          Commits every dirty linked git root with a <strong>simple one-line</strong>{" "}
-          message. Does not push unless asked. Refreshes the board README
-          dashboard before the board-repo commit, then{" "}
-          <Link href="/docs/commands#log-commits">logs SHAs</Link> on the active
-          item when known.
+          Implements the requested work on the board. It{" "}
+          <strong>never commits</strong> (no git commit, no multi-repo commit).
+          It does <strong>not</strong> move items through{" "}
+          <code>in_progress</code>. When the agent stops, leaves it executed
+          are <code>done</code>.
         </p>
+        <ul>
+          <li>
+            Mutates only the target leaf markdown (status, acceptance criteria,
+            work log on that file)
+          </li>
+          <li>
+            Does not write parent files or generated indexes
+          </li>
+          <li>
+            Use <Link href="/docs/commands#tsmk-commit">/tsmk-commit</Link> when
+            you want git commits
+          </li>
+        </ul>
 
-        <h2 id="log-commits">/log-commits</h2>
+        <h2 id="tsmk-commit">/tsmk-commit</h2>
         <p>
-          Appends rows to the item Commits table: SHA, Repo, Date (UTC), Author,
-          Message. Prefer leaf items; roll notable SHAs to story/epic when useful.
+          The <strong>only</strong> commit entrypoint. Commits every dirty
+          linked git root with a simple one-line message. Does not push unless
+          asked.
         </p>
-
-        <h2 id="sync-status">/sync-status</h2>
-        <p>
-          Idle-closes stale sessions, derives status from AC/children/latches,
-          recomputes actuals and rollups, refreshes INDEX, VELOCITY, and README
-          dashboard.
-        </p>
-
-        <h2 id="sync-repos">/sync-repos · sync-taskmark-repos</h2>
-        <p>
-          Ensures the board is in the correct single- vs multi-repo location and
-          refreshes <code>REPOS.md</code>. Never copies the board into every
-          product repo.
-        </p>
-
-        <h2 id="sync-plugin-local">/sync-plugin-local</h2>
-        <p>
-          Rsyncs <code>plugins/taskmark</code> into{" "}
-          <code>~/.cursor/plugins/local/taskmark</code> after skill/rule/script
-          edits.
-        </p>
-
-        <h2 id="velocity">/velocity</h2>
-        <p>
-          Reports Current Speed and ETA from done leaves. See{" "}
-          <Link href="/docs/velocity">Velocity</Link>.
-        </p>
-
-        <h2 id="board-status">/board-status</h2>
-        <p>
-          Summarizes the board by status, size, points, and open sessions.
-        </p>
+        <ul>
+          <li>Does not replace <code>/tsmk-do</code> — implement first, commit when you choose</li>
+          <li>
+            Commit SHAs belong on leaf Commits tables; parent commit views are
+            aggregated in the UI
+          </li>
+        </ul>
       </DocsProse>
     </DocsShell>
   )

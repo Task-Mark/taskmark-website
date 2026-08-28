@@ -11,7 +11,7 @@ import { DOCS_NAV } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Documentation",
   description:
-    "Taskmark product documentation — setup, commands, board structure, sizing, velocity, and workflows.",
+    "Taskmark product documentation — setup, commands, board structure, sizing, and workflows.",
 }
 
 export default function DocsOverviewPage() {
@@ -19,7 +19,7 @@ export default function DocsOverviewPage() {
     <DocsShell currentPath="/docs">
       <DocsTitle
         title="Taskmark documentation"
-        lead="Local markdown boards for Cursor agents: epics, stories, and tasks with honest sizing, work logs, and velocity."
+        lead="Local markdown boards for Cursor agents: epics, stories, and tasks with honest sizing and work logs."
       />
       <DocsProse>
         <p>
@@ -42,22 +42,22 @@ export default function DocsOverviewPage() {
             initialize a board
           </li>
           <li>
-            <Link href="/docs/commands">Commands</Link> — create work and run
-            sessions
+            <Link href="/docs/commands">Commands</Link> — create work, implement,
+            and commit
           </li>
           <li>
             <Link href="/docs/structure">Folder structure</Link> — know where
             files live
           </li>
           <li>
-            <Link href="/docs/workflows">Workflows</Link> — daily loop, actuals,
-            and multi-repo
+            <Link href="/docs/workflows">Workflows</Link> — leaf-only writes,
+            actuals, and multi-repo
           </li>
         </ol>
         <p>
-          Slash commands use names like <code>/new-epic</code>. Matching skills
-          are often named <code>create-epic</code> — docs call out both when it
-          helps.
+          User-facing slash commands are exactly{" "}
+          <code>/tsmk-init</code>, <code>/tsmk-create</code>,{" "}
+          <code>/tsmk-do</code>, and <code>/tsmk-commit</code>.
         </p>
       </DocsProse>
     </DocsShell>

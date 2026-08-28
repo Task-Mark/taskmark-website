@@ -5,14 +5,14 @@ import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 
 const LINES = [
-  { prompt: true, text: "/new-epic \"Ship landing page\"" },
+  { prompt: true, text: "/tsmk-create \"Ship landing page\"" },
   { prompt: false, text: "Created E-018 · 7 stories · 13 tasks" },
-  { prompt: true, text: "/start-work T-206" },
-  { prompt: false, text: "Session 1 open · S-065 · E-018 in progress" },
-  { prompt: true, text: "/new-task \"Animated console typing demo\"" },
-  { prompt: false, text: "Created T-207 · S · 5 pts · under S-065" },
-  { prompt: true, text: "/complete-work" },
-  { prompt: false, text: "Done · 14 min billed · velocity updated" },
+  { prompt: true, text: "/tsmk-do T-206" },
+  { prompt: false, text: "Implemented T-206 · marked done · no commit" },
+  { prompt: true, text: "/tsmk-create \"Animated console typing demo\"" },
+  { prompt: false, text: "Created T-mm-a7f3 · S · 3 pts · under S-065" },
+  { prompt: true, text: "/tsmk-commit" },
+  { prompt: false, text: "Committed linked projects" },
 ] as const
 
 const CHAR_MS = 28
@@ -71,7 +71,7 @@ export function ConsoleDemo({ className }: { className?: string }) {
         className
       )}
       role="img"
-      aria-label="Terminal demo typing Taskmark commands like /new-epic, /new-task, and /complete-work"
+      aria-label="Terminal demo typing /tsmk-create, /tsmk-do, and /tsmk-commit"
     >
       <div className="flex items-center gap-2 border-b-2 border-border bg-[#1a1a1a] px-3 py-2">
         <span className="size-2.5 rounded-full bg-rose-400" aria-hidden />
@@ -118,8 +118,8 @@ export function ConsoleDemo({ className }: { className?: string }) {
         })}
       </div>
       <p className="sr-only">
-        Example session: create an epic, start work, create a task with
-        /new-task, then complete work so billable minutes and velocity update.
+        Example session: create an epic or task, implement a leaf without
+        committing, then commit linked projects explicitly.
       </p>
     </div>
   )

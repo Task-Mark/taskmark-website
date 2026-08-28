@@ -27,29 +27,26 @@ export default function DocsSpecificationPage() {
       <DocsTitle
         eyebrow="Specification"
         title="Epic, story, task & bug files"
-        lead="The board UI and agent skills read the same markdown files. Skills generate them; you can also create or edit them by hand — as long as you keep the specification below."
+        lead="The board UI and agent commands read the same markdown files. Commands generate them; you can also create or edit them by hand — as long as you keep the specification below."
       />
       <DocsProse>
         <h2 id="why-this-matters">Why this matters</h2>
         <p>
           Taskmark stores product memory as plain markdown under the board root.
-          The local board UI (<code>taskmark-frontend</code>) parses these files
-          to list epics, open detail sheets, show acceptance criteria, and
-          compute metrics. Cursor skills (<code>/new-epic</code>,{" "}
-          <code>/new-task</code>, …) generate the same shape.
+          The local board UI parses these files by scanning <code>epics/</code>{" "}
+          — not a generated index. Cursor commands (<code>/tsmk-create</code>,{" "}
+          <code>/tsmk-do</code>) generate the same shape.
         </p>
-        <p>
-          That means you may:
-        </p>
+        <p>That means you may:</p>
         <ul>
           <li>Let the agent create items via slash commands</li>
           <li>Hand-write or tweak a file in your editor</li>
-          <li>Fix typos, AC checkboxes, or copy without running a skill</li>
+          <li>Fix typos, AC checkboxes, or copy without running a command</li>
         </ul>
         <p>
           If frontmatter keys or <strong>exact section headings</strong> drift,
-          parsers and sync scripts can miss status, rollups, or work logs. Treat
-          this page as the contract between you, the UI, and the agent.
+          parsers can miss status or work logs. Treat this page as the contract
+          between you, the UI, and the agent.
         </p>
 
         <h2 id="common-rules">Common rules for every item</h2>
@@ -61,8 +58,10 @@ export default function DocsSpecificationPage() {
             First markdown heading is <code># {"{ID}"}: {"{Title}"}</code>
           </li>
           <li>
-            IDs are unique board-wide: <code>E-NNN</code>, <code>S-NNN</code>,{" "}
-            <code>T-NNN</code>, <code>B-NNN</code> (zero-padded)
+            New IDs are unique board-wide: type prefix <code>E</code>,{" "}
+            <code>S</code>, <code>T</code>, or <code>B</code> plus a
+            collision-resistant token. Sequential IDs already on disk remain
+            valid
           </li>
           <li>
             Folder slug: <code>{"{id}-{kebab-title}"}</code> (see{" "}
@@ -72,16 +71,13 @@ export default function DocsSpecificationPage() {
             Keep section headings <strong>exact</strong> (spelling and level)
           </li>
           <li>
-            Every item has <strong>Commits</strong> and <strong>Work log</strong>{" "}
-            tables (even if empty)
+            Tasks and bugs have <strong>Commits</strong> and{" "}
+            <strong>Work log</strong> tables (even if empty), plus{" "}
+            <strong>Prompt &amp; feedback log</strong>
           </li>
           <li>
-            Stories, tasks, and bugs also have <strong>Prompt &amp; feedback
-            log</strong>
-          </li>
-          <li>
-            After meaningful hand edits, run <code>/sync-status</code> so INDEX,
-            status, and Actual stay correct
+            Do not maintain child lists, rollups, or logs on parent files —
+            the UI derives those at read time from descendant leaves
           </li>
         </ul>
 
@@ -90,23 +86,23 @@ export default function DocsSpecificationPage() {
           Shared shape (types differ on <code>size</code> / parents — see below):
         </p>
         <CodeBlock>{`---
-id: T-001
+id: T-a3c9d2
 type: task          # epic | story | task | bug
 title: Add login API endpoint
 status: backlog     # derived — do not hand-set except via latches
 priority: medium    # critical | high | medium | low
-size: M             # XS | S | M | L | XL (null on epics)
-size_source: suggested   # suggested | manual | rolled_up
+size: M             # XS | S | M | L | XL | XXL (null on epics)
+size_source: suggested   # suggested | manual
 size_basis: []
-points: 3           # 1 | 2 | 3 | 5 | 8 | 13
-points_source: suggested # suggested | manual | rolled_up
+points: 5           # 1 | 3 | 5 | 8 | 13 | 21
+points_source: suggested # suggested | manual
 estimate_minutes: 0
-actual_minutes: 0   # never hand-set — from Work log via recompute
+actual_minutes: 0   # never hand-set — from Work log
 estimate_source: suggested
 estimate_basis: []
 session_cap_minutes: 480
-parent: S-001       # null on epics; story/epic id otherwise
-epic: E-001         # null on epics; ancestor epic otherwise
+parent: S-n4q8w1    # null on epics; story/epic id otherwise
+epic: E-k7m2p9      # null on epics; ancestor epic otherwise
 owner: ""
 reporters: []       # [{name, email, initials}, ...]
 resolvers: []
@@ -125,7 +121,7 @@ completed_at: null
             <thead className="border-b-2 border-border bg-muted/60 font-head text-foreground">
               <tr>
                 <th className="px-3 py-2">Safe to edit</th>
-                <th className="px-3 py-2">Usually script/skill owned</th>
+                <th className="px-3 py-2">Leave to commands / UI</th>
               </tr>
             </thead>
             <tbody>
@@ -138,44 +134,43 @@ completed_at: null
                 <td className="px-3 py-2">
                   <code>status</code> (use <code>blocked</code> /{" "}
                   <code>cancelled</code> latches instead),{" "}
-                  <code>actual_minutes</code> / <code>actual_ms</code>, Work log
-                  Actual math
+                  <code>actual_minutes</code> / <code>actual_ms</code>
                 </td>
               </tr>
               <tr className="border-b border-border/60 align-top">
                 <td className="px-3 py-2 text-foreground">
                   Manual size/points with{" "}
-                  <code>*_source: manual</code> when you override suggestions
+                  <code>*_source: manual</code> when you override the static map
                 </td>
                 <td className="px-3 py-2">
-                  Rolled-up <code>points</code>/<code>size</code>/Est on
-                  stories/epics (recompute from children)
+                  Parent points, status, people, and dates (UI queries children)
                 </td>
               </tr>
               <tr className="align-top">
                 <td className="px-3 py-2 text-foreground">
-                  Linking children under <code>## Stories</code> /{" "}
-                  <code>## Tasks</code>
+                  Leaf Prompt &amp; feedback, Commits, and Work log tables
                 </td>
                 <td className="px-3 py-2">
-                  <code>started_at</code> / <code>completed_at</code> cascades
-                  (prefer start-work / complete-work)
+                  Child lists on <code>epic.md</code> / <code>story.md</code> —
+                  do not maintain them; <code>/tsmk-create</code> does not write
+                  them
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
         <p>
-          <strong>Status</strong> is derived by sync: cancelled latch → blocked
-          latch → all AC checked + no open session → <code>done</code>; else
-          in progress / backlog. Parents become <code>done</code> when all
-          children are terminal. See{" "}
-          <Link href="/docs/workflows">workflows</Link> for Work log rules.
+          <strong>Status</strong> on a leaf: cancelled latch → blocked latch →
+          all AC checked → <code>done</code>; else backlog.{" "}
+          <code>/tsmk-do</code> does not transition through{" "}
+          <code>in_progress</code>; when it finishes, executed leaves are{" "}
+          <code>done</code>. Parent status, implementers, and lifecycle dates
+          are inferred from leaves in the UI.
         </p>
 
         <h2 id="epic">Epic — <code>epic.md</code></h2>
         <p>
-          Path: <code>epics/{"{E-NNN}-{slug}"}/epic.md</code>
+          Path: <code>epics/{"{id}-{slug}"}/epic.md</code>
         </p>
         <ul>
           <li>
@@ -186,12 +181,12 @@ completed_at: null
             <code>size: null</code> — epics have <strong>no</strong> t-shirt size
           </li>
           <li>
-            Points / Est / Actual roll up from child stories{" "}
-            <em>and</em> epic-direct tasks/bugs
+            Points / Actual / logs / child lists are read-time views over
+            descendant files — do not write rollups or story lists here
           </li>
         </ul>
         <p>Required body sections (keep headings exact):</p>
-        <CodeBlock>{`# E-NNN: Title here
+        <CodeBlock>{`# E-k7m2p9: Title here
 
 ## Goal
 
@@ -199,32 +194,13 @@ completed_at: null
 
 ## Out of scope
 
-## Success metrics
-
-## Stories
-
-- [S-001: Login](stories/S-001-login/story.md)
-
-## Commits
-
-| SHA | Repo | Date (UTC) | Author | Message |
-|-----|------|------------|--------|---------|
-
-## Work log
-
-| Session | Actor | Started (UTC) | Ended (UTC) | Summary |
-|---------|-------|---------------|-------------|---------|`}</CodeBlock>
-        <p>
-          Optional: Prompt &amp; feedback on epics when useful; Stories list
-          should link every child story the UI/agent should discover as part of
-          this epic.
-        </p>
+## Success metrics`}</CodeBlock>
 
         <h2 id="story">Story — <code>story.md</code></h2>
         <p>
           Path:{" "}
           <code>
-            epics/…/stories/{"{S-NNN}-{slug}"}/story.md
+            epics/…/stories/{"{id}-{slug}"}/story.md
           </code>
         </p>
         <ul>
@@ -236,11 +212,11 @@ completed_at: null
             Soft-attach under <strong>General</strong> when no clearer epic fits
           </li>
           <li>
-            With children: points = sum of task/bug points; size from child
-            t-shirt weights
+            Tasks live in this story’s <code>items/</code>; the UI lists them
+            without a maintained Tasks section
           </li>
         </ul>
-        <CodeBlock>{`# S-NNN: Title here
+        <CodeBlock>{`# S-n4q8w1: Title here
 
 ## User story
 
@@ -249,50 +225,32 @@ As a …, I want … so that ….
 ## Acceptance criteria
 
 - [ ] Criterion one
-- [ ] Criterion two
-
-## Tasks
-
-- [T-001: Add login API](items/T-001-add-login-api.md)
-
-## Prompt & feedback log
-
-| # | When (UTC) | Kind | Author | Summary |
-|---|------------|------|--------|---------|
-
-## Commits
-
-| SHA | Repo | Date (UTC) | Author | Message |
-|-----|------|------------|--------|---------|
-
-## Work log
-
-| Session | Actor | Started (UTC) | Ended (UTC) | Summary |
-|---------|-------|---------------|-------------|---------|`}</CodeBlock>
+- [ ] Criterion two`}</CodeBlock>
         <p>
           The board UI treats unchecked <code>- [ ]</code> vs checked{" "}
           <code>- [x]</code> under <strong>Acceptance criteria</strong> as the
-          source of leaf completion (together with Work log open/closed state).
+          source of leaf completion (together with Work log state on the item).
         </p>
 
-        <h2 id="task">Task — <code>T-NNN-*.md</code></h2>
+        <h2 id="task">Task — <code>T-*-*.md</code></h2>
         <p>
           Path (under story):{" "}
-          <code>…/stories/…/items/T-NNN-{"{slug}"}.md</code>
+          <code>…/stories/…/items/{"{id}-{slug}"}.md</code>
           <br />
           Path (epic-direct):{" "}
-          <code>epics/{"{E-NNN}-{slug}"}/items/T-NNN-{"{slug}"}.md</code>
+          <code>epics/{"{epic-id}-{slug}"}/items/{"{id}-{slug}"}.md</code>
         </p>
         <ul>
           <li>
-            Under story: <code>parent: S-NNN</code>, <code>epic: E-NNN</code>
+            Under story: <code>parent</code> = story id, <code>epic</code> =
+            ancestor epic
           </li>
           <li>
             Epic-direct: <code>parent</code> and <code>epic</code> both = epic
             id (never leave <code>parent: null</code>)
           </li>
         </ul>
-        <CodeBlock>{`# T-NNN: Title here
+        <CodeBlock>{`# T-a3c9d2: Title here
 
 ## Description
 
@@ -322,13 +280,13 @@ Optional implementation notes, links, or decisions.
 | Session | Actor | Started (UTC) | Ended (UTC) | Summary |
 |---------|-------|---------------|-------------|---------|`}</CodeBlock>
 
-        <h2 id="bug">Bug — <code>B-NNN-*.md</code></h2>
+        <h2 id="bug">Bug — <code>B-*-*.md</code></h2>
         <p>
           Same location rules as tasks. Differences:
         </p>
         <ul>
           <li>
-            <code>type: bug</code>, id <code>B-NNN</code>
+            <code>type: bug</code>, id prefix <code>B</code>
           </li>
           <li>
             Prefer sections <strong>Description</strong>,{" "}
@@ -339,7 +297,7 @@ Optional implementation notes, links, or decisions.
             Still include Prompt &amp; feedback, Commits, and Work log
           </li>
         </ul>
-        <CodeBlock>{`# B-NNN: Title here
+        <CodeBlock>{`# B-f8h1j4: Title here
 
 ## Description
 
@@ -372,12 +330,11 @@ What is wrong / expected vs actual.
 | Session | Actor | Started (UTC) | Ended (UTC) | Summary |
 |---------|-------|---------------|-------------|---------|`}</CodeBlock>
 
-        <h2 id="tables">Table formats the UI and scripts expect</h2>
+        <h2 id="tables">Table formats the UI expects</h2>
         <h3 id="work-log-table">Work log</h3>
         <CodeBlock>{`| Session | Actor | Started (UTC) | Ended (UTC) | Summary |
 |---------|-------|---------------|-------------|---------|
-| 1 | Marco Mendão | 2026-07-28T10:00:00Z | — | In progress: … |
-| 2 | Marco Mendão | 2026-07-28T11:00:00Z | 2026-07-28T11:40:00Z | Implemented route |`}</CodeBlock>
+| 1 | Marco Mendão | 2026-07-28T10:00:00Z | 2026-07-28T10:40:00Z | Implemented route |`}</CodeBlock>
         <ul>
           <li>
             Open session = Ended is <code>—</code> or empty
@@ -386,8 +343,7 @@ What is wrong / expected vs actual.
             Session numbers are sequential integers starting at 1
           </li>
           <li>
-            Actual minutes are computed from these rows — do not invent tiny
-            closed sessions just to mark done
+            Actual minutes are computed from these rows on the leaf
           </li>
         </ul>
 
@@ -397,7 +353,7 @@ What is wrong / expected vs actual.
 | a1b2c3d | taskmark-frontend | 2026-07-28T12:00:00Z | Ada | fix login redirect |`}</CodeBlock>
         <p>
           In multi-repo workspaces, <strong>Repo</strong> is the short folder
-          name from <code>REPOS.md</code>.
+          name from local <code>REPOS.md</code>.
         </p>
 
         <h3 id="prompt-table">Prompt &amp; feedback</h3>
@@ -413,7 +369,8 @@ What is wrong / expected vs actual.
         <h2 id="manual-checklist">Manual create / edit checklist</h2>
         <ol>
           <li>
-            Pick the next free id (scan the board; do not reuse)
+            Mint a collision-resistant id (type prefix + unique token). Do not
+            take “the next number” from a global sequence
           </li>
           <li>
             Create the folder/file in the correct place (
@@ -421,16 +378,12 @@ What is wrong / expected vs actual.
           </li>
           <li>Copy the matching template above; fill title and body</li>
           <li>
-            Set <code>parent</code> / <code>epic</code> correctly; link from the
-            parent’s Stories or Tasks list
+            Set <code>parent</code> / <code>epic</code> correctly. Do not add
+            the child to a parent Stories/Tasks list
           </li>
           <li>
             Leave <code>actual_minutes: 0</code>; do not invent Work log rows
             unless you truly worked
-          </li>
-          <li>
-            Run <code>/sync-status</code> (or reload the board UI after sync) so
-            INDEX and status match disk
           </li>
         </ol>
         <p>

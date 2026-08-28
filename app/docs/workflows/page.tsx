@@ -88,10 +88,14 @@ export default function DocsWorkflowsPage() {
 
         <h2 id="prompt-feedback">Prompt &amp; feedback log</h2>
         <p>
-          Written on leaves: append a <code>prompt</code> row when the user asks
-          for work; append <code>feedback</code> when they accept, reject, or
-          give final notes. Author comes from git identity when available.
-          Parent views aggregate descendant rows.
+          Written on leaves whenever an agent does product work. Append a{" "}
+          <code>prompt</code> row when the user asks for work; append{" "}
+          <code>feedback</code> when they accept, reject, or give later notes.
+          Author comes from git identity when available. Prefer an open
+          matching task/bug; if the change is follow-up on finished work,
+          append to that done leaf; create a new leaf only when nothing fits.
+          Never write these rows on <code>epic.md</code> or{" "}
+          <code>story.md</code>. Parent views aggregate descendant rows.
         </p>
 
         <h2 id="commits-log">Commits log</h2>

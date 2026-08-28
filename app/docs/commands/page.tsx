@@ -109,7 +109,11 @@ export default function DocsCommandsPage() {
         <ul>
           <li>
             Mutates only the target leaf markdown (status, acceptance criteria,
-            work log on that file)
+            Prompt &amp; feedback, work log on that file)
+          </li>
+          <li>
+            Follow-up on a done task logs Prompt &amp; feedback there; a new
+            leaf is created only when nothing fits
           </li>
           <li>
             Does not write parent files or generated indexes

@@ -363,7 +363,9 @@ What is wrong / expected vs actual.
 | 2 | 2026-07-28T11:50:00Z | feedback | Marco Mendão | Looks good |`}</CodeBlock>
         <p>
           <code>Kind</code> is typically <code>prompt</code> or{" "}
-          <code>feedback</code>.
+          <code>feedback</code>. Agents write a prompt row on every product-work
+          session: an open matching leaf, a done leaf that still covers the
+          change, or a newly created task/bug. Never on epic or story parents.
         </p>
 
         <h2 id="manual-checklist">Manual create / edit checklist</h2>

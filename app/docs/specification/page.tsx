@@ -96,14 +96,8 @@ size_source: suggested   # suggested | manual
 size_basis: []
 points: 5           # 1 | 3 | 5 | 8 | 13 | 21
 points_source: suggested # suggested | manual
-estimate_minutes: 0
-actual_minutes: 0   # never hand-set — from Work log
-estimate_source: suggested
-estimate_basis: []
-session_cap_minutes: 480
 parent: S-n4q8w1    # null on epics; story/epic id otherwise
 epic: E-k7m2p9      # null on epics; ancestor epic otherwise
-owner: ""
 reporters: []       # [{name, email, initials}, ...]
 resolvers: []
 blocked: false
@@ -128,13 +122,13 @@ completed_at: null
               <tr className="border-b border-border/60 align-top">
                 <td className="px-3 py-2 text-foreground">
                   <code>title</code>, <code>priority</code>, <code>tags</code>,{" "}
-                  <code>owner</code>, body copy, AC checkboxes{" "}
+                  body copy, AC checkboxes{" "}
                   <code>[ ]</code>/<code>[x]</code>, Notes
                 </td>
                 <td className="px-3 py-2">
                   <code>status</code> (use <code>blocked</code> /{" "}
-                  <code>cancelled</code> latches instead),{" "}
-                  <code>actual_minutes</code> / <code>actual_ms</code>
+                  <code>cancelled</code> latches instead), Actual (the UI
+                  derives it from closed leaf Work log intervals)
                 </td>
               </tr>
               <tr className="border-b border-border/60 align-top">
@@ -384,8 +378,8 @@ What is wrong / expected vs actual.
             the child to a parent Stories/Tasks list
           </li>
           <li>
-            Leave <code>actual_minutes: 0</code>; do not invent Work log rows
-            unless you truly worked
+            Do not add estimate or owner fields. Actual comes only from real,
+            closed Work log intervals
           </li>
         </ol>
         <p>

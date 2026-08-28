@@ -58,25 +58,17 @@ export default function DocsWorkflowsPage() {
 
         <h2 id="work-logs">Work logs and Actual</h2>
         <p>
-          Leaves keep a Work log. <strong>Actual</strong> is billable session
-          minutes — never <code>completed_at − started_at</code>.
+          Leaves keep a Work log. <strong>Actual</strong> is the sum of closed
+          Started → Ended intervals on task/bug leaves. Epics and stories sum
+          their descendant leaves. There is no time estimate or owner property.
         </p>
         <ul>
           <li>
-            Open session: Ended is <code>—</code>; billable end uses now until
-            closed
+            Open or invalid intervals are not counted until they have a valid
+            Ended timestamp
           </li>
           <li>
-            Idle deadline = <strong>12:00 UTC on the UTC day after Started</strong>
-          </li>
-          <li>
-            Session cap default <code>session_cap_minutes: 480</code>
-          </li>
-          <li>
-            Billable end = min(Ended, idle deadline, Started + cap)
-          </li>
-          <li>
-            Never hand-set <code>actual_minutes</code> / <code>actual_ms</code>
+            Never hand-set Actual in frontmatter
           </li>
         </ul>
         <h3 id="shared-batch">Shared-batch</h3>

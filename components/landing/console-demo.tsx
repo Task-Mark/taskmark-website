@@ -6,11 +6,9 @@ import { cn } from "@/lib/utils"
 
 const LINES = [
   { prompt: true, text: "/tkmd-plan \"Ship landing page\"" },
-  { prompt: false, text: "Planned E-018 · 7 stories · 13 tasks" },
-  { prompt: true, text: "/tkmd-do T-206" },
-  { prompt: false, text: "Implemented T-206 · marked done · no commit" },
-  { prompt: true, text: "/tkmd-plan \"Animated console typing demo\"" },
-  { prompt: false, text: "Planned T-mm-a7f3 · S · 3 pts · under S-065" },
+  { prompt: false, text: "Planned E-MM-4b9b509e · 6 stories" },
+  { prompt: true, text: "/tkmd-do T-MM-f84c1351" },
+  { prompt: false, text: "Implemented T-MM-f84c1351 · marked done · no commit" },
   { prompt: true, text: "/tkmd-commit" },
   { prompt: false, text: "Committed linked projects" },
 ] as const
@@ -81,7 +79,7 @@ export function ConsoleDemo({ className }: { className?: string }) {
           taskmark · console
         </span>
       </div>
-      <div className="min-h-[14.5rem] space-y-1.5 p-4 font-mono text-sm leading-relaxed sm:min-h-[16rem] sm:text-[0.95rem]">
+      <div className="min-h-[11.5rem] space-y-1.5 p-4 font-mono text-sm leading-relaxed sm:min-h-[13rem] sm:text-[0.95rem]">
         {LINES.slice(0, visibleCount).map((line, i) => {
           const isActive = !reducedMotion && i === lineIndex
           const shown = reducedMotion

@@ -37,7 +37,7 @@ export const FEATURES: FeatureItem[] = [
     id: "feature-effort",
     title: "Effort from work logs",
     description:
-      "Actual minutes come from billable sessions, not calendar span. Idle and session caps keep numbers honest.",
+      "Actual minutes come from closed Work log intervals on task and bug leaves. Parents sum those leaves in the UI — not calendar span or generated indexes.",
     icon: Timer,
     accent: "bg-amber-300",
   },
@@ -61,7 +61,7 @@ export const FEATURES: FeatureItem[] = [
     id: "feature-workflow",
     title: "Agent workflow built in",
     description:
-      "Five commands initialize, plan, implement, shelve discarded work, and explicitly commit linked projects.",
+      "Slash commands initialize, plan from prose or a Cursor plan, implement, shelve discarded work, and explicitly commit linked projects.",
     icon: Workflow,
     accent: "bg-cyan-400",
   },

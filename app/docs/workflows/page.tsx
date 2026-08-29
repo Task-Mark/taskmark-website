@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Workflows",
   description:
-    "Taskmark leaf-only writes, shelving, work logs, actual minutes, and the plan → do → commit loop.",
+    "Taskmark leaf-only writes, shelving, work logs, actual minutes, and when to plan, save, plan-do, or commit.",
 }
 
 export default function DocsWorkflowsPage() {
@@ -30,12 +30,23 @@ export default function DocsWorkflowsPage() {
           </li>
           <li>
             <code>/tkmd-plan</code> to search existing work and add only the
-            smallest useful hierarchy (new files only)
+            smallest useful hierarchy from prose (new files only)
           </li>
           <li>
-            Implement with <code>/tkmd-do</code> in product repos — never
-            commits; does not set <code>in_progress</code>; finished leaves are{" "}
-            <code>done</code>
+            After Cursor Plan mode, <code>/tkmd-save</code> to turn that plan
+            into epic/story/task/bug items and keep diagrams on them — never
+            commits, never implements
+          </li>
+          <li>
+            <code>/tkmd-plan-do</code> when you want the prose plan and
+            immediate implementation of only the newly created items. Prefer
+            plan-only then <code>/tkmd-do</code> later when you want to review
+            the board first
+          </li>
+          <li>
+            Implement existing targets with <code>/tkmd-do</code> in product
+            repos — never commits; does not set <code>in_progress</code>;
+            finished leaves are <code>done</code>
           </li>
           <li>
             If planned work will never be implemented, use{" "}
@@ -62,11 +73,37 @@ export default function DocsWorkflowsPage() {
           or pushes.
         </p>
 
+        <h2 id="overall">Overall tree</h2>
+        <p>
+          The local board’s default view is <strong>Overall</strong>: one nested
+          list, not three stacked tables. Expand an epic to see its stories and
+          epic-direct tasks/bugs; expand a story to see its tasks and bugs.
+          At each level, incomplete items sort before complete ones, then newest
+          first. Hide completed treats <code>done</code>, <code>shelved</code>,
+          and <code>cancelled</code> as complete — including bug leaves — and
+          keeps an ancestor visible while it still has incomplete descendants.
+        </p>
+        <p>
+          <strong>Work items</strong> stays a flat list (legacy{" "}
+          <code>All</code> / <code>Stories</code> / <code>Tasks</code> query
+          values open that same flat view). Search, hide-completed, timeframe,
+          pagination, and deep links apply to Overall:{" "}
+          <code>?epic=</code> expands that epic, <code>?story=</code> expands
+          the story under it, and <code>?item=</code> opens detail.
+        </p>
+        <p>
+          Parent status, points, Actual, implementers, lifecycle dates, and
+          aggregated Prompt &amp; feedback / Commits / Work log are read-time
+          views over descendant leaves. Commands write only new item files or
+          the executed leaf — never parent rollups.
+        </p>
+
         <h2 id="leaf-only">Leaf-only writes</h2>
         <p>
           Two people can create and finish different tasks without merging parent
-          files. <code>/tkmd-plan</code> and <code>/tkmd-do</code> change only
-          new or target item markdown — not parent <code>epic.md</code> /{" "}
+          files. <code>/tkmd-plan</code>, <code>/tkmd-save</code>,{" "}
+          <code>/tkmd-plan-do</code>, and <code>/tkmd-do</code> change only new
+          or target item markdown — not parent <code>epic.md</code> /{" "}
           <code>story.md</code> lists, rollups, or generated board files.
         </p>
         <p>
@@ -115,7 +152,8 @@ export default function DocsWorkflowsPage() {
           Message. In multi-repo workspaces the Repo column is the short folder
           name from local <code>REPOS.md</code>.{" "}
           <code>/tkmd-commit</code> is how commits land;{" "}
-          <code>/tkmd-do</code> does not commit.
+          <code>/tkmd-plan</code>, <code>/tkmd-save</code>,{" "}
+          <code>/tkmd-plan-do</code>, and <code>/tkmd-do</code> do not commit.
         </p>
         <p>
           Related: <Link href="/docs/commands">Commands</Link>,{" "}

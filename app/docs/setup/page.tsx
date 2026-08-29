@@ -72,11 +72,21 @@ export default function DocsSetupPage() {
         <ol>
           <li>
             <code>/tkmd-plan</code> — fit an epic, story, task/bug, or full tree
-            to existing board work
+            to existing board work from prose (creates items only)
           </li>
           <li>
-            <code>/tkmd-do</code> — implement; leaves you finished become{" "}
-            <code>done</code> (no commit, no <code>in_progress</code>)
+            <code>/tkmd-save</code> — after Cursor Plan mode, turn that plan
+            into board items and keep diagrams/visuals on them
+          </li>
+          <li>
+            <code>/tkmd-plan-do</code> — same planning as{" "}
+            <code>/tkmd-plan</code>, then implement the newly created items
+            immediately (never commits)
+          </li>
+          <li>
+            <code>/tkmd-do</code> — implement existing targets; leaves you
+            finished become <code>done</code> (no commit, no{" "}
+            <code>in_progress</code>)
           </li>
           <li>
             <code>/tkmd-shelf</code> — discard planned work that will never be
@@ -87,6 +97,29 @@ export default function DocsSetupPage() {
             <code>/tkmd-commit</code> — commit linked repos when you are ready
           </li>
         </ol>
+
+        <h2 id="open-the-board">Open the local board</h2>
+        <p>
+          The board UI is <code>@taskmark/ui</code>.{" "}
+          <strong>Bound</strong> mode opens the board found in or near the
+          current directory (a nested <code>taskmark/</code> folder, or a flat{" "}
+          <code>*-taskmark</code> root). <strong>Workspace</strong> mode (
+          <code>npx @taskmark/ui</code> with no nearby board, or{" "}
+          <code>taskmark open</code> / <code>--workspace</code>) shows a setup
+          wizard and project picker.
+        </p>
+        <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
+          {`# inside a board folder
+npx taskmark serve
+
+# no local board nearby
+npx @taskmark/ui`}
+        </pre>
+        <p>
+          Prefer <code>npx @taskmark/ui</code> when the package is not installed
+          locally — a different npm package owns the bare <code>taskmark</code>{" "}
+          name. Details live in the <code>taskmark-frontend</code> README.
+        </p>
         <p>
           Next: <Link href="/docs/commands">Commands reference</Link> and{" "}
           <Link href="/docs/structure">folder structure</Link>.

@@ -50,15 +50,20 @@ export default function DocsOverviewPage() {
             files live
           </li>
           <li>
-            <Link href="/docs/workflows">Workflows</Link> — leaf-only writes,
-            actuals, and multi-repo
+            <Link href="/docs/workflows">Workflows</Link> — Overall tree,
+            leaf-only writes, actuals, and multi-repo
           </li>
         </ol>
         <p>
-          User-facing slash commands are exactly{" "}
+          User-facing slash commands are{" "}
           <code>/tkmd-init</code>, <code>/tkmd-plan</code>,{" "}
+          <code>/tkmd-save</code>, <code>/tkmd-plan-do</code>,{" "}
           <code>/tkmd-do</code>, <code>/tkmd-shelf</code>, and{" "}
-          <code>/tkmd-commit</code>.
+          <code>/tkmd-commit</code>. Use <code>/tkmd-save</code> after Cursor
+          Plan mode, <code>/tkmd-plan</code> for free-form prose, and{" "}
+          <code>/tkmd-plan-do</code> when you want to plan from prose and
+          implement the new items immediately.{" "}
+          <code>/tkmd-commit</code> is the only command that commits.
         </p>
       </DocsProse>
     </DocsShell>

@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils"
 
 const NODES = [
-  { id: "E-018", label: "Epic", title: "Website landing", tone: "bg-primary" },
-  { id: "S-065", label: "Story", title: "Hero + Start now", tone: "bg-sky-300" },
-  { id: "T-207", label: "Task", title: "Console typing demo", tone: "bg-emerald-300" },
+  { id: "E-MM-4b9b509e", label: "Epic", title: "Website landing", tone: "bg-primary" },
+  { id: "S-MM-60c97eed", label: "Story", title: "Hero + Start now", tone: "bg-sky-300" },
+  { id: "T-MM-f84c1351", label: "Task", title: "Console typing demo", tone: "bg-emerald-300" },
 ] as const
 
 export function BoardVisual({ className }: { className?: string }) {
@@ -18,9 +18,9 @@ export function BoardVisual({ className }: { className?: string }) {
       />
       <div className="relative flex flex-col gap-3 border-2 border-border bg-card p-4 shadow-lg sm:p-5">
         <div className="flex items-center justify-between gap-2 border-b-2 border-border pb-3">
-          <span className="font-head text-sm tracking-tight">Board</span>
+          <span className="font-head text-sm tracking-tight">Overall</span>
           <span className="rounded border-2 border-border bg-muted px-2 py-0.5 text-xs font-medium">
-            in progress
+            nested
           </span>
         </div>
         <ul className="flex flex-col gap-2.5">
@@ -49,8 +49,8 @@ export function BoardVisual({ className }: { className?: string }) {
         </ul>
       </div>
       <figcaption id="board-visual-caption" className="sr-only">
-        Diagram of a Taskmark board hierarchy: epic E-018 contains story S-065
-        which contains task T-207.
+        Diagram of a Taskmark board hierarchy: an epic contains a story which
+        contains a task.
       </figcaption>
     </figure>
   )

@@ -32,14 +32,14 @@ export default function DocsStructurePage() {
     ├── .gitignore      # ignores REPOS.md
     ├── REPOS.md        # local only — generated, not committed
     └── epics/
-        └── E-k7m2p9-user-auth/
+        └── E-MM-k7m2p9b3-user-auth/
             ├── epic.md
             └── stories/
-                └── S-n4q8w1-login/
+                └── S-MM-n4q8w1a2-login/
                     ├── story.md
                     └── items/
-                        ├── T-a3c9d2-api.md
-                        └── B-f8h1j4-token.md`}
+                        ├── T-MM-a8f31c2d-api.md
+                        └── B-MM-f8h1j4c5-token.md`}
         </pre>
 
         <h2 id="multi-repo">Multiple git projects</h2>

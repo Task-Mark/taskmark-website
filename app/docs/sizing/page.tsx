@@ -75,6 +75,12 @@ export default function DocsSizingPage() {
           <code>/tkmd-plan</code> uses this table only — there is no board sizing
           file and no velocity calibration of estimates.
         </p>
+        <p>
+          There is no estimate or owner property.{" "}
+          <strong>Actual</strong> is the sum of closed Started → Ended intervals
+          on task/bug Work logs. Parent Actual is the sum of descendant leaves
+          in the UI; do not write Actual into frontmatter.
+        </p>
 
         <h2 id="plan">Decomposition during planning</h2>
         <ul>

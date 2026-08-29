@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-do, /tkmd-shelf, and /tkmd-commit.",
+    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-save, /tkmd-plan-do, /tkmd-do, /tkmd-shelf, and /tkmd-commit.",
 }
 
 export default function DocsCommandsPage() {
@@ -20,7 +20,7 @@ export default function DocsCommandsPage() {
       <DocsTitle
         eyebrow="Commands"
         title="Slash commands reference"
-        lead="Type these in Cursor chat. The plugin exposes exactly these five commands."
+        lead="Type these in Cursor chat. /tkmd-commit is the only command that commits."
       />
       <DocsProse>
         <h2 id="index">Commands index</h2>
@@ -105,6 +105,59 @@ export default function DocsCommandsPage() {
           <li>
             The UI discovers children and derives parent lists, status, and
             points at read time
+          </li>
+        </ul>
+
+        <h2 id="tkmd-save">/tkmd-save</h2>
+        <p>
+          After Cursor Plan mode, reads the approved plan and turns it into
+          Taskmark epic, story, task, and bug files. It carries diagrams and
+          other visuals from the plan onto the matching new items. It{" "}
+          <strong>never commits</strong> and does not implement the work.
+        </p>
+        <ul>
+          <li>
+            Locates the plan from an explicit path, the current Plan mode
+            artifact, workspace <code>.cursor/plans/</code>, or{" "}
+            <code>~/.cursor/plans/</code>
+          </li>
+          <li>
+            Uses the same search, dedupe, hierarchy, and new-files-only rules as{" "}
+            <code>/tkmd-plan</code>
+          </li>
+          <li>
+            Prefer this after Plan mode instead of retyping the plan as prose
+            for <code>/tkmd-plan</code>
+          </li>
+          <li>
+            Then implement with <code>/tkmd-do</code>, or use{" "}
+            <code>/tkmd-plan-do</code> when you want plan-from-prose and
+            implementation in one step
+          </li>
+        </ul>
+
+        <h2 id="tkmd-plan-do">/tkmd-plan-do</h2>
+        <p>
+          Plans like <code>/tkmd-plan</code>, then implements the newly created
+          items like <code>/tkmd-do</code>. It is not a replacement for
+          plan-only or do-later. It <strong>never commits</strong>.
+        </p>
+        <ul>
+          <li>
+            If planning creates nothing (exact or overlapping match),
+            implementation is skipped and the match is reported
+          </li>
+          <li>
+            If a new epic or story was created, implements that highest new
+            parent; otherwise implements each newly created leaf
+          </li>
+          <li>
+            Does not set <code>in_progress</code>; executed leaves become{" "}
+            <code>done</code>
+          </li>
+          <li>
+            Use <code>/tkmd-plan</code> when you want to review the board items
+            before implementing
           </li>
         </ul>
 

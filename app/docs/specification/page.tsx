@@ -34,7 +34,8 @@ export default function DocsSpecificationPage() {
         <p>
           Taskmark stores product memory as plain markdown under the board root.
           The local board UI parses these files by scanning <code>epics/</code>{" "}
-          — not a generated index. Cursor commands (<code>/tkmd-plan</code>,{" "}
+          — not a generated index.           Cursor commands (<code>/tkmd-plan</code>,{" "}
+          <code>/tkmd-save</code>, <code>/tkmd-plan-do</code>,{" "}
           <code>/tkmd-do</code>) generate the same shape.
         </p>
         <p>That means you may:</p>
@@ -58,10 +59,10 @@ export default function DocsSpecificationPage() {
             First markdown heading is <code># {"{ID}"}: {"{Title}"}</code>
           </li>
           <li>
-            New IDs are unique board-wide: type prefix <code>E</code>,{" "}
-            <code>S</code>, <code>T</code>, or <code>B</code> plus a
-            collision-resistant token. Sequential IDs already on disk remain
-            valid
+            New IDs are unique board-wide:{" "}
+            <code>E|S|T|B-&lt;identity&gt;-&lt;random&gt;</code> (for example{" "}
+            <code>T-MM-a8f31c2d</code>). Legacy sequential IDs such as{" "}
+            <code>T-001</code> already on disk remain valid
           </li>
           <li>
             Folder slug: <code>{"{id}-{kebab-title}"}</code> (see{" "}
@@ -73,7 +74,7 @@ export default function DocsSpecificationPage() {
           <li>
             Tasks and bugs have <strong>Commits</strong> and{" "}
             <strong>Work log</strong> tables (even if empty), plus{" "}
-            <strong>Prompt &amp; feedback log</strong>
+            <strong>Prompt &amp; feedback</strong>
           </li>
           <li>
             Do not maintain child lists, rollups, or logs on parent files —
@@ -86,18 +87,15 @@ export default function DocsSpecificationPage() {
           Shared shape (types differ on <code>size</code> / parents — see below):
         </p>
         <CodeBlock>{`---
-id: T-a3c9d2
+id: T-MM-a8f31c2d
 type: task          # epic | story | task | bug
 title: Add login API endpoint
 status: backlog     # backlog | blocked | in_progress | done | shelved | cancelled
 priority: medium    # critical | high | medium | low
-size: M             # XS | S | M | L | XL | XXL (null on epics)
-size_source: suggested   # suggested | manual
-size_basis: []
-points: 5           # 1 | 3 | 5 | 8 | 13 | 21
-points_source: suggested # suggested | manual
-parent: S-n4q8w1    # null on epics; story/epic id otherwise
-epic: E-k7m2p9      # null on epics; ancestor epic otherwise
+size: M             # XS | S | M | L | XL | XXL | null (null on parents with children)
+points: 5           # 1 | 3 | 5 | 8 | 13 | 21 | null
+parent: S-MM-n4q8w1a2    # null on epics; story/epic id otherwise
+epic: E-MM-k7m2p9b3      # null on epics; ancestor epic otherwise
 reporters: []       # [{name, email, initials}, ...]
 resolvers: []
 blocked: false
@@ -134,8 +132,8 @@ completed_at: null
               </tr>
               <tr className="border-b border-border/60 align-top">
                 <td className="px-3 py-2 text-foreground">
-                  Manual size/points with{" "}
-                  <code>*_source: manual</code> when you override the static map
+                  Leaf <code>size</code> / <code>points</code> from the static
+                  map (do not add estimate or owner fields)
                 </td>
                 <td className="px-3 py-2">
                   Parent points, status, people, and dates (UI queries children)
@@ -190,7 +188,7 @@ completed_at: null
           </li>
         </ul>
         <p>Required body sections (keep headings exact):</p>
-        <CodeBlock>{`# E-k7m2p9: Title here
+        <CodeBlock>{`# E-MM-k7m2p9b3: Title here
 
 ## Goal
 
@@ -214,14 +212,15 @@ completed_at: null
           </li>
           <li>
             <code>/tkmd-plan</code> attaches to an existing fitting epic; it
-            creates a new epic only when the initiative fits nowhere
+            creates a new epic only when the initiative fits nowhere. There is
+            no reserved General epic to soft-attach to
           </li>
           <li>
             Tasks live in this story’s <code>items/</code>; the UI lists them
             without a maintained Tasks section
           </li>
         </ul>
-        <CodeBlock>{`# S-n4q8w1: Title here
+        <CodeBlock>{`# S-MM-n4q8w1a2: Title here
 
 ## User story
 
@@ -237,7 +236,7 @@ As a …, I want … so that ….
           source of leaf completion (together with Work log state on the item).
         </p>
 
-        <h2 id="task">Task — <code>T-*-*.md</code></h2>
+        <h2 id="task">Task — <code>T-&lt;identity&gt;-&lt;random&gt;.md</code></h2>
         <p>
           Path (under story):{" "}
           <code>…/stories/…/items/{"{id}-{slug}"}.md</code>
@@ -255,7 +254,7 @@ As a …, I want … so that ….
             id (never leave <code>parent: null</code>)
           </li>
         </ul>
-        <CodeBlock>{`# T-a3c9d2: Title here
+        <CodeBlock>{`# T-MM-a8f31c2d: Title here
 
 ## Description
 
@@ -270,10 +269,10 @@ What to build or change.
 
 Optional implementation notes, links, or decisions.
 
-## Prompt & feedback log
+## Prompt & feedback
 
-| # | When (UTC) | Kind | Author | Summary |
-|---|------------|------|--------|---------|
+| When (UTC) | Kind | Author | Summary |
+|------------|------|--------|---------|
 
 ## Commits
 
@@ -282,10 +281,10 @@ Optional implementation notes, links, or decisions.
 
 ## Work log
 
-| Session | Actor | Started (UTC) | Ended (UTC) | Summary |
-|---------|-------|---------------|-------------|---------|`}</CodeBlock>
+| Actor | Started (UTC) | Ended (UTC) | Summary |
+|-------|---------------|-------------|---------|`}</CodeBlock>
 
-        <h2 id="bug">Bug — <code>B-*-*.md</code></h2>
+        <h2 id="bug">Bug — <code>B-&lt;identity&gt;-&lt;random&gt;.md</code></h2>
         <p>
           Same location rules as tasks. Differences:
         </p>
@@ -302,7 +301,7 @@ Optional implementation notes, links, or decisions.
             Still include Prompt &amp; feedback, Commits, and Work log
           </li>
         </ul>
-        <CodeBlock>{`# B-f8h1j4: Title here
+        <CodeBlock>{`# B-MM-f8h1j4c5: Title here
 
 ## Description
 
@@ -320,10 +319,10 @@ What is wrong / expected vs actual.
 
 ## Notes
 
-## Prompt & feedback log
+## Prompt & feedback
 
-| # | When (UTC) | Kind | Author | Summary |
-|---|------------|------|--------|---------|
+| When (UTC) | Kind | Author | Summary |
+|------------|------|--------|---------|
 
 ## Commits
 
@@ -332,23 +331,24 @@ What is wrong / expected vs actual.
 
 ## Work log
 
-| Session | Actor | Started (UTC) | Ended (UTC) | Summary |
-|---------|-------|---------------|-------------|---------|`}</CodeBlock>
+| Actor | Started (UTC) | Ended (UTC) | Summary |
+|-------|---------------|-------------|---------|`}</CodeBlock>
 
         <h2 id="tables">Table formats the UI expects</h2>
         <h3 id="work-log-table">Work log</h3>
-        <CodeBlock>{`| Session | Actor | Started (UTC) | Ended (UTC) | Summary |
-|---------|-------|---------------|-------------|---------|
-| 1 | Marco Mendão | 2026-07-28T10:00:00Z | 2026-07-28T10:40:00Z | Implemented route |`}</CodeBlock>
+        <CodeBlock>{`| Actor | Started (UTC) | Ended (UTC) | Summary |
+|-------|---------------|-------------|---------|
+| Marco Mendão | 2026-07-28T10:00:00Z | 2026-07-28T10:40:00Z | Implemented route |`}</CodeBlock>
         <ul>
           <li>
-            Open session = Ended is <code>—</code> or empty
+            Open interval = Ended is empty
           </li>
           <li>
-            Session numbers are sequential integers starting at 1
+            Actual minutes are computed from closed rows on the leaf
           </li>
           <li>
-            Actual minutes are computed from these rows on the leaf
+            A legacy <code>Session</code> column still parses if present; new
+            files omit it
           </li>
         </ul>
 
@@ -362,10 +362,10 @@ What is wrong / expected vs actual.
         </p>
 
         <h3 id="prompt-table">Prompt &amp; feedback</h3>
-        <CodeBlock>{`| # | When (UTC) | Kind | Author | Summary |
-|---|------------|------|--------|---------|
-| 1 | 2026-07-28T10:00:00Z | prompt | Marco Mendão | Add login redirect |
-| 2 | 2026-07-28T11:50:00Z | feedback | Marco Mendão | Looks good |`}</CodeBlock>
+        <CodeBlock>{`| When (UTC) | Kind | Author | Summary |
+|------------|------|--------|---------|
+| 2026-07-28T10:00:00Z | prompt | Marco Mendão | Add login redirect |
+| 2026-07-28T11:50:00Z | feedback | Marco Mendão | Looks good |`}</CodeBlock>
         <p>
           <code>Kind</code> is typically <code>prompt</code> or{" "}
           <code>feedback</code>. Agents write a prompt row on every product-work
@@ -376,8 +376,9 @@ What is wrong / expected vs actual.
         <h2 id="manual-checklist">Manual create / edit checklist</h2>
         <ol>
           <li>
-            Mint a collision-resistant id (type prefix + unique token). Do not
-            take “the next number” from a global sequence
+            Mint a collision-resistant id (
+            <code>E|S|T|B-&lt;identity&gt;-&lt;random&gt;</code>). Do not take
+            “the next number” from a global sequence
           </li>
           <li>
             Create the folder/file in the correct place (

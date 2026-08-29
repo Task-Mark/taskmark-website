@@ -22,7 +22,8 @@ export const DOCS_NAV: DocsNavItem[] = [
   {
     href: "/docs/commands",
     title: "Commands",
-    description: "The five slash commands: init, plan, do, shelf, and commit.",
+    description:
+      "Slash commands: init, plan, save, plan-do, do, shelf, and commit.",
   },
   {
     href: "/docs/structure",
@@ -43,7 +44,8 @@ export const DOCS_NAV: DocsNavItem[] = [
   {
     href: "/docs/workflows",
     title: "Workflows",
-    description: "Leaf-only writes, work logs, and the plan → do → commit loop.",
+    description:
+      "Overall tree, leaf-only writes, work logs, and when to plan, save, plan-do, or commit.",
   },
 ]
 
@@ -56,7 +58,19 @@ export const DOCS_COMMANDS = [
   {
     id: "tkmd-plan",
     slash: "/tkmd-plan",
-    purpose: "Fit the smallest useful hierarchy to existing board work",
+    purpose: "Fit the smallest useful hierarchy to existing board work from prose",
+  },
+  {
+    id: "tkmd-save",
+    slash: "/tkmd-save",
+    purpose:
+      "After Cursor Plan mode, turn the plan into epic/story/task/bug items and carry plan visuals into those items",
+  },
+  {
+    id: "tkmd-plan-do",
+    slash: "/tkmd-plan-do",
+    purpose:
+      "Plan like /tkmd-plan, then implement the newly created items like /tkmd-do",
   },
   {
     id: "tkmd-do",

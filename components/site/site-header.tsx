@@ -1,6 +1,7 @@
 import Link from "next/link"
 
 import { BrandLogo } from "@/components/brand-logo"
+import { ThemeToggle } from "@/components/site/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { SITE } from "@/lib/site"
 
@@ -64,6 +65,7 @@ export function SiteHeader() {
               {item.label}
             </Button>
           ))}
+          <ThemeToggle />
           <Button
             nativeButton={false}
             render={<Link href={SITE.startPath} />}

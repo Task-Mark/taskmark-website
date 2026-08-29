@@ -25,7 +25,10 @@ const siteDescription =
   "Taskmark — product memory for agent work. Local markdown boards for Cursor with static sizing and conflict-free leaf updates."
 
 export const viewport: Viewport = {
-  themeColor: "#111111",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f0f0f" },
+  ],
 }
 
 export const metadata: Metadata = {
@@ -83,7 +86,12 @@ export default function RootLayout({
       <body
         className={`${archivoBlack.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <SiteShell>{children}</SiteShell>
           <Toaster />
         </ThemeProvider>

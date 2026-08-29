@@ -23,7 +23,7 @@ export const DOCS_NAV: DocsNavItem[] = [
     href: "/docs/commands",
     title: "Commands",
     description:
-      "Slash commands: init, plan, save, plan-do, do, shelf, and commit.",
+      "Slash commands: init, plan, save, plan-do, do, shelf, changelog, version, and commit.",
   },
   {
     href: "/docs/structure",
@@ -81,6 +81,18 @@ export const DOCS_COMMANDS = [
     id: "tkmd-shelf",
     slash: "/tkmd-shelf",
     purpose: "Discard never-implemented work as shelved; never commits",
+  },
+  {
+    id: "tkmd-changelog",
+    slash: "/tkmd-changelog",
+    purpose:
+      "Rebuild CHANGELOG Unreleased from recent done work; never commits",
+  },
+  {
+    id: "tkmd-version",
+    slash: "/tkmd-version",
+    purpose:
+      "Promote Unreleased into a dated SemVer section and set the board package.json version",
   },
   {
     id: "tkmd-commit",

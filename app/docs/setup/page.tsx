@@ -94,6 +94,14 @@ export default function DocsSetupPage() {
             commit
           </li>
           <li>
+            <code>/tkmd-changelog</code> — rebuild Unreleased notes in board{" "}
+            <code>CHANGELOG.md</code> from recent done work
+          </li>
+          <li>
+            <code>/tkmd-version</code> — promote Unreleased into a dated version
+            and set the board <code>package.json</code> version
+          </li>
+          <li>
             <code>/tkmd-commit</code> — commit linked repos when you are ready
           </li>
         </ol>

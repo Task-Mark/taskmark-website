@@ -65,8 +65,10 @@ export default function DocsStructurePage() {
         <p>
           The UI scans <code>epics/</code>. Committed boards do not include a
           generated index, sizing seed file, velocity file, or board README.{" "}
-          <code>REPOS.md</code> is gitignored because it contains absolute local
-          paths.
+          <code>CHANGELOG.md</code> at the board root is optional and is written
+          only by <code>/tkmd-changelog</code> and <code>/tkmd-version</code>
+          — not into the README. <code>REPOS.md</code> is gitignored because it
+          contains absolute local paths.
         </p>
 
         <h2 id="ids-and-files">IDs and file conventions</h2>

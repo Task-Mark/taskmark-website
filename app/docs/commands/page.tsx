@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-save, /tkmd-plan-do, /tkmd-do, /tkmd-shelf, and /tkmd-commit.",
+    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-save, /tkmd-plan-do, /tkmd-do, /tkmd-shelf, /tkmd-changelog, /tkmd-version, and /tkmd-commit.",
 }
 
 export default function DocsCommandsPage() {
@@ -211,6 +211,53 @@ export default function DocsCommandsPage() {
           </li>
           <li>
             Shelved work is terminal and is hidden by Hide completed
+          </li>
+        </ul>
+
+        <h2 id="tkmd-changelog">/tkmd-changelog</h2>
+        <p>
+          Rebuilds the Unreleased section of board-root{" "}
+          <code>CHANGELOG.md</code> from recent done task and bug leaves. Notes
+          are user-facing, past tense, and contain no work-item IDs. The file
+          is created if missing. This is not a README changelog.
+        </p>
+        <ul>
+          <li>
+            Cutoff is the newest <code>## x.y.z - YYYY-MM-DD</code> heading;
+            shelved and cancelled leaves are ignored
+          </li>
+          <li>
+            Headings follow Portuguese Keep a Changelog style (
+            <code>Não publicado</code>, then dated version sections)
+          </li>
+          <li>
+            Never edits epic, story, or leaf markdown; never commits or pushes
+          </li>
+          <li>
+            Not run from <code>/tkmd-do</code> — maintainers run it when they
+            want notes
+          </li>
+        </ul>
+
+        <h2 id="tkmd-version">/tkmd-version</h2>
+        <p>
+          Cuts a SemVer on the board. It infers major, minor, or patch from
+          Unreleased work, or uses an explicit version. It promotes Unreleased
+          into <code>## x.y.z - YYYY-MM-DD</code>, clears Unreleased, and writes
+          the version only to the board <code>package.json</code>.
+        </p>
+        <ul>
+          <li>
+            If Unreleased is empty, it collects the same notes as{" "}
+            <code>/tkmd-changelog</code>, or stops if nothing is new
+          </li>
+          <li>
+            Does not bump <code>plugin.json</code>, marketplace metadata, or{" "}
+            <code>@taskmark/ui</code>
+          </li>
+          <li>
+            Does not create git tags, GitHub Releases, npm publishes,
+            commits, or pushes
           </li>
         </ul>
 

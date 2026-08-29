@@ -54,6 +54,12 @@ export default function DocsWorkflowsPage() {
             <code>shelved</code> without changing parent markdown or committing
           </li>
           <li>
+            <code>/tkmd-changelog</code> when you want Unreleased notes in board{" "}
+            <code>CHANGELOG.md</code>; <code>/tkmd-version</code> when you are
+            ready to promote them and bump the board package version. Neither
+            commits, and neither writes a README changelog
+          </li>
+          <li>
             <code>/tkmd-commit</code> when you want git commits (simple
             one-liners; no push by default)
           </li>
@@ -153,7 +159,9 @@ export default function DocsWorkflowsPage() {
           name from local <code>REPOS.md</code>.{" "}
           <code>/tkmd-commit</code> is how commits land;{" "}
           <code>/tkmd-plan</code>, <code>/tkmd-save</code>,{" "}
-          <code>/tkmd-plan-do</code>, and <code>/tkmd-do</code> do not commit.
+          <code>/tkmd-plan-do</code>, <code>/tkmd-do</code>,{" "}
+          <code>/tkmd-changelog</code>, and <code>/tkmd-version</code> do not
+          commit.
         </p>
         <p>
           Related: <Link href="/docs/commands">Commands</Link>,{" "}

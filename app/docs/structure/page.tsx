@@ -85,17 +85,18 @@ export default function DocsStructurePage() {
             <code>items/</code> (epic-direct — no story required)
           </li>
           <li>
-            Create and do write only new or target leaf files. Parent child
+            Plan and do write only new or target leaf files. Parent child
             lists, status, points, people, dates, and logs are derived in the UI
             at read time
           </li>
         </ul>
 
-        <h2 id="general">General epic</h2>
+        <h2 id="hierarchy-fit">Hierarchy fit</h2>
         <p>
-          Unscoped work soft-attaches to the reserved <strong>General</strong>{" "}
-          epic when no better parent is clear. Prefer contextual attach when an
-          epic or story is named.
+          <code>/tkmd-plan</code> searches open and done work first. New tasks
+          and bugs attach explicitly under the best-fitting existing story or
+          epic; new stories attach under a fitting epic. A new epic is created
+          only for a distinct initiative that fits nowhere else.
         </p>
         <p>
           Related: <Link href="/docs/specification">File specification</Link>{" "}

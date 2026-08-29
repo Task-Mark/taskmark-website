@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Workflows",
   description:
-    "Taskmark leaf-only writes, work logs, actual minutes, and the create → do → commit loop.",
+    "Taskmark leaf-only writes, work logs, actual minutes, and the plan → do → commit loop.",
 }
 
 export default function DocsWorkflowsPage() {
@@ -19,18 +19,18 @@ export default function DocsWorkflowsPage() {
       <DocsTitle
         eyebrow="Workflows"
         title="Core workflows"
-        lead="How create and do stay on leaf files, how sessions become Actual, and how multi-repo days work."
+        lead="How plan and do stay on leaf files, how sessions become Actual, and how multi-repo days work."
       />
       <DocsProse>
-        <h2 id="daily-loop">Create, do, commit</h2>
+        <h2 id="daily-loop">Plan, do, commit</h2>
         <ol>
           <li>
             Canonical board in <code>&lt;common&gt;-taskmark</code> (or{" "}
             <code>taskmark/</code> in single mode)
           </li>
           <li>
-            <code>/tkmd-create</code> to add an epic, story, task/bug, or tree
-            (new files only)
+            <code>/tkmd-plan</code> to search existing work and add only the
+            smallest useful hierarchy (new files only)
           </li>
           <li>
             Implement with <code>/tkmd-do</code> in product repos — never
@@ -46,7 +46,7 @@ export default function DocsWorkflowsPage() {
         <h2 id="leaf-only">Leaf-only writes</h2>
         <p>
           Two people can create and finish different tasks without merging parent
-          files. <code>/tkmd-create</code> and <code>/tkmd-do</code> change only
+          files. <code>/tkmd-plan</code> and <code>/tkmd-do</code> change only
           new or target item markdown — not parent <code>epic.md</code> /{" "}
           <code>story.md</code> lists, rollups, or generated board files.
         </p>

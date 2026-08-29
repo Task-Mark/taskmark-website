@@ -71,22 +71,26 @@ export default function DocsSizingPage() {
           </table>
         </div>
         <p>
-          Points scale: <code>1 | 3 | 5 | 8 | 13 | 21</code>. Create uses this
-          table only — there is no board sizing file and no velocity calibration
-          of estimates.
+          Points scale: <code>1 | 3 | 5 | 8 | 13 | 21</code>.{" "}
+          <code>/tkmd-plan</code> uses this table only — there is no board sizing
+          file and no velocity calibration of estimates.
         </p>
 
-        <h2 id="create">Suggestions on create</h2>
+        <h2 id="plan">Decomposition during planning</h2>
         <ul>
           <li>
-            Pick a t-shirt from the table; points follow automatically.
+            Size each independently executable leaf; points follow automatically.
           </li>
           <li>
-            Override with a manual size when the default does not fit; keep
-            points aligned with the map.
+            Use size to drive decomposition: strongly split XL work into
+            cohesive leaves.
           </li>
           <li>
-            Epics have no t-shirt size.
+            Never leave XXL work unrefined; split it before execution.
+          </li>
+          <li>
+            Parent items with children have no persisted size or points; the UI
+            derives rollups.
           </li>
         </ul>
 
@@ -112,7 +116,7 @@ export default function DocsSizingPage() {
           </li>
         </ul>
         <p>
-          See <Link href="/docs/workflows">Workflows</Link> for how create and
+          See <Link href="/docs/workflows">Workflows</Link> for how plan and
           do keep parent files untouched.
         </p>
       </DocsProse>

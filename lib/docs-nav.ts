@@ -22,7 +22,7 @@ export const DOCS_NAV: DocsNavItem[] = [
   {
     href: "/docs/commands",
     title: "Commands",
-    description: "The four slash commands: init, create, do, and commit.",
+    description: "The four slash commands: init, plan, do, and commit.",
   },
   {
     href: "/docs/structure",
@@ -43,7 +43,7 @@ export const DOCS_NAV: DocsNavItem[] = [
   {
     href: "/docs/workflows",
     title: "Workflows",
-    description: "Leaf-only writes, work logs, and the create → do → commit loop.",
+    description: "Leaf-only writes, work logs, and the plan → do → commit loop.",
   },
 ]
 
@@ -54,9 +54,9 @@ export const DOCS_COMMANDS = [
     purpose: "Initialize a Taskmark board in the workspace",
   },
   {
-    id: "tkmd-create",
-    slash: "/tkmd-create",
-    purpose: "Create an epic, story, task/bug, or a full tree from a description",
+    id: "tkmd-plan",
+    slash: "/tkmd-plan",
+    purpose: "Fit the smallest useful hierarchy to existing board work",
   },
   {
     id: "tkmd-do",

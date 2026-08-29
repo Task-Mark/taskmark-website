@@ -71,7 +71,8 @@ export default function DocsSetupPage() {
         <h2 id="first-commands">First commands</h2>
         <ol>
           <li>
-            <code>/tkmd-create</code> — epic, story, task/bug, or a full tree
+            <code>/tkmd-plan</code> — fit an epic, story, task/bug, or full tree
+            to existing board work
           </li>
           <li>
             <code>/tkmd-do</code> — implement; leaves you finished become{" "}

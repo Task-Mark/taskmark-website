@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark slash commands: /tkmd-init, /tkmd-create, /tkmd-do, and /tkmd-commit.",
+    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-do, and /tkmd-commit.",
 }
 
 export default function DocsCommandsPage() {
@@ -70,27 +70,37 @@ export default function DocsCommandsPage() {
           </li>
         </ul>
 
-        <h2 id="tkmd-create">/tkmd-create</h2>
+        <h2 id="tkmd-plan">/tkmd-plan</h2>
         <p>
-          Creates an epic, a story, a task or bug, or a whole tree from a prose
-          description. New IDs are collision-resistant (type prefix{" "}
+          Searches open and done board work, then plans the smallest useful
+          hierarchy from prose. New IDs are collision-resistant (type prefix{" "}
           <code>E</code> / <code>S</code> / <code>T</code> / <code>B</code> plus
           a unique token — not a global sequential counter). Existing sequential
           IDs on a board remain valid.
         </p>
         <ul>
           <li>
-            Writes <strong>only new item files</strong> (and new story/epic
-            files when those are part of the create). It does not edit parent{" "}
+            If exact or overlapping work exists, creates nothing and reports
+            the match for execution or follow-up feedback
+          </li>
+          <li>
+            Fits tasks/bugs under an existing story or epic, stories under an
+            existing epic, and creates a new epic only for a distinct initiative
+            that fits nowhere
+          </li>
+          <li>
+            Writes <strong>only new item files</strong> (including any new
+            parent files in the plan). It does not edit existing parent{" "}
             <code>epic.md</code> / <code>story.md</code> child lists or rollups
           </li>
           <li>
-            Soft-attaches from named parent or context; otherwise the reserved{" "}
-            <strong>General</strong> epic
+            Splits broad work into cohesive stories and independently executable
+            leaves with clear acceptance criteria
           </li>
           <li>
             Leaf size and points come from the{" "}
-            <Link href="/docs/sizing">static table</Link> (XS=1 … XXL=21)
+            <Link href="/docs/sizing">static table</Link> (XS=1 … XXL=21);
+            strongly split XL and always refine XXL before execution
           </li>
           <li>
             The UI discovers children and derives parent lists, status, and

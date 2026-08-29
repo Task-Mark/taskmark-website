@@ -34,7 +34,7 @@ export default function DocsSpecificationPage() {
         <p>
           Taskmark stores product memory as plain markdown under the board root.
           The local board UI parses these files by scanning <code>epics/</code>{" "}
-          — not a generated index. Cursor commands (<code>/tkmd-create</code>,{" "}
+          — not a generated index. Cursor commands (<code>/tkmd-plan</code>,{" "}
           <code>/tkmd-do</code>) generate the same shape.
         </p>
         <p>That means you may:</p>
@@ -146,7 +146,7 @@ completed_at: null
                 </td>
                 <td className="px-3 py-2">
                   Child lists on <code>epic.md</code> / <code>story.md</code> —
-                  do not maintain them; <code>/tkmd-create</code> does not write
+                  do not maintain them; <code>/tkmd-plan</code> does not write
                   them
                 </td>
               </tr>
@@ -203,7 +203,8 @@ completed_at: null
             <code>epic</code> = same epic id
           </li>
           <li>
-            Soft-attach under <strong>General</strong> when no clearer epic fits
+            <code>/tkmd-plan</code> attaches to an existing fitting epic; it
+            creates a new epic only when the initiative fits nowhere
           </li>
           <li>
             Tasks live in this story’s <code>items/</code>; the UI lists them

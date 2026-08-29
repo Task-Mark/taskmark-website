@@ -65,6 +65,14 @@ export function SiteHeader() {
               {item.label}
             </Button>
           ))}
+          <Button
+            nativeButton={false}
+            render={<Link href="/#live-board" />}
+            variant="ghost"
+            size="sm"
+          >
+            Live board
+          </Button>
           <ThemeToggle />
           <Button
             nativeButton={false}

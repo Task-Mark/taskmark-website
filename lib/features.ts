@@ -1,10 +1,11 @@
 import type { LucideIcon } from "lucide-react"
 import {
+  Bot,
+  Brain,
   FolderTree,
-  GitBranch,
-  ListChecks,
-  Timer,
-  Workflow,
+  ListOrdered,
+  Newspaper,
+  Users,
 } from "lucide-react"
 
 export type FeatureItem = {
@@ -18,51 +19,51 @@ export type FeatureItem = {
 /** Feature inventory for the landing showcase (T-211). */
 export const FEATURES: FeatureItem[] = [
   {
-    id: "feature-boards",
-    title: "Hierarchical boards",
+    id: "feature-memory",
+    title: "Product memory for agents",
     description:
-      "Epics, stories, tasks, and bugs as markdown — the board is product memory the agent can read and update.",
-    icon: FolderTree,
+      "Chat is not a backlog. The board is the product context agents read and update — so planning survives the session.",
+    icon: Brain,
     accent: "bg-violet-400",
   },
   {
-    id: "feature-sizing",
-    title: "Sizing that sticks",
+    id: "feature-agent-log",
+    title: "Agents report their own work",
     description:
-      "A fixed XS–XXL scale maps directly to 1, 3, 5, 8, 13, and 21 points across every board.",
-    icon: ListChecks,
+      "You cannot pre-write every task in an agentic project. As features land, the agent records what it actually did, so the board stays true without a human tax.",
+    icon: Bot,
     accent: "bg-sky-400",
   },
   {
-    id: "feature-effort",
-    title: "Effort from work logs",
+    id: "feature-team",
+    title: "Everyone on one board",
     description:
-      "Actual minutes come from closed Work log intervals on task and bug leaves. Parents sum those leaves in the UI — not calendar span or generated indexes.",
-    icon: Timer,
-    accent: "bg-amber-300",
-  },
-  {
-    id: "feature-conflict-free",
-    title: "Conflict-free teamwork",
-    description:
-      "Agents update leaf markdown only; parent status, totals, people, dates, and activity are derived when read.",
-    icon: Workflow,
+      "People and agents write the same leaves. Status, contributors, and activity roll up so you can see who shipped what.",
+    icon: Users,
     accent: "bg-emerald-400",
   },
   {
-    id: "feature-multi-repo",
-    title: "Multi-repo ready",
+    id: "feature-changelog",
+    title: "Changelogs users can read",
     description:
-      "One dedicated board, a local gitignored REPOS.md, and explicit /tkmd-commit across linked roots.",
-    icon: GitBranch,
+      "Done work becomes Keep a Changelog notes for each version — user-facing outcomes, not ticket IDs.",
+    icon: Newspaper,
+    accent: "bg-amber-300",
+  },
+  {
+    id: "feature-pace",
+    title: "Priorities and points that steer delivery",
+    description:
+      "Priority plus a fixed story-point scale sequences work and shows how fast the team is moving — without inventing estimates from the past.",
+    icon: ListOrdered,
     accent: "bg-rose-400",
   },
   {
-    id: "feature-workflow",
-    title: "Agent workflow built in",
+    id: "feature-boards",
+    title: "Hierarchical boards",
     description:
-      "Slash commands initialize, plan from prose or a Cursor plan, implement, shelve discarded work, and explicitly commit linked projects.",
-    icon: Workflow,
+      "Epics, stories, tasks, and bugs as markdown — nested product memory the agent can read and update, without a generated dashboard.",
+    icon: FolderTree,
     accent: "bg-cyan-400",
   },
 ]

@@ -62,6 +62,12 @@ export function SiteFooter() {
               GitHub
             </a>
             <Link
+              href="/#live-board"
+              className="underline-offset-2 hover:text-foreground hover:underline"
+            >
+              Live board
+            </Link>
+            <Link
               href={SITE.startPath}
               className="underline-offset-2 hover:text-foreground hover:underline"
             >

@@ -17,11 +17,11 @@ export function FeaturesSection() {
             id="features-heading"
             className="mt-2 font-head text-3xl tracking-tight sm:text-4xl"
           >
-            Everything the board needs to stay real
+            Work that agents can remember — and teams can see
           </h2>
           <p className="mt-3 text-base text-muted-foreground sm:text-lg">
-            Conventions, timing, and multi-repo workflow — designed for Cursor
-            agents that write the board as they work.
+            A markdown board humans and agents share: context, delivery, and
+            release notes without a second tracker.
           </p>
         </div>
 

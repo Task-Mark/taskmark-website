@@ -8,6 +8,9 @@ export const SITE = {
   githubUrl:
     process.env.NEXT_PUBLIC_GITHUB_URL ??
     "https://github.com/taskmark/taskmark-cursor",
+  /** Hosted product board the team uses to develop Taskmark (also the live UI demo). */
+  boardUrl:
+    process.env.NEXT_PUBLIC_BOARD_URL ?? "https://board.taskmark.dev/",
   docsPath: "/docs",
   startPath: "/docs/setup#install",
   contactPath: "/#contact",

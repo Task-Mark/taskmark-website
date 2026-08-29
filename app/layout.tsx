@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next"
 import { Archivo_Black, Space_Grotesk } from "next/font/google"
+import Script from "next/script"
 
 import { SiteShell } from "@/components/site/site-shell"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { SITE } from "@/lib/site"
+import { THEME_INIT_SCRIPT } from "@/lib/theme-cookie"
 
 import "./globals.css"
 
@@ -86,12 +88,12 @@ export default function RootLayout({
       <body
         className={`${archivoBlack.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <Script
+          id="taskmark-theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }}
+        />
+        <ThemeProvider>
           <SiteShell>{children}</SiteShell>
           <Toaster />
         </ThemeProvider>

@@ -42,8 +42,8 @@ export default function DocsOverviewPage() {
             initialize a board
           </li>
           <li>
-            <Link href="/docs/commands">Commands</Link> — plan work, implement,
-            and commit
+            <Link href="/docs/commands">Commands</Link> — plan, implement,
+            shelve, and commit work
           </li>
           <li>
             <Link href="/docs/structure">Folder structure</Link> — know where
@@ -57,7 +57,8 @@ export default function DocsOverviewPage() {
         <p>
           User-facing slash commands are exactly{" "}
           <code>/tkmd-init</code>, <code>/tkmd-plan</code>,{" "}
-          <code>/tkmd-do</code>, and <code>/tkmd-commit</code>.
+          <code>/tkmd-do</code>, <code>/tkmd-shelf</code>, and{" "}
+          <code>/tkmd-commit</code>.
         </p>
       </DocsProse>
     </DocsShell>

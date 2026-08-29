@@ -79,6 +79,11 @@ export default function DocsSetupPage() {
             <code>done</code> (no commit, no <code>in_progress</code>)
           </li>
           <li>
+            <code>/tkmd-shelf</code> — discard planned work that will never be
+            implemented; eligible leaves become <code>shelved</code> without a
+            commit
+          </li>
+          <li>
             <code>/tkmd-commit</code> — commit linked repos when you are ready
           </li>
         </ol>

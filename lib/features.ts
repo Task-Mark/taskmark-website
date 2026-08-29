@@ -61,7 +61,7 @@ export const FEATURES: FeatureItem[] = [
     id: "feature-workflow",
     title: "Agent workflow built in",
     description:
-      "Four commands initialize, create, implement without committing, and explicitly commit linked projects.",
+      "Five commands initialize, plan, implement, shelve discarded work, and explicitly commit linked projects.",
     icon: Workflow,
     accent: "bg-cyan-400",
   },

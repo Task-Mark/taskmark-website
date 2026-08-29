@@ -22,7 +22,7 @@ export const DOCS_NAV: DocsNavItem[] = [
   {
     href: "/docs/commands",
     title: "Commands",
-    description: "The four slash commands: init, plan, do, and commit.",
+    description: "The five slash commands: init, plan, do, shelf, and commit.",
   },
   {
     href: "/docs/structure",
@@ -62,6 +62,11 @@ export const DOCS_COMMANDS = [
     id: "tkmd-do",
     slash: "/tkmd-do",
     purpose: "Implement work; never commits; executed leaves become done",
+  },
+  {
+    id: "tkmd-shelf",
+    slash: "/tkmd-shelf",
+    purpose: "Discard never-implemented work as shelved; never commits",
   },
   {
     id: "tkmd-commit",

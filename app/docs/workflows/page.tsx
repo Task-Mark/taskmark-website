@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Workflows",
   description:
-    "Taskmark leaf-only writes, work logs, actual minutes, and the plan → do → commit loop.",
+    "Taskmark leaf-only writes, shelving, work logs, actual minutes, and the plan → do → commit loop.",
 }
 
 export default function DocsWorkflowsPage() {
@@ -38,10 +38,29 @@ export default function DocsWorkflowsPage() {
             <code>done</code>
           </li>
           <li>
+            If planned work will never be implemented, use{" "}
+            <code>/tkmd-shelf</code> — eligible leaves become{" "}
+            <code>shelved</code> without changing parent markdown or committing
+          </li>
+          <li>
             <code>/tkmd-commit</code> when you want git commits (simple
             one-liners; no push by default)
           </li>
         </ol>
+
+        <h2 id="shelving">Shelve discarded work</h2>
+        <p>
+          <code>/tkmd-shelf</code> closes work without claiming it was
+          implemented. A leaf receives <code>status: shelved</code> and a{" "}
+          <code>completed_at</code> timestamp, while acceptance criteria,
+          resolvers, and <code>cancelled: false</code> remain unchanged. Story
+          and epic targets cascade to their eligible task/bug descendants only.
+        </p>
+        <p>
+          Shelved work is visually distinct from done, is terminal for parent
+          rollups, and is removed by Hide completed. The command never commits
+          or pushes.
+        </p>
 
         <h2 id="leaf-only">Leaf-only writes</h2>
         <p>

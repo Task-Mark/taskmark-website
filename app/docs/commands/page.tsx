@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-do, and /tkmd-commit.",
+    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-do, /tkmd-shelf, and /tkmd-commit.",
 }
 
 export default function DocsCommandsPage() {
@@ -20,7 +20,7 @@ export default function DocsCommandsPage() {
       <DocsTitle
         eyebrow="Commands"
         title="Slash commands reference"
-        lead="Type these in Cursor chat. The plugin exposes exactly these four commands."
+        lead="Type these in Cursor chat. The plugin exposes exactly these five commands."
       />
       <DocsProse>
         <h2 id="index">Commands index</h2>
@@ -126,11 +126,38 @@ export default function DocsCommandsPage() {
             leaf is created only when nothing fits
           </li>
           <li>
+            Cancelled and shelved leaves are terminal and are not mandatory
+            implementation scope
+          </li>
+          <li>
             Does not write parent files or generated indexes
           </li>
           <li>
             Use <Link href="/docs/commands#tkmd-commit">/tkmd-commit</Link> when
             you want git commits
+          </li>
+        </ul>
+
+        <h2 id="tkmd-shelf">/tkmd-shelf</h2>
+        <p>
+          Discards planned work that will never be implemented. It marks
+          eligible task/bug leaves <code>status: shelved</code> and sets{" "}
+          <code>completed_at</code>, while preserving unchecked acceptance
+          criteria and keeping the outcome distinct from <code>done</code>.
+        </p>
+        <ul>
+          <li>
+            A story or epic target shelves every open, non-cancelled,
+            non-shelved descendant leaf
+          </li>
+          <li>
+            Never edits parent markdown; parent status is derived at read time
+          </li>
+          <li>
+            Never sets <code>cancelled: true</code>, commits, or pushes
+          </li>
+          <li>
+            Shelved work is terminal and is hidden by Hide completed
           </li>
         </ul>
 

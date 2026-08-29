@@ -89,7 +89,7 @@ export default function DocsSpecificationPage() {
 id: T-a3c9d2
 type: task          # epic | story | task | bug
 title: Add login API endpoint
-status: backlog     # derived — do not hand-set except via latches
+status: backlog     # backlog | blocked | in_progress | done | shelved | cancelled
 priority: medium    # critical | high | medium | low
 size: M             # XS | S | M | L | XL | XXL (null on epics)
 size_source: suggested   # suggested | manual
@@ -127,8 +127,9 @@ completed_at: null
                 </td>
                 <td className="px-3 py-2">
                   <code>status</code> (use <code>blocked</code> /{" "}
-                  <code>cancelled</code> latches instead), Actual (the UI
-                  derives it from closed leaf Work log intervals)
+                  <code>cancelled</code> latches or <code>/tkmd-shelf</code>{" "}
+                  instead), Actual (the UI derives it from closed leaf Work log
+                  intervals)
                 </td>
               </tr>
               <tr className="border-b border-border/60 align-top">
@@ -154,12 +155,21 @@ completed_at: null
           </table>
         </div>
         <p>
-          <strong>Status</strong> on a leaf: cancelled latch → blocked latch →
-          all AC checked → <code>done</code>; else backlog.{" "}
+          <strong>Status</strong> on a leaf: <code>done</code> means
+          implemented; <code>shelved</code> means deliberately discarded
+          without implementation; <code>cancelled</code> is a separate terminal
+          latch outcome. Backlog, blocked, and in-progress work is incomplete.{" "}
           <code>/tkmd-do</code> does not transition through{" "}
           <code>in_progress</code>; when it finishes, executed leaves are{" "}
-          <code>done</code>. Parent status, implementers, and lifecycle dates
-          are inferred from leaves in the UI.
+          <code>done</code>. <code>/tkmd-shelf</code> changes only eligible
+          task/bug leaves to <code>shelved</code>, sets{" "}
+          <code>completed_at</code>, preserves acceptance criteria and{" "}
+          <code>cancelled: false</code>, and never edits parent markdown.
+          Parent status, implementers, and lifecycle dates are inferred from
+          leaves in the UI: a terminal mix containing done rolls up to done;
+          without done, any shelved descendant rolls up to shelved; all-cancelled
+          rolls up to cancelled. Hide completed treats all three terminal
+          outcomes as complete.
         </p>
 
         <h2 id="epic">Epic — <code>epic.md</code></h2>

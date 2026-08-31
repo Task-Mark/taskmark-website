@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-save, /tkmd-plan-do, /tkmd-do, /tkmd-shelf, /tkmd-changelog, /tkmd-version, /tkmd-reportme, and /tkmd-commit.",
+    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-save, /tkmd-save-do, /tkmd-plan-do, /tkmd-do, /tkmd-shelf, /tkmd-changelog, /tkmd-version, /tkmd-reportme, and /tkmd-commit.",
 }
 
 export default function DocsCommandsPage() {
@@ -131,8 +131,33 @@ export default function DocsCommandsPage() {
           </li>
           <li>
             Then implement with <code>/tkmd-do</code>, or use{" "}
-            <code>/tkmd-plan-do</code> when you want plan-from-prose and
+            <code>/tkmd-save-do</code> when you want save-from-plan and
             implementation in one step
+          </li>
+        </ul>
+
+        <h2 id="tkmd-save-do">/tkmd-save-do</h2>
+        <p>
+          Saves like <code>/tkmd-save</code>, then implements the newly created
+          items like <code>/tkmd-do</code>. It is not a replacement for
+          save-only or do-later. It <strong>never commits</strong>.
+        </p>
+        <ul>
+          <li>
+            If save creates nothing (exact or overlapping match),
+            implementation is skipped and the match is reported
+          </li>
+          <li>
+            If a new epic or story was created, implements that highest new
+            parent; otherwise implements each newly created leaf
+          </li>
+          <li>
+            Does not set <code>in_progress</code>; executed leaves become{" "}
+            <code>done</code>
+          </li>
+          <li>
+            Use <code>/tkmd-save</code> when you want to review the board items
+            before implementing
           </li>
         </ul>
 

@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Workflows",
   description:
-    "Taskmark leaf-only writes, shelving, work logs, actual minutes, and when to plan, save, plan-do, report, or commit.",
+    "Taskmark leaf-only writes, shelving, work logs, actual minutes, and when to plan, save, save-do, plan-do, report, or commit.",
 }
 
 export default function DocsWorkflowsPage() {
@@ -36,6 +36,12 @@ export default function DocsWorkflowsPage() {
             After Cursor Plan mode, <code>/tkmd-save</code> to turn that plan
             into epic/story/task/bug items and keep diagrams on them — never
             commits, never implements
+          </li>
+          <li>
+            <code>/tkmd-save-do</code> when you want that Cursor plan saved and
+            the newly created items implemented immediately. Prefer save-only
+            then <code>/tkmd-do</code> later when you want to review the board
+            first
           </li>
           <li>
             <code>/tkmd-plan-do</code> when you want the prose plan and
@@ -113,7 +119,8 @@ export default function DocsWorkflowsPage() {
         <p>
           Two people can create and finish different tasks without merging parent
           files. <code>/tkmd-plan</code>, <code>/tkmd-save</code>,{" "}
-          <code>/tkmd-plan-do</code>, and <code>/tkmd-do</code> change only new
+          <code>/tkmd-save-do</code>, <code>/tkmd-plan-do</code>, and{" "}
+          <code>/tkmd-do</code> change only new
           or target item markdown — not parent <code>epic.md</code> /{" "}
           <code>story.md</code> lists, rollups, or generated board files.
         </p>
@@ -164,7 +171,8 @@ export default function DocsWorkflowsPage() {
           name from local <code>REPOS.md</code>.{" "}
           <code>/tkmd-commit</code> is how commits land;{" "}
           <code>/tkmd-plan</code>, <code>/tkmd-save</code>,{" "}
-          <code>/tkmd-plan-do</code>, <code>/tkmd-do</code>,{" "}
+          <code>/tkmd-save-do</code>, <code>/tkmd-plan-do</code>,{" "}
+          <code>/tkmd-do</code>,{" "}
           <code>/tkmd-changelog</code>, <code>/tkmd-version</code>, and{" "}
           <code>/tkmd-reportme</code> do not commit.
         </p>

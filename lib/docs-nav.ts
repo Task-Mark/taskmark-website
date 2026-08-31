@@ -23,7 +23,7 @@ export const DOCS_NAV: DocsNavItem[] = [
     href: "/docs/commands",
     title: "Commands",
     description:
-      "Slash commands: init, plan, save, plan-do, do, shelf, changelog, version, reportme, and commit.",
+      "Slash commands: init, plan, save, save-do, plan-do, do, shelf, changelog, version, reportme, and commit.",
   },
   {
     href: "/docs/structure",
@@ -45,7 +45,7 @@ export const DOCS_NAV: DocsNavItem[] = [
     href: "/docs/workflows",
     title: "Workflows",
     description:
-      "Overall tree, leaf-only writes, work logs, and when to plan, save, plan-do, report, or commit.",
+      "Overall tree, leaf-only writes, work logs, and when to plan, save, save-do, plan-do, report, or commit.",
   },
 ]
 
@@ -65,6 +65,12 @@ export const DOCS_COMMANDS = [
     slash: "/tkmd-save",
     purpose:
       "After Cursor Plan mode, turn the plan into epic/story/task/bug items and carry plan visuals into those items",
+  },
+  {
+    id: "tkmd-save-do",
+    slash: "/tkmd-save-do",
+    purpose:
+      "Save like /tkmd-save, then implement the newly created items like /tkmd-do",
   },
   {
     id: "tkmd-plan-do",

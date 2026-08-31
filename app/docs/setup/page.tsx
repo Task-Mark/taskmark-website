@@ -79,6 +79,11 @@ export default function DocsSetupPage() {
             into board items and keep diagrams/visuals on them
           </li>
           <li>
+            <code>/tkmd-save-do</code> — same save as{" "}
+            <code>/tkmd-save</code>, then implement the newly created items
+            immediately (never commits)
+          </li>
+          <li>
             <code>/tkmd-plan-do</code> — same planning as{" "}
             <code>/tkmd-plan</code>, then implement the newly created items
             immediately (never commits)

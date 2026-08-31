@@ -36,7 +36,8 @@ export default function DocsSpecificationPage() {
           The local board UI parses these files by scanning <code>epics/</code>{" "}
           — not a generated index.           Cursor commands (<code>/tkmd-plan</code>,{" "}
           <code>/tkmd-save</code>, <code>/tkmd-save-do</code>,{" "}
-          <code>/tkmd-plan-do</code>, <code>/tkmd-do</code>) generate the same shape.
+          <code>/tkmd-plan-do</code>, <code>/tkmd-do</code>,{" "}
+          <code>/tkmd-verify</code>) generate the same shape.
         </p>
         <p>That means you may:</p>
         <ul>

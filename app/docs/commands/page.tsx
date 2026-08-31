@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-save, /tkmd-save-do, /tkmd-plan-do, /tkmd-do, /tkmd-shelf, /tkmd-changelog, /tkmd-version, /tkmd-reportme, and /tkmd-commit.",
+    "Taskmark slash commands: /tkmd-init, /tkmd-verify, /tkmd-plan, /tkmd-save, /tkmd-save-do, /tkmd-plan-do, /tkmd-do, /tkmd-shelf, /tkmd-changelog, /tkmd-version, /tkmd-reportme, and /tkmd-commit.",
 }
 
 export default function DocsCommandsPage() {
@@ -67,6 +67,42 @@ export default function DocsCommandsPage() {
           <li>
             A new board is markdown under <code>epics/</code> only; there is no
             generated board index, sizing file, velocity file, or board README
+          </li>
+        </ul>
+
+        <h2 id="tkmd-verify">/tkmd-verify</h2>
+        <p>
+          Migrates an existing board to the current Taskmark layout.{" "}
+          <code>/tkmd-init</code> is first create or light repair;{" "}
+          <code>/tkmd-verify</code> is for boards that still have leftover
+          generated files or legacy item markdown. It{" "}
+          <strong>never commits</strong>.
+        </p>
+        <ul>
+          <li>
+            Locates the canonical board, then repairs UI stubs, gitignore
+            (including <code>REPOS.md</code> and <code>.reports/</code>),{" "}
+            <code>@taskmark/ui</code>, and the static project README using the
+            same overwrite rules as init
+          </li>
+          <li>
+            Deletes leftover generated files at the board root (
+            <code>INDEX.md</code>, <code>SIZING.md</code>,{" "}
+            <code>VELOCITY.md</code>, shared ID counters) and a nested generated
+            dashboard README after the static README is in the right place
+          </li>
+          <li>
+            Strips retired frontmatter and parent-only child lists / log
+            sections, while leaving leaf Prompt &amp; feedback, Commits, and
+            Work log in place
+          </li>
+          <li>
+            Extra <code>taskmark/</code> copies in product repos are reported,
+            not deleted, unless they are clearly generated duplicates
+          </li>
+          <li>
+            Does not create <code>INDEX.md</code>, <code>SIZING.md</code>,{" "}
+            <code>VELOCITY.md</code>, or <code>CHANGELOG.md</code>
           </li>
         </ul>
 

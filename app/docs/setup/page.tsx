@@ -53,6 +53,11 @@ export default function DocsSetupPage() {
             Run <code>/tkmd-init</code> in a product workspace.
           </li>
           <li>
+            Run <code>/tkmd-verify</code> on an older board to repair scaffold,
+            delete leftover generated files, and strip legacy item markdown
+            (never commits)
+          </li>
+          <li>
             <strong>Single git project:</strong> board lives at{" "}
             <code>&lt;project&gt;/taskmark/</code>.
           </li>
@@ -70,6 +75,12 @@ export default function DocsSetupPage() {
 
         <h2 id="first-commands">First commands</h2>
         <ol>
+          <li>
+            <code>/tkmd-verify</code> — migrate an existing board to the current
+            layout (scaffold like init, delete leftover generated files, strip
+            legacy markdown). Never commits; <code>/tkmd-commit</code> remains
+            the only commit command
+          </li>
           <li>
             <code>/tkmd-plan</code> — fit an epic, story, task/bug, or full tree
             to existing board work from prose (creates items only)

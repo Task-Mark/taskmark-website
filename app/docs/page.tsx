@@ -56,13 +56,16 @@ export default function DocsOverviewPage() {
         </ol>
         <p>
           User-facing slash commands are{" "}
-          <code>/tkmd-init</code>, <code>/tkmd-plan</code>,{" "}
+          <code>/tkmd-init</code>, <code>/tkmd-verify</code>,{" "}
+          <code>/tkmd-plan</code>,{" "}
           <code>/tkmd-save</code>, <code>/tkmd-save-do</code>,{" "}
           <code>/tkmd-plan-do</code>,{" "}
           <code>/tkmd-do</code>, <code>/tkmd-shelf</code>,{" "}
           <code>/tkmd-changelog</code>, <code>/tkmd-version</code>,{" "}
           <code>/tkmd-reportme</code>, and{" "}
-          <code>/tkmd-commit</code>. Use <code>/tkmd-save</code> after Cursor
+          <code>/tkmd-commit</code>. Use <code>/tkmd-init</code> for a first
+          board and <code>/tkmd-verify</code> to migrate an older board to the
+          current layout. Use <code>/tkmd-save</code> after Cursor
           Plan mode, <code>/tkmd-save-do</code> to save that plan and implement
           the new items immediately, <code>/tkmd-plan</code> for free-form
           prose, and <code>/tkmd-plan-do</code> when you want to plan from

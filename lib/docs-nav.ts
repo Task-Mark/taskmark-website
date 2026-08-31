@@ -23,7 +23,7 @@ export const DOCS_NAV: DocsNavItem[] = [
     href: "/docs/commands",
     title: "Commands",
     description:
-      "Slash commands: init, plan, save, save-do, plan-do, do, shelf, changelog, version, reportme, and commit.",
+      "Slash commands: init, verify, plan, save, save-do, plan-do, do, shelf, changelog, version, reportme, and commit.",
   },
   {
     href: "/docs/structure",
@@ -54,6 +54,12 @@ export const DOCS_COMMANDS = [
     id: "tkmd-init",
     slash: "/tkmd-init",
     purpose: "Initialize a Taskmark board in the workspace",
+  },
+  {
+    id: "tkmd-verify",
+    slash: "/tkmd-verify",
+    purpose:
+      "Migrate an existing board: repair scaffold, delete leftover generated files, strip legacy item markdown",
   },
   {
     id: "tkmd-plan",

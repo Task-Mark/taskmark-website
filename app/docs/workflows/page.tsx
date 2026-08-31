@@ -29,6 +29,11 @@ export default function DocsWorkflowsPage() {
             <code>taskmark/</code> in single mode)
           </li>
           <li>
+            <code>/tkmd-verify</code> when the board was created on an older
+            Taskmark — repairs scaffold, deletes leftover generated files, and
+            strips legacy item markdown. Never commits
+          </li>
+          <li>
             <code>/tkmd-plan</code> to search existing work and add only the
             smallest useful hierarchy from prose (new files only)
           </li>
@@ -172,7 +177,7 @@ export default function DocsWorkflowsPage() {
           <code>/tkmd-commit</code> is how commits land;{" "}
           <code>/tkmd-plan</code>, <code>/tkmd-save</code>,{" "}
           <code>/tkmd-save-do</code>, <code>/tkmd-plan-do</code>,{" "}
-          <code>/tkmd-do</code>,{" "}
+          <code>/tkmd-do</code>, <code>/tkmd-verify</code>,{" "}
           <code>/tkmd-changelog</code>, <code>/tkmd-version</code>, and{" "}
           <code>/tkmd-reportme</code> do not commit.
         </p>

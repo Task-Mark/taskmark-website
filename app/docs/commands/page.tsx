@@ -244,7 +244,9 @@ export default function DocsCommandsPage() {
           Cuts a SemVer on the board. It infers major, minor, or patch from
           Unreleased work, or uses an explicit version. It promotes Unreleased
           into <code>## x.y.z - YYYY-MM-DD</code>, clears Unreleased, and writes
-          the version only to the board <code>package.json</code>.
+          that version to the board <code>package.json</code>, every linked
+          product-root <code>package.json</code>, and the Cursor plugin{" "}
+          <code>plugin.json</code>.
         </p>
         <ul>
           <li>
@@ -252,8 +254,7 @@ export default function DocsCommandsPage() {
             <code>/tkmd-changelog</code>, or stops if nothing is new
           </li>
           <li>
-            Does not bump <code>plugin.json</code>, marketplace metadata, or{" "}
-            <code>@taskmark/ui</code>
+            Does not bump nested example or stub packages
           </li>
           <li>
             Does not create git tags, GitHub Releases, npm publishes,

@@ -92,7 +92,7 @@ export const DOCS_COMMANDS = [
     id: "tkmd-version",
     slash: "/tkmd-version",
     purpose:
-      "Promote Unreleased into a dated SemVer section and set the board package.json version",
+      "Promote Unreleased into a dated SemVer section and set that version on every linked product",
   },
   {
     id: "tkmd-commit",

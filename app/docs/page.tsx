@@ -65,8 +65,8 @@ export default function DocsOverviewPage() {
           <code>/tkmd-plan-do</code> when you want to plan from prose and
           implement the new items immediately.{" "}
           <code>/tkmd-changelog</code> and <code>/tkmd-version</code> write
-          board <code>CHANGELOG.md</code> (and the board package version), not a
-          README changelog.{" "}
+          board <code>CHANGELOG.md</code> (and <code>/tkmd-version</code> the
+          same SemVer on every linked product), not a README changelog.{" "}
           <code>/tkmd-commit</code> is the only command that commits.
         </p>
       </DocsProse>

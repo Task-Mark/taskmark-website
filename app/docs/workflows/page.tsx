@@ -56,8 +56,8 @@ export default function DocsWorkflowsPage() {
           <li>
             <code>/tkmd-changelog</code> when you want Unreleased notes in board{" "}
             <code>CHANGELOG.md</code>; <code>/tkmd-version</code> when you are
-            ready to promote them and bump the board package version. Neither
-            commits, and neither writes a README changelog
+            ready to promote them and set that SemVer on every linked product.
+            Neither commits, and neither writes a README changelog
           </li>
           <li>
             <code>/tkmd-commit</code> when you want git commits (simple

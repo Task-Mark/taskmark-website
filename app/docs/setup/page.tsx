@@ -99,7 +99,7 @@ export default function DocsSetupPage() {
           </li>
           <li>
             <code>/tkmd-version</code> — promote Unreleased into a dated version
-            and set the board <code>package.json</code> version
+            and set that SemVer on every linked product
           </li>
           <li>
             <code>/tkmd-commit</code> — commit linked repos when you are ready

@@ -29,8 +29,9 @@ export default function DocsStructurePage() {
         <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
           {`my-app/
 └── taskmark/
-    ├── .gitignore      # ignores REPOS.md
+    ├── .gitignore      # ignores REPOS.md and .reports/
     ├── REPOS.md        # local only — generated, not committed
+    ├── .reports/       # /tkmd-reportme output — local only
     └── epics/
         └── E-MM-k7m2p9b3-user-auth/
             ├── epic.md
@@ -52,6 +53,7 @@ export default function DocsStructurePage() {
           {`acme-taskmark/
 ├── .gitignore
 ├── REPOS.md        # local only
+├── .reports/       # /tkmd-reportme — local only
 ├── epics/
 └── .git/`}
         </pre>
@@ -67,8 +69,10 @@ export default function DocsStructurePage() {
           generated index, sizing seed file, velocity file, or board README.{" "}
           <code>CHANGELOG.md</code> at the board root is optional and is written
           only by <code>/tkmd-changelog</code> and <code>/tkmd-version</code>
-          — not into the README. <code>REPOS.md</code> is gitignored because it
-          contains absolute local paths.
+          — not into the README. <code>REPOS.md</code> and{" "}
+          <code>.reports/</code> are gitignored: <code>REPOS.md</code> holds
+          absolute local paths, and <code>/tkmd-reportme</code> writes personal
+          reports under <code>.reports/</code>.
         </p>
 
         <h2 id="ids-and-files">IDs and file conventions</h2>

@@ -1,21 +1,16 @@
 import Link from "next/link"
 
 import { BrandLogo } from "@/components/brand-logo"
+import { MobileNav } from "@/components/site/mobile-nav"
 import { ThemeToggle } from "@/components/site/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { SITE } from "@/lib/site"
-
-const nav = [
-  { href: "/#features", label: "Features" },
-  { href: "/docs", label: "Docs" },
-  { href: "/docs/commands", label: "Commands" },
-  { href: "/#contact", label: "Contact" },
-] as const
+import { SITE_NAV } from "@/lib/site-nav"
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b-2 border-border bg-card/95 shadow-sm backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-3 px-4 pt-3.5 pb-4">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 pt-3.5 pb-4">
         <Link
           href="/"
           className="group flex min-w-0 flex-1 items-center gap-3 transition-[gap] duration-200 hover:gap-4"
@@ -51,10 +46,10 @@ export function SiteHeader() {
         </Link>
 
         <nav
-          className="flex flex-wrap items-center gap-1 sm:gap-2"
+          className="hidden items-center gap-1 lg:flex lg:gap-2"
           aria-label="Primary"
         >
-          {nav.map((item) => (
+          {SITE_NAV.map((item) => (
             <Button
               key={item.href}
               nativeButton={false}
@@ -65,14 +60,6 @@ export function SiteHeader() {
               {item.label}
             </Button>
           ))}
-          <Button
-            nativeButton={false}
-            render={<Link href="/#live-board" />}
-            variant="ghost"
-            size="sm"
-          >
-            Live board
-          </Button>
           <ThemeToggle />
           <Button
             nativeButton={false}
@@ -82,6 +69,8 @@ export function SiteHeader() {
             Start now
           </Button>
         </nav>
+
+        <MobileNav className="lg:hidden" />
       </div>
     </header>
   )

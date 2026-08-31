@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Workflows",
   description:
-    "Taskmark leaf-only writes, shelving, work logs, actual minutes, and when to plan, save, plan-do, or commit.",
+    "Taskmark leaf-only writes, shelving, work logs, actual minutes, and when to plan, save, plan-do, report, or commit.",
 }
 
 export default function DocsWorkflowsPage() {
@@ -58,6 +58,11 @@ export default function DocsWorkflowsPage() {
             <code>CHANGELOG.md</code>; <code>/tkmd-version</code> when you are
             ready to promote them and set that SemVer on every linked product.
             Neither commits, and neither writes a README changelog
+          </li>
+          <li>
+            <code>/tkmd-reportme</code> when you want a personal report of work
+            you finished since the last report (gitignored{" "}
+            <code>.reports/</code>; never commits)
           </li>
           <li>
             <code>/tkmd-commit</code> when you want git commits (simple
@@ -160,8 +165,8 @@ export default function DocsWorkflowsPage() {
           <code>/tkmd-commit</code> is how commits land;{" "}
           <code>/tkmd-plan</code>, <code>/tkmd-save</code>,{" "}
           <code>/tkmd-plan-do</code>, <code>/tkmd-do</code>,{" "}
-          <code>/tkmd-changelog</code>, and <code>/tkmd-version</code> do not
-          commit.
+          <code>/tkmd-changelog</code>, <code>/tkmd-version</code>, and{" "}
+          <code>/tkmd-reportme</code> do not commit.
         </p>
         <p>
           Related: <Link href="/docs/commands">Commands</Link>,{" "}

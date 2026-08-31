@@ -23,7 +23,7 @@ export const DOCS_NAV: DocsNavItem[] = [
     href: "/docs/commands",
     title: "Commands",
     description:
-      "Slash commands: init, plan, save, plan-do, do, shelf, changelog, version, and commit.",
+      "Slash commands: init, plan, save, plan-do, do, shelf, changelog, version, reportme, and commit.",
   },
   {
     href: "/docs/structure",
@@ -45,7 +45,7 @@ export const DOCS_NAV: DocsNavItem[] = [
     href: "/docs/workflows",
     title: "Workflows",
     description:
-      "Overall tree, leaf-only writes, work logs, and when to plan, save, plan-do, or commit.",
+      "Overall tree, leaf-only writes, work logs, and when to plan, save, plan-do, report, or commit.",
   },
 ]
 
@@ -93,6 +93,12 @@ export const DOCS_COMMANDS = [
     slash: "/tkmd-version",
     purpose:
       "Promote Unreleased into a dated SemVer section and set that version on every linked product",
+  },
+  {
+    id: "tkmd-reportme",
+    slash: "/tkmd-reportme",
+    purpose:
+      "Report my done work since the last report into gitignored .reports/",
   },
   {
     id: "tkmd-commit",

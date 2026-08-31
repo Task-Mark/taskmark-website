@@ -102,6 +102,10 @@ export default function DocsSetupPage() {
             and set that SemVer on every linked product
           </li>
           <li>
+            <code>/tkmd-reportme</code> — write a personal report of my done
+            work since the last report into gitignored <code>.reports/</code>
+          </li>
+          <li>
             <code>/tkmd-commit</code> — commit linked repos when you are ready
           </li>
         </ol>

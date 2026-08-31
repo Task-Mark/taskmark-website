@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-save, /tkmd-plan-do, /tkmd-do, /tkmd-shelf, /tkmd-changelog, /tkmd-version, and /tkmd-commit.",
+    "Taskmark slash commands: /tkmd-init, /tkmd-plan, /tkmd-save, /tkmd-plan-do, /tkmd-do, /tkmd-shelf, /tkmd-changelog, /tkmd-version, /tkmd-reportme, and /tkmd-commit.",
 }
 
 export default function DocsCommandsPage() {
@@ -259,6 +259,37 @@ export default function DocsCommandsPage() {
           <li>
             Does not create git tags, GitHub Releases, npm publishes,
             commits, or pushes
+          </li>
+        </ul>
+
+        <h2 id="tkmd-reportme">/tkmd-reportme</h2>
+        <p>
+          Writes a personal report of work <strong>you</strong> finished since
+          the previous report. The file is{" "}
+          <code>.reports/report-YYYYMMDD.md</code> on the board, in the board
+          writing language. It is gitignored — reports stay local and are never
+          committed.
+        </p>
+        <ul>
+          <li>
+            Includes only <code>done</code> task and bug leaves whose resolvers
+            match the current git identity
+          </li>
+          <li>
+            Cutoff is the newest earlier <code>report-YYYYMMDD.md</code>; a
+            first report covers everything so far
+          </li>
+          <li>
+            Bullets are user-facing and past tense, with no work-item IDs —
+            the same Keep a Changelog style as{" "}
+            <code>/tkmd-changelog</code>
+          </li>
+          <li>
+            Never edits epic, story, or leaf markdown; never writes{" "}
+            <code>CHANGELOG.md</code> or the board README
+          </li>
+          <li>
+            Never commits or pushes; not run from <code>/tkmd-do</code>
           </li>
         </ul>
 

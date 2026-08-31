@@ -59,7 +59,8 @@ export default function DocsOverviewPage() {
           <code>/tkmd-init</code>, <code>/tkmd-plan</code>,{" "}
           <code>/tkmd-save</code>, <code>/tkmd-plan-do</code>,{" "}
           <code>/tkmd-do</code>, <code>/tkmd-shelf</code>,{" "}
-          <code>/tkmd-changelog</code>, <code>/tkmd-version</code>, and{" "}
+          <code>/tkmd-changelog</code>, <code>/tkmd-version</code>,{" "}
+          <code>/tkmd-reportme</code>, and{" "}
           <code>/tkmd-commit</code>. Use <code>/tkmd-save</code> after Cursor
           Plan mode, <code>/tkmd-plan</code> for free-form prose, and{" "}
           <code>/tkmd-plan-do</code> when you want to plan from prose and
@@ -67,6 +68,8 @@ export default function DocsOverviewPage() {
           <code>/tkmd-changelog</code> and <code>/tkmd-version</code> write
           board <code>CHANGELOG.md</code> (and <code>/tkmd-version</code> the
           same SemVer on every linked product), not a README changelog.{" "}
+          <code>/tkmd-reportme</code> writes a personal, gitignored report of
+          your done work since the last report.{" "}
           <code>/tkmd-commit</code> is the only command that commits.
         </p>
       </DocsProse>

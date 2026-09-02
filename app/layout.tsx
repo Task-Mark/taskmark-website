@@ -3,10 +3,10 @@ import { Archivo_Black, Space_Grotesk } from "next/font/google"
 import Script from "next/script"
 
 import { SiteShell } from "@/components/site/site-shell"
-import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "@/components/ui/sonner"
+import { ThemeProvider } from "@taskmark/components"
+import { Toaster } from "@taskmark/components/ui/sonner"
 import { SITE } from "@/lib/site"
-import { THEME_INIT_SCRIPT } from "@/lib/theme-cookie"
+import { THEME_INIT_SCRIPT } from "@taskmark/components/theme"
 
 import "./globals.css"
 

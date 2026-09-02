@@ -3,10 +3,10 @@
 import { useState, type FormEvent } from "react"
 import { toast } from "sonner"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@taskmark/components/ui/button"
+import { Input } from "@taskmark/components/ui/input"
+import { Label } from "@taskmark/components/ui/label"
+import { Textarea } from "@taskmark/components/ui/textarea"
 
 type FieldErrors = {
   name?: string

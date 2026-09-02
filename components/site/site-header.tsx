@@ -1,9 +1,9 @@
 import Link from "next/link"
 
-import { BrandLogo } from "@/components/brand-logo"
+import { BrandLogo } from "@taskmark/components"
 import { MobileNav } from "@/components/site/mobile-nav"
-import { ThemeToggle } from "@/components/site/theme-toggle"
-import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@taskmark/components"
+import { Button } from "@taskmark/components/ui/button"
 import { SITE } from "@/lib/site"
 import { SITE_NAV } from "@/lib/site-nav"
 

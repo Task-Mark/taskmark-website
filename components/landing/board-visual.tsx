@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@taskmark/components"
 
 const NODES = [
   { id: "E-MM-4b9b509e", label: "Epic", title: "Website landing", tone: "bg-primary" },

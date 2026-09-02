@@ -1,7 +1,7 @@
 import Link from "next/link"
 
-import { BrandLogo } from "@/components/brand-logo"
-import { Separator } from "@/components/ui/separator"
+import { BrandLogo } from "@taskmark/components"
+import { Separator } from "@taskmark/components/ui/separator"
 import { SITE } from "@/lib/site"
 
 export function SiteFooter() {

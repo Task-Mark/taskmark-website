@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@taskmark/components/ui/button"
 import { SITE } from "@/lib/site"
 
 export function DocsCtaSection() {

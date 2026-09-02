@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@taskmark/components/ui/badge"
 
 export function OpenSourceSection() {
   return (

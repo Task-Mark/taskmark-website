@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { GitPullRequest } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@taskmark/components/ui/button"
 import { SITE } from "@/lib/site"
 
 export function ContributeSection() {

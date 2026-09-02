@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 import { DOCS_NAV } from "@/lib/docs-nav"
-import { cn } from "@/lib/utils"
+import { cn } from "@taskmark/components"
 
 export function DocsShell({
   children,

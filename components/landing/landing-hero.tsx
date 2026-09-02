@@ -1,8 +1,8 @@
 import Link from "next/link"
 
 import { ConsoleDemo } from "@/components/landing/console-demo"
-import { BrandLogo } from "@/components/brand-logo"
-import { Button } from "@/components/ui/button"
+import { BrandLogo } from "@taskmark/components"
+import { Button } from "@taskmark/components/ui/button"
 import { SITE } from "@/lib/site"
 
 export function LandingHero() {

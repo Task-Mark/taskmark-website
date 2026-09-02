@@ -1,5 +1,5 @@
 import { FEATURES } from "@/lib/features"
-import { cn } from "@/lib/utils"
+import { cn } from "@taskmark/components"
 
 export function FeaturesSection() {
   return (

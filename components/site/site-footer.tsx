@@ -3,6 +3,7 @@ import Link from "next/link"
 import { BrandLogo } from "@taskmark/components"
 import { Separator } from "@taskmark/components/ui/separator"
 import { SITE } from "@/lib/site"
+import pkg from "../../package.json"
 
 export function SiteFooter() {
   return (
@@ -84,10 +85,16 @@ export function SiteFooter() {
           </nav>
         </div>
         <Separator />
-        <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Taskmark. Open source · MIT · Built for
-          Cursor.
-        </p>
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+          <p>
+            © {new Date().getFullYear()} Taskmark. Open source · MIT · Built for
+            Cursor.
+          </p>
+          <p>
+            Latest version{" "}
+            <span className="font-medium text-foreground">v{pkg.version}</span>
+          </p>
+        </div>
       </div>
     </footer>
   )

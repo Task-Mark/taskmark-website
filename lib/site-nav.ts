@@ -1,7 +1,14 @@
 import { SITE } from "@/lib/site"
 
+export type SiteNavItem = {
+  href: string
+  label: string
+  badge?: string
+  external?: boolean
+}
+
 /** Header destinations shared by the desktop bar and the mobile menu. */
-export const SITE_NAV = [
+export const SITE_NAV: readonly SiteNavItem[] = [
   { href: "/#features", label: "Features" },
   { href: "/cloud", label: "Cloud", badge: "New" },
   { href: "/docs", label: "Docs" },
@@ -12,4 +19,4 @@ export const SITE_NAV = [
     label: "Development board",
     external: true,
   },
-] as const
+]

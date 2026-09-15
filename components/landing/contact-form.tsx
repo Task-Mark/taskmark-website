@@ -34,7 +34,19 @@ function validate(values: {
   return errors
 }
 
-export function ContactForm() {
+type ContactFormProps = {
+  id?: string
+  title?: string
+  description?: string
+  source?: string
+}
+
+export function ContactForm({
+  id = "contact",
+  title = "Contact",
+  description = "Questions about Taskmark, partnerships, or the board workflow — send a note and we will get back to you.",
+  source = "taskmark-website",
+}: ContactFormProps = {}) {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
@@ -57,6 +69,7 @@ export function ContactForm() {
           name: name.trim(),
           email: email.trim(),
           message: message.trim(),
+          source,
         }),
       })
       const data = (await res.json().catch(() => ({}))) as {
@@ -83,21 +96,20 @@ export function ContactForm() {
 
   return (
     <section
-      id="contact"
+      id={id}
       className="border-b-2 border-border bg-muted/40"
-      aria-labelledby="contact-heading"
+      aria-labelledby={`${id}-heading`}
     >
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-16 sm:py-20 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <div>
           <h2
-            id="contact-heading"
+            id={`${id}-heading`}
             className="font-head text-3xl tracking-tight sm:text-4xl"
           >
-            Contact
+            {title}
           </h2>
           <p className="mt-3 max-w-md text-base text-muted-foreground sm:text-lg">
-            Questions about Taskmark, partnerships, or the board workflow —
-            send a note and we will get back to you.
+            {description}
           </p>
           {sent ? (
             <p

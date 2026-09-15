@@ -4,6 +4,7 @@ type ContactBody = {
   name?: unknown
   email?: unknown
   message?: unknown
+  source?: unknown
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -21,6 +22,9 @@ export async function POST(request: Request) {
   const name = isNonEmptyString(body.name) ? body.name.trim() : ""
   const email = isNonEmptyString(body.email) ? body.email.trim() : ""
   const message = isNonEmptyString(body.message) ? body.message.trim() : ""
+  const source = isNonEmptyString(body.source)
+    ? body.source.trim().slice(0, 80)
+    : "taskmark-website"
 
   if (!name || !email || !message) {
     return NextResponse.json(
@@ -55,7 +59,7 @@ export async function POST(request: Request) {
         name,
         email,
         message,
-        source: "taskmark-website",
+        source,
         receivedAt: new Date().toISOString(),
       }),
     })
@@ -79,7 +83,10 @@ export async function POST(request: Request) {
         from: contactFrom,
         to: [contactTo],
         reply_to: email,
-        subject: `Taskmark contact from ${name}`,
+        subject:
+          source === "taskmark-cloud-integration"
+            ? `Taskmark Cloud integration request from ${name}`
+            : `Taskmark contact from ${name}`,
         text: `From: ${name} <${email}>\n\n${message}`,
       }),
     })

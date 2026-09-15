@@ -48,6 +48,12 @@ export function SiteFooter() {
               Setup
             </Link>
             <Link
+              href="/cloud"
+              className="underline-offset-2 hover:text-foreground hover:underline"
+            >
+              Cloud
+            </Link>
+            <Link
               href="/#contact"
               className="underline-offset-2 hover:text-foreground hover:underline"
             >
@@ -61,12 +67,14 @@ export function SiteFooter() {
             >
               GitHub
             </a>
-            <Link
-              href="/#live-board"
+            <a
+              href={SITE.boardUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="underline-offset-2 hover:text-foreground hover:underline"
             >
-              Live board
-            </Link>
+              Development board
+            </a>
             <Link
               href={SITE.startPath}
               className="underline-offset-2 hover:text-foreground hover:underline"

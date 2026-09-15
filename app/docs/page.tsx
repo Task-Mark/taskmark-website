@@ -25,7 +25,9 @@ export default function DocsOverviewPage() {
         <p>
           Taskmark is a Cursor plugin that keeps product work as hierarchical
           markdown the agent can read and update. The board is product memory —
-          not a separate SaaS backlog that drifts from what shipped.
+          not a separate SaaS backlog that drifts from what shipped.{" "}
+          <Link href="/docs/cloud">Taskmark Cloud</Link> is the hosted team view
+          of that same markdown after local sync.
         </p>
         <h2 id="how-docs-are-organized">How docs are organized</h2>
         <ul>
@@ -40,6 +42,10 @@ export default function DocsOverviewPage() {
           <li>
             <Link href="/docs/setup">Setup</Link> — install the plugin and
             initialize a board
+          </li>
+          <li>
+            <Link href="/docs/cloud">Cloud</Link> — connect a local board to
+            the hosted team view
           </li>
           <li>
             <Link href="/docs/commands">Commands</Link> — plan, implement,

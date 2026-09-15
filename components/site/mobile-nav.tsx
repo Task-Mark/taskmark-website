@@ -46,14 +46,37 @@ export function MobileNav({ className }: { className?: string }) {
           aria-label="Primary mobile"
         >
           {SITE_NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="border-2 border-transparent px-3 py-2.5 font-head text-base text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground"
-            >
-              {item.label}
-            </Link>
+            "external" in item && item.external ? (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="border-2 border-transparent px-3 py-2.5 font-head text-base text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground"
+              >
+                {item.label}
+                {"badge" in item && item.badge ? (
+                  <span className="ml-2 rounded border-2 border-border bg-amber-300 px-1.5 py-px text-[10px] font-head uppercase leading-none text-foreground">
+                    {item.badge}
+                  </span>
+                ) : null}
+              </a>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="border-2 border-transparent px-3 py-2.5 font-head text-base text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground"
+              >
+                {item.label}
+                {"badge" in item && item.badge ? (
+                  <span className="ml-2 rounded border-2 border-border bg-amber-300 px-1.5 py-px text-[10px] font-head uppercase leading-none text-foreground">
+                    {item.badge}
+                  </span>
+                ) : null}
+              </Link>
+            )
           ))}
         </nav>
         <div className="mt-auto flex items-center gap-3 border-t-2 border-border p-4">

@@ -53,11 +53,26 @@ export function SiteHeader() {
             <Button
               key={item.href}
               nativeButton={false}
-              render={<Link href={item.href} />}
+              render={
+                "external" in item && item.external ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                ) : (
+                  <Link href={item.href} />
+                )
+              }
               variant="ghost"
               size="sm"
             >
               {item.label}
+              {"badge" in item && item.badge ? (
+                <span className="ml-1.5 rounded border-2 border-border bg-amber-300 px-1 py-px text-[9px] font-head uppercase leading-none text-foreground">
+                  {item.badge}
+                </span>
+              ) : null}
             </Button>
           ))}
           <ThemeToggle />

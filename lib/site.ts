@@ -11,7 +11,14 @@ export const SITE = {
   /** Hosted product board the team uses to develop Taskmark (also the live UI demo). */
   boardUrl:
     process.env.NEXT_PUBLIC_BOARD_URL ?? "https://board.taskmark.dev/",
+  /** Hosted Taskmark Cloud app — shared read of synced local boards. */
+  cloudUrl:
+    process.env.NEXT_PUBLIC_CLOUD_URL ?? "https://cloud.taskmark.dev",
+  cloudLoginUrl: `${
+    process.env.NEXT_PUBLIC_CLOUD_URL ?? "https://cloud.taskmark.dev"
+  }/login`,
   docsPath: "/docs",
+  cloudDocsPath: "/docs/cloud",
   startPath: "/docs/setup#install",
   contactPath: "/#contact",
   featuresPath: "/#features",

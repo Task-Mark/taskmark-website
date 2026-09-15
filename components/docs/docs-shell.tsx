@@ -3,6 +3,21 @@ import Link from "next/link"
 import { DOCS_NAV } from "@/lib/docs-nav"
 import { cn } from "@taskmark/components"
 
+function NewBadge({ inverted }: { inverted?: boolean }) {
+  return (
+    <span
+      className={cn(
+        "rounded border-2 px-1.5 py-px text-[10px] font-head uppercase leading-none tracking-wide",
+        inverted
+          ? "border-primary-foreground/40 bg-amber-300 text-foreground"
+          : "border-border bg-amber-300 text-foreground"
+      )}
+    >
+      New
+    </span>
+  )
+}
+
 export function DocsShell({
   children,
   currentPath,
@@ -26,13 +41,14 @@ export function DocsShell({
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "border-2 px-3 py-2 text-sm transition-colors",
+                  "flex items-center justify-between gap-2 border-2 px-3 py-2 text-sm transition-colors",
                   active
                     ? "border-border bg-primary text-primary-foreground shadow-sm"
                     : "border-transparent text-muted-foreground hover:border-border hover:bg-muted hover:text-foreground"
                 )}
               >
-                {item.title}
+                <span>{item.title}</span>
+                {item.badge ? <NewBadge inverted={active} /> : null}
               </Link>
             )
           })}

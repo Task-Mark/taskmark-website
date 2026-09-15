@@ -149,7 +149,9 @@ npx @taskmark/ui`}
           name. Details live in the <code>taskmark-frontend</code> README.
         </p>
         <p>
-          Next: <Link href="/docs/commands">Commands reference</Link> and{" "}
+          Next: <Link href="/docs/cloud">Taskmark Cloud</Link> if you want a
+          hosted team view of the same board, then{" "}
+          <Link href="/docs/commands">Commands reference</Link> and{" "}
           <Link href="/docs/structure">folder structure</Link>.
         </p>
       </DocsProse>

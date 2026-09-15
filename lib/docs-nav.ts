@@ -2,6 +2,7 @@ export type DocsNavItem = {
   href: string
   title: string
   description: string
+  badge?: string
 }
 
 /**
@@ -18,6 +19,13 @@ export const DOCS_NAV: DocsNavItem[] = [
     href: "/docs/setup",
     title: "Setup",
     description: "Install the Cursor plugin and create your first board.",
+  },
+  {
+    href: "/docs/cloud",
+    title: "Cloud",
+    badge: "New",
+    description:
+      "Hosted shared board and how a local Taskmark board syncs to it.",
   },
   {
     href: "/docs/commands",

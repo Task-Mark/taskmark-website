@@ -42,7 +42,7 @@ export const DOCS_NAV: DocsNavItem[] = [
     href: "/docs/specification",
     title: "File specification",
     description:
-      "Epic, story, task, and bug markdown shape for the UI and manual edits.",
+      "Epic, story, task, and bug markdown shape for the UI and manual edits, including images.",
   },
   {
     href: "/docs/sizing",

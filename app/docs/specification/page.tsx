@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "File specification",
   description:
-    "How Taskmark epic, story, task, and bug markdown files are structured — frontmatter, sections, and manual editing for the board UI.",
+    "How Taskmark epic, story, task, and bug markdown files are structured — frontmatter, sections, images, and manual editing for the board UI.",
 }
 
 function CodeBlock({ children }: { children: string }) {
@@ -334,6 +334,131 @@ What is wrong / expected vs actual.
 
 | Actor | Started (UTC) | Ended (UTC) | Summary |
 |-------|---------------|-------------|---------|`}</CodeBlock>
+
+        <h2 id="images">Images</h2>
+        <p>
+          Any item can show screenshots, mockups, or diagrams. Save the image
+          file inside the board, then reference it with standard markdown image
+          syntax and a path <strong>relative to the markdown file</strong> that
+          uses it. The board UI resolves the path and shows the image in the
+          item detail. Requires <code>@taskmark/ui</code> 1.3.0 or later.
+        </p>
+
+        <h3 id="images-where">Where to put the file</h3>
+        <p>
+          Keep images next to the item they illustrate, for example in an{" "}
+          <code>assets/</code> folder. Commit them with the board so everyone
+          sees the same thing:
+        </p>
+        <CodeBlock>{`epics/E-MM-k7m2p9b3-checkout/
+├── epic.md
+├── assets/
+│   └── flow.png
+└── stories/
+    └── S-MM-n4q8w1a2-pay-with-card/
+        ├── story.md
+        ├── assets/
+        │   └── card-form.png
+        └── items/
+            ├── assets/
+            │   └── error-state.png
+            └── T-MM-a8f31c2d-validate-card.md`}</CodeBlock>
+
+        <h3 id="images-syntax">Reference it from the markdown</h3>
+        <p>
+          The path starts from the folder of the file you are editing. Tasks
+          and bugs live inside <code>items/</code>, so their paths start there:
+        </p>
+        <CodeBlock>{`<!-- in story.md -->
+## User story
+
+As a shopper, I want to pay with a card so that checkout is quick.
+
+![Card form mockup](./assets/card-form.png)
+
+<!-- in items/T-MM-a8f31c2d-validate-card.md -->
+## Description
+
+Show an inline error when the card number is invalid.
+
+![Error state](./assets/error-state.png)
+
+Reuse the story mockup from the parent folder:
+
+![Card form](../assets/card-form.png)`}</CodeBlock>
+        <ul>
+          <li>
+            The text in the brackets is the alt text. Describe what the image
+            shows
+          </li>
+          <li>
+            <code>../</code> may climb to parent folders, but never above the
+            board root
+          </li>
+          <li>
+            Encode spaces as <code>%20</code> or wrap the path in angle
+            brackets: <code>![Mockup](&lt;./assets/card form.png&gt;)</code>
+          </li>
+          <li>
+            Reference-style images work too:{" "}
+            <code>![Flow][flow]</code> with <code>[flow]: ./assets/flow.png</code>{" "}
+            on its own line
+          </li>
+          <li>
+            Absolute URLs (<code>https://…</code>) and{" "}
+            <code>data:</code> URIs are shown as-is, without any of the rules
+            below
+          </li>
+        </ul>
+
+        <h3 id="images-rules">Formats and limits</h3>
+        <ul>
+          <li>
+            Formats: <code>.png</code>, <code>.jpg</code>/<code>.jpeg</code>,{" "}
+            <code>.gif</code>, <code>.webp</code>, <code>.avif</code>,{" "}
+            <code>.svg</code>. Up to 20 MB per file
+          </li>
+          <li>
+            The file must sit inside the board. Hidden folders (names starting
+            with <code>.</code>, except <code>.reports</code>),{" "}
+            <code>node_modules</code>, <code>out</code>, and <code>.next</code>{" "}
+            are never served
+          </li>
+          <li>
+            Put images in prose sections such as Goal, Scope, Description, User
+            story, Repro steps, or Notes. Acceptance criteria and Fix criteria
+            render as a checklist, and a line that is not a checkbox item is
+            not shown there
+          </li>
+          <li>
+            Raw HTML <code>&lt;img&gt;</code> tags are not rendered. Use
+            markdown syntax
+          </li>
+          <li>
+            The same rules apply to images in the board <code>CHANGELOG.md</code>{" "}
+            and in <code>.reports/</code> reports
+          </li>
+        </ul>
+
+        <h3 id="images-modes">How each mode serves images</h3>
+        <ul>
+          <li>
+            <code>npx taskmark serve</code> and <code>npx taskmark dev</code>{" "}
+            read the image straight from the board folder. A new or changed
+            image shows on the next load, without a restart
+          </li>
+          <li>
+            <code>npx taskmark build</code> copies only the images that board
+            markdown references into <code>out/board-assets/</code>, so the
+            static site (for example on Vercel) works without a server. A
+            missing image is reported as a warning in the build output
+          </li>
+          <li>
+            <Link href="/docs/cloud">Taskmark Cloud</Link> does not show
+            relative images yet: sync sends markdown only. Use an absolute URL
+            if a Cloud board must show the image
+          </li>
+        </ul>
 
         <h2 id="tables">Table formats the UI expects</h2>
         <h3 id="work-log-table">Work log</h3>

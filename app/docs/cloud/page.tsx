@@ -40,9 +40,9 @@ export default function DocsCloudPage() {
         </p>
         <p>
           The <Link href="/docs/app">GitHub and Bitbucket App</Link> reads the
-          board from this Cloud copy when it reconciles a change, and writes its
-          edits both to the board repository and to Cloud. Keep the board
-          synced so the App sees new requests and tasks.
+          board from the board repository when it reconciles a change (this
+          Cloud copy only when the repository cannot be read), and writes its
+          edits both to the board repository and to Cloud.
         </p>
         <p>
           The hosted app is{" "}
@@ -54,11 +54,17 @@ export default function DocsCloudPage() {
 
         <h2 id="configuration-guide">Configuration guide</h2>
         <p>
+          <Link href="/docs/get-started">npx taskmark init</Link> does all of
+          this for you without a Taskmark account: it registers the project,
+          writes the secret to <code>.config</code> as{" "}
+          <code>TASKMARK_SYNC_TOKEN</code>, keeps <code>.config</code> out of
+          git, and syncs the board. The steps below are for a project created
+          in Taskmark Cloud with an account.
+        </p>
+        <p>
           Each Cloud project has one board sync token. That token selects the
-          destination project and authorizes uploads. You commit it on the local
-          board as dotenv keys in a board-root <code>.config</code> file (not{" "}
-          <code>.env</code>). Clones of the board start syncing as soon as
-          someone runs the local UI.
+          destination project and authorizes uploads. It goes in a board-root{" "}
+          <code>.config</code> file as a dotenv key (not <code>.env</code>).
         </p>
         <ol>
           <li>
@@ -76,8 +82,9 @@ export default function DocsCloudPage() {
           <li>
             In the local board root, set{" "}
             <code>TASKMARK_SYNC_TOKEN=tmk_…</code> in <code>.config</code>. You
-            can copy <code>.config.example</code> if the board ships one.
-            Commit <code>.config</code> so every clone uses the same project.
+            can copy <code>.config.example</code> if the board ships one. Keep{" "}
+            <code>.config</code> out of git and share it privately with the
+            teammates who need it.
           </li>
           <li>
             From that board folder run <code>npx taskmark dev</code> or{" "}
@@ -149,8 +156,11 @@ TASKMARK_SYNC_TOKEN=tmk_`}
           token is not echoed back through the snapshot.
         </p>
         <p>
-          Rotate the token in Cloud Settings if it leaks. Every local board must
-          put the new value in <code>.config</code> before it can sync again.
+          Rotate the token if it leaks, with{" "}
+          <code>npx taskmark secret rotate</code> from the board folder (or in
+          Cloud Settings for an account project). Every other clone must put
+          the new value in{" "}
+          <code>.config</code> before it can sync again.
         </p>
 
         <h2 id="local-ui">Open the local board</h2>

@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Use Taskmark with any AI agent",
   description:
-    "Point Claude Code, Codex, Cursor, Copilot, Gemini, Windsurf, Aider, or any other coding agent at a Taskmark board with a short project instruction.",
+    "Point Claude Code, Codex, Cursor, Copilot, Gemini, Windsurf, Aider, or any other coding agent at a Taskmark board with a short project instruction, which npx taskmark init writes into AGENTS.md and CLAUDE.md.",
 }
 
 function CodeBlock({ children }: { children: string }) {
@@ -21,11 +21,11 @@ function CodeBlock({ children }: { children: string }) {
   )
 }
 
-const SNIPPET = `## Taskmark board
+const SNIPPET = `<!-- taskmark:begin -->
+## Taskmark board
 
 This project plans its work on a Taskmark board: plain markdown in git at
-\`taskmark/\` (change this to your board path, for example \`../acme-taskmark/\`).
-Treat it as a read-only reference.
+\`taskmark/\`. Treat it as a read-only reference.
 
 - Before you change code, find the board item for the work: a task or bug
   file under \`requests/<slug>/epics/**/items/\` (\`epics/**/items/\` on boards
@@ -40,9 +40,12 @@ Treat it as a read-only reference.
 - Work on a branch named \`<task-id>-<short-slug>\`, for example
   \`T-MM-457b0290-login-mockup\`. If the current branch name already contains
   the id, stay on it. For a story with several tasks, use the story id.
-- Keep the task id in the branch name or in the commit message, for
-  example a \`Task: T-MM-457b0290\` trailer.
-- If no item fits the request, say so and ask. Do not invent an item.`
+- Keep the task id in the branch name or in the commit message. The git hook
+  adds a \`Task: <id>\` trailer to commits made on a task branch.
+- When the work is pushed, the Taskmark App for GitHub or Bitbucket matches
+  the commits to the task and marks it done. You do not update the board.
+- If no item fits the request, say so and ask. Do not invent an item.
+<!-- taskmark:end -->`
 
 const AGENT_FILES: { agent: string; file: string; note: string }[] = [
   {
@@ -134,11 +137,23 @@ export default function DocsAgentsPage() {
           behaviour from the instruction below.
         </p>
 
-        <h2 id="snippet">Ready-to-paste instruction</h2>
+        <h2 id="snippet">The instruction</h2>
         <p>
-          Copy this into your agent&apos;s project instructions file (see the{" "}
-          <a href="#agent-files">table below</a>) and set the board path. It
-          follows the same rules as the Cursor plugin&apos;s{" "}
+          <Link href="/docs/get-started">npx taskmark init</Link> writes this
+          section into <code>AGENTS.md</code> and <code>CLAUDE.md</code> of
+          each connected code repository, between the{" "}
+          <code>&lt;!-- taskmark:begin --&gt;</code> and{" "}
+          <code>&lt;!-- taskmark:end --&gt;</code> markers, with the board path
+          seen from that repository. It shows the change and asks first, keeps
+          the rest of the file as it is, and leaves the files uncommitted. When{" "}
+          <code>CLAUDE.md</code> already imports <code>@AGENTS.md</code>, only{" "}
+          <code>AGENTS.md</code> gets the section. Running init again replaces
+          only what is between the markers.
+        </p>
+        <p>
+          For other agents, copy it into their project instructions file (see
+          the <a href="#agent-files">table below</a>) and set the board path.
+          It follows the same rules as the Cursor plugin&apos;s{" "}
           <code>/tkmd-do</code>.
         </p>
         <CodeBlock>{SNIPPET}</CodeBlock>
@@ -179,9 +194,9 @@ export default function DocsAgentsPage() {
           </table>
         </div>
         <p>
-          If a team uses several agents, put the instruction in{" "}
+          If a team uses several agents, keep the instruction in{" "}
           <code>AGENTS.md</code> and point the other files at it, or paste it
-          into each one. Commit the file so everyone gets it.
+          into each one. Commit the files so everyone gets them.
         </p>
         <p>For a Cursor rule file, start with frontmatter:</p>
         <CodeBlock>{`---
@@ -197,7 +212,8 @@ alwaysApply: true
           The App finds task ids in the pull request branch, title, and body,
           in commit messages (including a <code>Task:</code> trailer), and, for
           a direct push, in the branch name. A git hook makes this automatic
-          for any editor, with or without an agent:
+          for any editor, with or without an agent.{" "}
+          <code>npx taskmark init</code> installs it; to install it again:
         </p>
         <CodeBlock>{`# from the board folder; installs into every code repo the board lists
 npx taskmark hooks install

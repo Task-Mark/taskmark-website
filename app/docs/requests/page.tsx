@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Request boards",
   description:
-    "The Taskmark 2.0 board layout: requests with a brief, epics, and a log; meetings; delivery stages; the request screens; and npx taskmark migrate.",
+    "The Taskmark 2.0 board layout: requests with a brief, epics, and a log; meetings; delivery stages; the request screens; migration; and npx taskmark requests regroup.",
 }
 
 function CodeBlock({ children }: { children: string }) {
@@ -289,6 +289,9 @@ shipped_at: null        # set the first time the task reaches production`}</Code
 
         <h2 id="migrate">Migrate a legacy board</h2>
         <p>
+          <code>npx taskmark init</code> offers this migration on a legacy
+          board: it shows the preview, migrates after you confirm, and commits
+          the result in the board repository. To run it on its own,{" "}
           <code>npx taskmark migrate</code> moves a board from{" "}
           <code>epics/</code> to <code>requests/</code>, one request per epic.
           Run it from the board folder, and preview first:
@@ -325,15 +328,55 @@ npx taskmark migrate             # apply`}</CodeBlock>
         </ul>
         <p>
           Nothing is deleted except the empty <code>epics/</code> folder.
-          Afterwards, review the briefs, merge requests that belong together,
-          and commit.
+          Afterwards, review the briefs and regroup requests that belong
+          together (below). <code>npx taskmark migrate</code> leaves the commit
+          to you.
         </p>
+
+        <h2 id="regroup">Regroup related requests</h2>
+        <p>
+          Migration makes one request per epic, but one piece of work often
+          spread over several epics. <code>npx taskmark init</code> offers to
+          regroup right after a migration (or when the board has more than 8
+          requests). To run it on its own, from the board folder:
+        </p>
+        <CodeBlock>{`npx taskmark requests regroup             # ask, review, merge, commit
+npx taskmark requests regroup --dry-run   # show the plan, write nothing
+npx taskmark requests regroup --yes       # no questions: accept proposals at least 80% confident`}</CodeBlock>
+        <ul>
+          <li>
+            The project&apos;s AI proposes which requests belong together. It
+            needs the project&apos;s own AI key (set by{" "}
+            <code>npx taskmark init</code> or <code>npx taskmark ai set</code>)
+          </li>
+          <li>
+            You accept all proposals, choose them one by one, or skip (the
+            default)
+          </li>
+          <li>
+            For each accepted merge, the CLI moves the epics and log entries
+            into the target request, adds the merged request ids to the
+            target brief&apos;s <code>aliases</code> so old links still
+            resolve, lists their goals under <code>## Merged requests</code> in
+            the brief, keeps each merged brief as a log entry, and removes the
+            merged folders
+          </li>
+          <li>
+            Nothing is written if any move would overwrite a file. After you
+            confirm, it commits the result in the board repository
+          </li>
+        </ul>
+
+        <h2 id="plugin">The Cursor plugin on a request board</h2>
         <p>
           The Cursor plugin&apos;s <code>/tkmd-plan</code> and{" "}
-          <code>/tkmd-save</code> still write new epics under the legacy{" "}
-          <code>epics/</code> folder. On a request board, move a new epic folder
-          under its request (or run <code>npx taskmark migrate</code> again to
-          give it a request of its own).
+          <code>/tkmd-save</code> write new work under{" "}
+          <code>requests/</code>: new epics, stories, and tasks go under{" "}
+          <code>requests/&lt;slug&gt;/epics/</code> of the request they serve,
+          and new work that fits no request gets a new{" "}
+          <code>requests/&lt;slug&gt;/</code> folder with a{" "}
+          <code>brief.md</code>. On a legacy board without{" "}
+          <code>requests/</code> they keep writing under <code>epics/</code>.
         </p>
         <p>
           Related: <Link href="/docs/structure">Folder structure</Link>,{" "}

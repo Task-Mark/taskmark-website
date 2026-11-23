@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "GitHub and Bitbucket App",
   description:
-    "How the Taskmark App reconciles the board on every push and merged pull request: task ids, AI matching, decision rules, stages, shadow and write mode, the review inbox, and what data reaches the AI provider.",
+    "How the Taskmark App reconciles the board on every push and merged pull request: task ids, AI matching, decision rules, stages, direct pushes, write and shadow mode, the review inbox, and what data reaches the AI provider.",
 }
 
 function CodeBlock({ children }: { children: string }) {
@@ -144,7 +144,12 @@ export default function DocsAppPage() {
           It reacts to three kinds of events from the code repositories:
         </p>
         <ul>
-          <li>A push to any branch</li>
+          <li>
+            A push to any branch. A push straight to a stage branch (
+            <code>develop</code>, <code>quality</code>, <code>main</code>, and
+            their aliases) gets the same full reconciliation as a merged pull
+            request
+          </li>
           <li>A merged pull request</li>
           <li>
             A finished CI run (GitHub check suites and commit statuses,
@@ -190,9 +195,11 @@ export default function DocsAppPage() {
             <strong>Decide</strong> with the rules below.
           </li>
           <li>
-            <strong>Report and write.</strong> Comment on the pull request (or
-            on the commit, for a push), store proposals in the review inbox,
-            and, in write mode, make one bot commit to the board repository.
+            <strong>Report and write.</strong> Comment on the pull request, or
+            on the commit for a direct push to a stage branch (pushes to
+            feature branches get no comment), store proposals in the review
+            inbox, and, in write mode, make one bot commit to the board
+            repository.
           </li>
         </ol>
 
@@ -280,8 +287,13 @@ export default function DocsAppPage() {
         <ul>
           <li>
             When a push to one of these branches (or a pull request merged into
-            one) records or closes a task, the task moves to that stage. Work
-            on other branches is recorded but sets no stage
+            one) records or closes a task, the task moves to that stage
+          </li>
+          <li>
+            A push to a feature branch, such as{" "}
+            <code>T-MM-457b0290-login-mockup</code>, records the work like any
+            other change and moves those tasks to <code>development</code> at
+            most. It never closes a task
           </li>
           <li>
             When the commits of a merged pull request later reach{" "}
@@ -311,12 +323,39 @@ export default function DocsAppPage() {
           <Link href="/docs/commands#cli-stages">CLI commands</Link>.
         </p>
 
-        <h2 id="modes">Shadow mode and write mode</h2>
+        <h2 id="direct-pushes">Direct pushes to stage branches</h2>
         <p>
-          A new connection starts in <strong>shadow mode</strong> unless you
-          create it in write mode. The App
-          runs the full analysis and comments on the pull request (or the
-          commit) with what it would do, but writes nothing to the board:
+          Teams that push straight to <code>develop</code>,{" "}
+          <code>quality</code>, or <code>main</code> without pull requests get
+          the same result as with merged pull requests: the App reads the
+          pushed commits, records the work, moves the stage, comments on the
+          pushed commit, and, on a production branch, closes tasks under the same
+          rules (task id named, every criterion covered, CI green). Commits
+          that were already recorded with their merged pull request are not
+          recorded again: they only move the same tasks forward, and can close
+          them on reaching production.
+        </p>
+
+        <h2 id="modes">Write mode and shadow mode</h2>
+        <p>
+          A new connection starts in <strong>write mode</strong>: each change
+          becomes <strong>one bot commit</strong> to the board repository, for
+          example <code>Taskmark: update the board for acme/api#214</code>,
+          authored by Taskmark. If the board branch moved in the meantime, the
+          App reads it again and retries. The same edits are applied to the{" "}
+          <Link href="/docs/cloud">Taskmark Cloud</Link> copy of the board, so
+          the hosted view updates right away.
+        </p>
+        <p>
+          To check the App&apos;s judgement on real work before it writes
+          anything, switch to <strong>shadow mode</strong>:
+        </p>
+        <CodeBlock>{`npx taskmark app mode shadow   # only propose
+npx taskmark app mode write    # update the board again
+npx taskmark app status`}</CodeBlock>
+        <p>
+          In shadow mode the App runs the full analysis and comments with what
+          it would do, but writes nothing to the board:
         </p>
         <CodeBlock>{`Taskmark reconciled PR #214 with the board.
 
@@ -328,22 +367,10 @@ Moved to a stage:
 
 Shadow mode: nothing was written to the board. In write mode this would update 1 file.`}</CodeBlock>
         <p>
-          Use shadow mode to check the App&apos;s judgement on real work. When
-          you trust it, switch the connection to <strong>write mode</strong>.
-          From then on each change becomes{" "}
-          <strong>one bot commit</strong> to the board repository, for example{" "}
-          <code>Taskmark: update the board for acme/api#214</code>, authored by
-          Taskmark. If the board branch moved in the meantime, the App reads it
-          again and retries. The same edits are applied to the{" "}
-          <Link href="/docs/cloud">Taskmark Cloud</Link> copy of the board, so
-          the hosted view updates right away.
-        </p>
-        <p>
-          Connecting and switching modes are one CLI command each, run from the
-          board folder: <code>npx taskmark app connect github|bitbucket</code>,{" "}
-          <code>npx taskmark app mode write</code>, and{" "}
-          <code>npx taskmark app status</code>. See{" "}
-          <Link href="/docs/app-setup#connect">Set up the App</Link>.
+          The connection itself is made by{" "}
+          <Link href="/docs/get-started">npx taskmark init</Link>. See{" "}
+          <Link href="/docs/app-setup#connect">Set up the App</Link> for the
+          commands that change it later.
         </p>
 
         <h2 id="review-inbox">Review inbox</h2>
@@ -380,13 +407,13 @@ GET  /v1/projects/:projectId/reconcile/stats`}</CodeBlock>
 
         <h2 id="board-source">Where the App reads the board</h2>
         <p>
-          The App reads the board from the project&apos;s{" "}
-          <Link href="/docs/cloud">Taskmark Cloud</Link> copy, which the local
-          CLI keeps in sync (<code>npx taskmark dev</code>,{" "}
-          <code>serve</code>, or <code>sync</code> with the board sync token).
-          It writes to the board repository you connect and mirrors the same
-          edits into Cloud. Keep the board synced, or the App will not see new
-          tasks.
+          The App reads the board from the <strong>board repository</strong>,
+          at the head of its branch, so it sees every task as soon as it is
+          pushed. It writes its bot commits there too, and mirrors the same
+          edits into the <Link href="/docs/cloud">Taskmark Cloud</Link> copy.
+          The Cloud copy is read only as a fallback, when no board repository
+          is connected or it cannot be read (for example when the App lost
+          access to it).
         </p>
         <p>
           Both request boards and legacy <code>epics/</code> boards work. See{" "}

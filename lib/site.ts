@@ -19,7 +19,7 @@ export const SITE = {
   }/login`,
   docsPath: "/docs",
   cloudDocsPath: "/docs/cloud",
-  startPath: "/docs/setup#install",
+  startPath: "/docs/get-started",
   contactPath: "/#contact",
   featuresPath: "/#features",
 } as const

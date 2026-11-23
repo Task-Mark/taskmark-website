@@ -11,6 +11,13 @@ export type DocsNavItem = {
  */
 export const DOCS_NAV: DocsNavItem[] = [
   {
+    href: "/docs/get-started",
+    title: "Get started",
+    badge: "New",
+    description:
+      "One command, npx taskmark init: board, project without an account, GitHub or Bitbucket App, AI key, commit hook, agent instructions, and the first reconciliation.",
+  },
+  {
     href: "/docs",
     title: "Overview",
     description: "What Taskmark is and how the docs are organized.",
@@ -19,7 +26,7 @@ export const DOCS_NAV: DocsNavItem[] = [
     href: "/docs/setup",
     title: "Setup",
     description:
-      "Create your first board, open the local UI, and install the optional Cursor plugin.",
+      "Where the board lives, opening the local UI, creating a board by hand, and the optional Cursor plugin.",
   },
   {
     href: "/docs/agents",
@@ -47,13 +54,13 @@ export const DOCS_NAV: DocsNavItem[] = [
     title: "Set up the App",
     badge: "New",
     description:
-      "Create the GitHub App or Bitbucket consumer, configure the API, connect a project, and add an AI key.",
+      "For users: npx taskmark init. For server operators: the GitHub App, the Bitbucket OAuth client, and the API settings.",
   },
   {
     href: "/docs/commands",
     title: "Commands",
     description:
-      "Cursor slash commands (init, verify, plan, save, save-do, plan-do, do, changelog, version, reportme, commit) and the taskmark CLI (migrate, stages, hooks, app, ai).",
+      "Cursor slash commands (init, verify, plan, save, save-do, plan-do, do, changelog, version, reportme, commit) and the taskmark CLI (init, reconcile, secret, requests regroup, migrate, stages, hooks, app, ai).",
   },
   {
     href: "/docs/requests",
@@ -90,7 +97,7 @@ export const DOCS_COMMANDS = [
   {
     id: "tkmd-init",
     slash: "/tkmd-init",
-    purpose: "Initialize a Taskmark board in the workspace",
+    purpose: "Set up the project by running npx taskmark init in the terminal",
   },
   {
     id: "tkmd-verify",

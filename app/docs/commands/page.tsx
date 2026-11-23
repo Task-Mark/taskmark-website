@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark Cursor slash commands (/tkmd-init, /tkmd-verify, /tkmd-plan, /tkmd-save, /tkmd-save-do, /tkmd-plan-do, /tkmd-do, /tkmd-changelog, /tkmd-version, /tkmd-reportme, /tkmd-commit) and the taskmark CLI (migrate, stages, hooks install, app, ai).",
+    "Taskmark Cursor slash commands (/tkmd-init, /tkmd-verify, /tkmd-plan, /tkmd-save, /tkmd-save-do, /tkmd-plan-do, /tkmd-do, /tkmd-changelog, /tkmd-version, /tkmd-reportme, /tkmd-commit) and the taskmark CLI (init, reconcile, secret rotate, requests regroup, migrate, stages, hooks install, app, ai).",
 }
 
 export default function DocsCommandsPage() {
@@ -57,24 +57,23 @@ export default function DocsCommandsPage() {
 
         <h2 id="tkmd-init">/tkmd-init</h2>
         <p>
-          Bootstraps a board in the workspace.{" "}
-          <strong>Single git project:</strong> files live at{" "}
-          <code>&lt;project&gt;/taskmark/</code>.{" "}
-          <strong>Multiple git projects:</strong> a sibling{" "}
-          <code>&lt;common&gt;-taskmark</code> repo is the board root (flat —
-          no nested <code>taskmark/</code>).
+          Hands over to <Link href="/docs/get-started">npx taskmark init</Link>
+          : the agent runs it in your terminal and you answer its questions
+          there (board location, GitHub or Bitbucket, the AI key, the agent
+          instructions). Keys are typed at the CLI&apos;s hidden prompt, never
+          in the chat. Only when npm or npx is not available does it write the
+          request board scaffold by hand.
         </p>
         <ul>
           <li>
-            The board is never copied into every product repo
+            <strong>Single git project:</strong> the board lives at{" "}
+            <code>&lt;project&gt;/taskmark/</code>.{" "}
+            <strong>Multiple git projects:</strong> a sibling{" "}
+            <code>&lt;common&gt;-taskmark</code> repository is the board root
           </li>
           <li>
-            <code>REPOS.md</code> is generated locally and gitignored — it maps
-            board and product roots on this machine and is not committed
-          </li>
-          <li>
-            A new board is markdown under <code>epics/</code> only; there is no
-            generated board index, sizing file, velocity file, or board README
+            Running it again is the repair path: init keeps what is configured
+            and fills what is missing
           </li>
         </ul>
 
@@ -136,6 +135,14 @@ export default function DocsCommandsPage() {
             that fits nowhere
           </li>
           <li>
+            On a request board, writes under{" "}
+            <code>requests/&lt;slug&gt;/epics/</code> of the request the work
+            serves, or creates a new <code>requests/&lt;slug&gt;/</code> with a{" "}
+            <code>brief.md</code> when no request fits. On a legacy board
+            without <code>requests/</code>, it keeps writing under{" "}
+            <code>epics/</code>
+          </li>
+          <li>
             Writes <strong>only new item files</strong> (including any new
             parent files in the plan). It never changes an existing epic,
             story, task, or bug. Once written, new items are read-only like any
@@ -174,8 +181,9 @@ export default function DocsCommandsPage() {
             <code>~/.cursor/plans/</code>
           </li>
           <li>
-            Uses the same search, dedupe, hierarchy, and new-files-only rules as{" "}
-            <code>/tkmd-plan</code>, and leaves the log tables empty
+            Uses the same search, dedupe, hierarchy, new-files-only, and{" "}
+            <code>requests/</code> placement rules as <code>/tkmd-plan</code>,
+            and leaves the log tables empty
           </li>
           <li>
             Prefer this after Plan mode instead of retyping the plan as prose
@@ -396,8 +404,86 @@ export default function DocsCommandsPage() {
           and works with any editor. Besides <code>serve</code>,{" "}
           <code>dev</code>, <code>build</code>, <code>sync</code>, and{" "}
           <code>preview</code> (see <Link href="/docs/setup">Setup</Link> and{" "}
-          <Link href="/docs/cloud">Cloud</Link>), it has these board commands.
+          <Link href="/docs/cloud">Cloud</Link>), it has these commands.
           Run them from the board folder or pass <code>--board &lt;path&gt;</code>.
+          Where <code>@taskmark/ui</code> is not installed yet, use{" "}
+          <code>npx @taskmark/ui</code> in place of <code>npx taskmark</code>.
+        </p>
+
+        <h3 id="cli-init">
+          <code>npx taskmark init</code>
+        </h3>
+        <p>
+          Sets up the project step by step: board, Taskmark Cloud project (id
+          and secret, no account), GitHub or Bitbucket App, AI key, commit
+          hook, agent instructions, migration, and the first reconciliation.
+          Run it again to change any answer. See{" "}
+          <Link href="/docs/get-started">Get started</Link>.
+        </p>
+        <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
+          {`npx taskmark init
+npx taskmark init --yes --provider github|bitbucket --ai anthropic|openai [options]`}
+        </pre>
+        <p>
+          <code>--yes</code> (or <code>-y</code>) asks nothing and is required
+          without a terminal. The AI key is read from{" "}
+          <code>TASKMARK_AI_KEY</code>. Other options:{" "}
+          <code>--repo &lt;owner&gt;/&lt;repo&gt;</code> (repeatable),{" "}
+          <code>--board-repo &lt;provider&gt;:&lt;owner&gt;/&lt;repo&gt;[@branch][:root]</code>
+          , <code>--model &lt;id&gt;</code>,{" "}
+          <code>--language &lt;name&gt;</code>, <code>--skip-backfill</code>,{" "}
+          <code>--last &lt;n&gt;</code> (commits per stage branch, default 30,
+          up to 200), <code>--board &lt;path&gt;</code>, and{" "}
+          <code>--no-open</code>. See{" "}
+          <Link href="/docs/get-started#ci">Without questions (CI)</Link>.
+        </p>
+
+        <h3 id="cli-reconcile">
+          <code>npx taskmark reconcile</code>
+        </h3>
+        <p>
+          Has the App read the recent commits of each stage branch, shows the
+          tasks in development, in quality, and shipped, applies the links and
+          stage moves, and lets you review the proposed closes and new tasks
+          (accept all, choose, or leave them in the review inbox).
+        </p>
+        <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
+          {`npx taskmark reconcile [--last <n>] [--branch <name>]... [--board <path>]`}
+        </pre>
+        <p>
+          <code>--last</code> is the number of commits per stage branch
+          (default 30, up to 200). <code>--branch</code> limits the run to
+          these stage branches (repeatable). See{" "}
+          <Link href="/docs/get-started#results">reconciliation results</Link>.
+        </p>
+
+        <h3 id="cli-secret">
+          <code>npx taskmark secret rotate</code>
+        </h3>
+        <p>
+          Generates a new project secret, registers it on Taskmark Cloud, and
+          saves it in the board <code>.config</code>. The old secret stops
+          working at once; share the new <code>.config</code> with your team
+          privately. <code>--board &lt;path&gt;</code> picks the board.
+        </p>
+
+        <h3 id="cli-regroup">
+          <code>npx taskmark requests regroup</code>
+        </h3>
+        <p>
+          After a migration, the project&apos;s AI (its own key) proposes
+          merging related requests. You accept all, choose one by one, or
+          skip; the CLI moves the folders, keeps the old request ids as
+          aliases, and commits after you confirm. See{" "}
+          <Link href="/docs/requests#regroup">Request boards</Link>.
+        </p>
+        <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
+          {`npx taskmark requests regroup [--dry-run] [--yes] [--board <path>]`}
+        </pre>
+        <p>
+          <code>--dry-run</code> shows the plan and writes nothing.{" "}
+          <code>--yes</code> asks nothing, accepts the proposals that are at
+          least 80% confident, and commits.
         </p>
 
         <h3 id="cli-migrate">
@@ -455,9 +541,9 @@ export default function DocsCommandsPage() {
           <code>npx taskmark app</code>
         </h3>
         <p>
-          Connects the board&apos;s project to the{" "}
+          Changes the connection <code>npx taskmark init</code> made to the{" "}
           <Link href="/docs/app">GitHub and Bitbucket App</Link>, using the
-          board sync token in <code>.config</code>:
+          project secret in <code>.config</code>:
         </p>
         <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
           {`npx taskmark app status
@@ -472,7 +558,7 @@ npx taskmark app disable`}
           page. By default the code repositories are the board&apos;s repos (
           <code>taskmark.repos</code>, else <code>REPOS.md</code>) on that
           provider, the board repository is the board&apos;s own git origin,
-          and a new connection starts in shadow mode. See{" "}
+          and a new connection starts in write mode. See{" "}
           <Link href="/docs/app-setup#connect">Set up the App</Link>.
         </p>
 
@@ -480,8 +566,8 @@ npx taskmark app disable`}
           <code>npx taskmark ai</code>
         </h3>
         <p>
-          Sets the project&apos;s own AI key for the App, using the board sync
-          token in <code>.config</code>:
+          Changes the project&apos;s own AI key for the App, using the project
+          secret in <code>.config</code>:
         </p>
         <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
           {`npx taskmark ai set --provider anthropic|openai [--model <id>] [--key <key>] [--base-url <url>]

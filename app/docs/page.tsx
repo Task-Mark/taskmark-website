@@ -11,7 +11,7 @@ import { DOCS_NAV } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Documentation",
   description:
-    "Taskmark product documentation: setup, any AI agent, the GitHub and Bitbucket App, request boards, commands, structure, sizing, and workflows.",
+    "Taskmark product documentation: get started with npx taskmark init, setup, any AI agent, the GitHub and Bitbucket App, request boards, commands, structure, sizing, and workflows.",
 }
 
 export default function DocsOverviewPage() {
@@ -44,20 +44,21 @@ export default function DocsOverviewPage() {
         <h2 id="suggested-path">Suggested path</h2>
         <ol>
           <li>
-            <Link href="/docs/setup">Setup</Link>: create a board and open it
-            locally
+            <Link href="/docs/get-started">Get started</Link>: run{" "}
+            <code>npx taskmark init</code> to create the board, connect the
+            App, and brief your agents
           </li>
           <li>
-            <Link href="/docs/agents">Any AI agent</Link>: point your agent
-            at the board
+            <Link href="/docs/setup">Setup</Link>: where the board lives and
+            how to open it locally
           </li>
           <li>
-            <Link href="/docs/cloud">Cloud</Link>: sync the board to the hosted
-            team view
+            <Link href="/docs/agents">Any AI agent</Link>: how agents work
+            from the board
           </li>
           <li>
-            <Link href="/docs/app-setup">Set up the App</Link>: connect your
-            code and board repositories so the board updates itself
+            <Link href="/docs/app">GitHub and Bitbucket App</Link>: how the
+            board updates itself from git
           </li>
           <li>
             <Link href="/docs/requests">Request boards</Link> and{" "}
@@ -80,9 +81,11 @@ export default function DocsOverviewPage() {
           <code>/tkmd-save</code> create new items only;{" "}
           <code>/tkmd-do</code> implements an item on a task-id branch and
           never edits the board. <code>/tkmd-commit</code> is the only command
-          that commits. The <code>taskmark</code> CLI adds{" "}
-          <code>migrate</code>, <code>stages</code>, <code>hooks install</code>
-          , <code>app</code>, and <code>ai</code>. See <Link href="/docs/commands">Commands</Link>.
+          that commits. The <code>taskmark</code> CLI adds <code>init</code>,{" "}
+          <code>reconcile</code>, <code>secret rotate</code>,{" "}
+          <code>requests regroup</code>, <code>migrate</code>,{" "}
+          <code>stages</code>, <code>hooks install</code>, <code>app</code>,
+          and <code>ai</code>. See <Link href="/docs/commands">Commands</Link>.
         </p>
       </DocsProse>
     </DocsShell>

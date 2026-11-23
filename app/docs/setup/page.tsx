@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Setup",
   description:
-    "Create a Taskmark board in single- or multi-repo workspaces, open the local UI, and optionally install the Cursor plugin.",
+    "Set up a Taskmark board with npx taskmark init, where the board lives in single- or multi-repo workspaces, open the local UI, and optionally install the Cursor plugin.",
 }
 
 export default function DocsSetupPage() {
@@ -19,9 +19,27 @@ export default function DocsSetupPage() {
       <DocsTitle
         eyebrow="Setup"
         title="Install and first board"
-        lead="A board is a folder of markdown in git. Create it with the Cursor plugin or by hand, then open it in the local UI and point your agent at it."
+        lead="A board is a folder of markdown in git. Create it with npx taskmark init, then open it in the local UI and point your agent at it."
       />
       <DocsProse>
+        <h2 id="init">Set up with npx taskmark init</h2>
+        <p>
+          The usual way to start is one command, run from the product
+          repository or from the folder that holds the project&apos;s
+          repositories:
+        </p>
+        <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
+          {`npx taskmark init        # or npx @taskmark/ui init when it is not installed yet`}
+        </pre>
+        <p>
+          It creates the board, registers the project on Taskmark Cloud
+          without an account, connects the GitHub or Bitbucket App, saves the
+          AI key, installs the commit hook, and writes the agent instructions.
+          On an existing project it also migrates a legacy board and runs the
+          first reconciliation. Run it again to change any answer. Every step
+          is described in <Link href="/docs/get-started">Get started</Link>.
+        </p>
+
         <h2 id="where">Where the board lives</h2>
         <ul>
           <li>
@@ -43,8 +61,9 @@ export default function DocsSetupPage() {
 
         <h2 id="by-hand">Create a board by hand</h2>
         <p>
-          You do not need any plugin. A folder counts as a board as soon as it
-          has a <code>requests/</code> (or legacy <code>epics/</code>) folder:
+          Without npm, you can still create a board yourself. A folder counts
+          as a board as soon as it has a <code>requests/</code> (or legacy{" "}
+          <code>epics/</code>) folder:
         </p>
         <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
           {`mkdir -p taskmark/requests/first-request taskmark/meetings
@@ -89,11 +108,14 @@ printf 'REPOS.md\n.reports/\n' > taskmark/.gitignore
           entry looks broken.
         </p>
 
-        <h3 id="init">Initialize a board with the plugin</h3>
+        <h3 id="plugin-init">Initialize a board with the plugin</h3>
         <ol>
           <li>Install the plugin (above).</li>
           <li>
-            Run <code>/tkmd-init</code> in a product workspace.
+            Run <code>/tkmd-init</code> in a product workspace. It runs{" "}
+            <code>npx taskmark init</code> in your terminal, and you answer
+            its questions there. It only writes the request board scaffold by
+            hand when npm is not available
           </li>
           <li>
             Run <code>/tkmd-verify</code> on an older board to repair scaffold,
@@ -101,11 +123,6 @@ printf 'REPOS.md\n.reports/\n' > taskmark/.gitignore
             parent child lists (never commits)
           </li>
         </ol>
-        <p>
-          <code>/tkmd-init</code> creates a board in the legacy{" "}
-          <code>epics/</code> layout. Run <code>npx taskmark migrate</code>{" "}
-          to move it to request boards.
-        </p>
 
         <h3 id="first-commands">First commands</h3>
         <ol>
@@ -176,12 +193,14 @@ npx @taskmark/ui`}
         </pre>
         <p>
           Prefer <code>npx @taskmark/ui</code> when the package is not installed
-          locally — a different npm package owns the bare <code>taskmark</code>{" "}
+          locally: a different npm package owns the bare <code>taskmark</code>{" "}
           name. Details live in the <code>taskmark-frontend</code> README.
         </p>
         <h2 id="hooks">Add the task id to commits</h2>
         <p>
-          List your code repositories in the board <code>package.json</code>{" "}
+          <code>npx taskmark init</code> installs this hook for you. To install
+          it again, or on a board set up by hand, list your code repositories
+          in the board <code>package.json</code>{" "}
           (<code>&quot;taskmark&quot;: {"{"} &quot;repos&quot;: [&quot;../my-api&quot;] {"}"}</code>
           ) or pass <code>--repo</code>, then install the git hook that adds{" "}
           <code>Task: &lt;id&gt;</code> to commits made on a task branch:
@@ -192,8 +211,8 @@ npx @taskmark/ui`}
         <p>
           Next: <Link href="/docs/cloud">Taskmark Cloud</Link> for a hosted
           team view of the same board,{" "}
-          <Link href="/docs/app-setup">Set up the App</Link> so the board
-          updates itself from git, and the{" "}
+          <Link href="/docs/app">GitHub and Bitbucket App</Link> for how the
+          board updates itself from git, and the{" "}
           <Link href="/docs/commands">Commands reference</Link>.
         </p>
       </DocsProse>

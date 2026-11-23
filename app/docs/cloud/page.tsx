@@ -32,13 +32,17 @@ export default function DocsCloudPage() {
           repo or running the local UI.
         </p>
         <p>
-          Cloud is a published copy. Planning and implementation still happen
-          locally with{" "}
-          <Link href="/docs/commands">
-            <code>/tkmd-*</code> commands
-          </Link>
-          . The hosted app does not invent work items; it shows the markdown
-          your local process last pushed.
+          Cloud is a published copy. Planning happens in the board repository,
+          and implementation happens in your code repositories with any{" "}
+          <Link href="/docs/agents">AI agent</Link>. The hosted app does not
+          invent work items; it shows the markdown your local process last
+          pushed.
+        </p>
+        <p>
+          The <Link href="/docs/app">GitHub and Bitbucket App</Link> reads the
+          board from this Cloud copy when it reconciles a change, and writes its
+          edits both to the board repository and to Cloud. Keep the board
+          synced so the App sees new requests and tasks.
         </p>
         <p>
           The hosted app is{" "}
@@ -162,8 +166,8 @@ npx taskmark dev`}
         </pre>
         <p>
           Next: <Link href="/docs/setup">Setup</Link> if you still need a local
-          board, or <Link href="/docs/commands">Commands</Link> for the daily
-          plan/do/commit loop.
+          board, or <Link href="/docs/app-setup">Set up the App</Link> to
+          connect your code repositories.
         </p>
       </DocsProse>
     </DocsShell>

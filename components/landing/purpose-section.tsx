@@ -20,9 +20,8 @@ export function PurposeSection() {
           </h2>
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             Chat threads are a terrible backlog. Taskmark keeps product work as
-            hierarchical markdown the agent already knows how to open, update,
-            and complete — with sizes, points, and billable work logs that stay
-            honest.
+            hierarchical markdown any agent can open and follow, with sizes,
+            points, and billable work logs written from git that stay honest.
           </p>
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             You get a durable trail of decisions and delivery without bolting on

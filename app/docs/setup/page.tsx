@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Setup",
   description:
-    "Install the Taskmark Cursor plugin and initialize a board in single- or multi-repo workspaces.",
+    "Create a Taskmark board in single- or multi-repo workspaces, open the local UI, and optionally install the Cursor plugin.",
 }
 
 export default function DocsSetupPage() {
@@ -19,10 +19,53 @@ export default function DocsSetupPage() {
       <DocsTitle
         eyebrow="Setup"
         title="Install and first board"
-        lead="Add the plugin in Cursor, then initialize a Taskmark board in your workspace."
+        lead="A board is a folder of markdown in git. Create it with the Cursor plugin or by hand, then open it in the local UI and point your agent at it."
       />
       <DocsProse>
-        <h2 id="install">Install the plugin</h2>
+        <h2 id="where">Where the board lives</h2>
+        <ul>
+          <li>
+            <strong>Single git project:</strong> the board lives at{" "}
+            <code>&lt;project&gt;/taskmark/</code>
+          </li>
+          <li>
+            <strong>Multiple git projects:</strong> the board is a sibling{" "}
+            <code>&lt;common&gt;-taskmark</code> repository, with the board at
+            its root (no nested <code>taskmark/</code>)
+          </li>
+        </ul>
+        <p>
+          The board is never copied into every product repo.{" "}
+          <code>REPOS.md</code> is generated locally, gitignored, and lists
+          linked roots with machine paths; it is not pushed. See{" "}
+          <Link href="/docs/structure">folder structure</Link>.
+        </p>
+
+        <h2 id="by-hand">Create a board by hand</h2>
+        <p>
+          You do not need any plugin. A folder counts as a board as soon as it
+          has a <code>requests/</code> (or legacy <code>epics/</code>) folder:
+        </p>
+        <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
+          {`mkdir -p taskmark/requests/first-request taskmark/meetings
+printf 'REPOS.md\n.reports/\n' > taskmark/.gitignore
+# then write taskmark/requests/first-request/brief.md`}
+        </pre>
+        <p>
+          Follow <Link href="/docs/requests">Request boards</Link> for the
+          brief and <Link href="/docs/specification">File specification</Link>{" "}
+          for epics, stories, tasks, and bugs. Commit the board, then tell
+          your agent about it:{" "}
+          <Link href="/docs/agents">Use Taskmark with any AI agent</Link>.
+        </p>
+
+        <h2 id="cursor-plugin">Optional: the Cursor plugin</h2>
+        <p>
+          The Cursor plugin adds <code>/tkmd-*</code> slash commands that
+          create boards and items and implement them. It is one integration,
+          not a requirement.
+        </p>
+        <h3 id="install">Install the plugin</h3>
         <ol>
           <li>
             Open <strong>Customize → Plugins</strong>.
@@ -46,7 +89,7 @@ export default function DocsSetupPage() {
           entry looks broken.
         </p>
 
-        <h2 id="init">Initialize a board</h2>
+        <h3 id="init">Initialize a board with the plugin</h3>
         <ol>
           <li>Install the plugin (above).</li>
           <li>
@@ -54,75 +97,63 @@ export default function DocsSetupPage() {
           </li>
           <li>
             Run <code>/tkmd-verify</code> on an older board to repair scaffold,
-            delete leftover generated files, and strip legacy item markdown
-            (never commits)
-          </li>
-          <li>
-            <strong>Single git project:</strong> board lives at{" "}
-            <code>&lt;project&gt;/taskmark/</code>.
-          </li>
-          <li>
-            <strong>Multiple git projects:</strong> board lives at a sibling{" "}
-            <code>&lt;common&gt;-taskmark</code> repo root (flat — no nested{" "}
-            <code>taskmark/</code>).
+            delete leftover generated files, and strip retired frontmatter and
+            parent child lists (never commits)
           </li>
         </ol>
         <p>
-          The board is never copied into every product repo.{" "}
-          <code>REPOS.md</code> is generated locally, gitignored, and lists
-          linked roots with machine paths — it is not pushed.
+          <code>/tkmd-init</code> creates a board in the legacy{" "}
+          <code>epics/</code> layout. Run <code>npx taskmark migrate</code>{" "}
+          to move it to request boards.
         </p>
 
-        <h2 id="first-commands">First commands</h2>
+        <h3 id="first-commands">First commands</h3>
         <ol>
           <li>
-            <code>/tkmd-verify</code> — migrate an existing board to the current
+            <code>/tkmd-verify</code>: migrate an existing board to the current
             layout (scaffold like init, delete leftover generated files, strip
-            legacy markdown). Never commits; <code>/tkmd-commit</code> remains
-            the only commit command
+            retired frontmatter and parent child lists). Never commits;{" "}
+            <code>/tkmd-commit</code> remains the only commit command
           </li>
           <li>
-            <code>/tkmd-plan</code> — fit an epic, story, task/bug, or full tree
-            to existing board work from prose (creates items only)
+            <code>/tkmd-plan</code>: fit an epic, story, task/bug, or full tree
+            to existing board work from prose (creates new items only)
           </li>
           <li>
-            <code>/tkmd-save</code> — after Cursor Plan mode, turn that plan
+            <code>/tkmd-save</code>: after Cursor Plan mode, turn that plan
             into board items and keep diagrams/visuals on them
           </li>
           <li>
-            <code>/tkmd-save-do</code> — same save as{" "}
+            <code>/tkmd-save-do</code>: same save as{" "}
             <code>/tkmd-save</code>, then implement the newly created items
-            immediately (never commits)
+            immediately on a task-id branch (never commits, never edits the
+            board)
           </li>
           <li>
-            <code>/tkmd-plan-do</code> — same planning as{" "}
+            <code>/tkmd-plan-do</code>: same planning as{" "}
             <code>/tkmd-plan</code>, then implement the newly created items
-            immediately (never commits)
+            immediately on a task-id branch (never commits, never edits the
+            board)
           </li>
           <li>
-            <code>/tkmd-do</code> — implement existing targets; leaves you
-            finished become <code>done</code> (no commit, no{" "}
-            <code>in_progress</code>)
+            <code>/tkmd-do</code>: implement an item on a branch named after
+            its id; never edits the board and never commits. The App marks it
+            done after the merge
           </li>
           <li>
-            <code>/tkmd-shelf</code> — discard planned work that will never be
-            implemented; eligible leaves become <code>shelved</code> without a
-            commit
-          </li>
-          <li>
-            <code>/tkmd-changelog</code> — rebuild Unreleased notes in board{" "}
+            <code>/tkmd-changelog</code>: rebuild Unreleased notes in board{" "}
             <code>CHANGELOG.md</code> from recent done work
           </li>
           <li>
-            <code>/tkmd-version</code> — promote Unreleased into a dated version
+            <code>/tkmd-version</code>: promote Unreleased into a dated version
             and set that SemVer on every linked product
           </li>
           <li>
-            <code>/tkmd-reportme</code> — write a personal report of my done
+            <code>/tkmd-reportme</code>: write a personal report of my done
             work since the last report into gitignored <code>.reports/</code>
           </li>
           <li>
-            <code>/tkmd-commit</code> — commit linked repos when you are ready
+            <code>/tkmd-commit</code>: commit linked repos when you are ready
           </li>
         </ol>
 
@@ -148,11 +179,22 @@ npx @taskmark/ui`}
           locally — a different npm package owns the bare <code>taskmark</code>{" "}
           name. Details live in the <code>taskmark-frontend</code> README.
         </p>
+        <h2 id="hooks">Add the task id to commits</h2>
         <p>
-          Next: <Link href="/docs/cloud">Taskmark Cloud</Link> if you want a
-          hosted team view of the same board, then{" "}
-          <Link href="/docs/commands">Commands reference</Link> and{" "}
-          <Link href="/docs/structure">folder structure</Link>.
+          List your code repositories in the board <code>package.json</code>{" "}
+          (<code>&quot;taskmark&quot;: {"{"} &quot;repos&quot;: [&quot;../my-api&quot;] {"}"}</code>
+          ) or pass <code>--repo</code>, then install the git hook that adds{" "}
+          <code>Task: &lt;id&gt;</code> to commits made on a task branch:
+        </p>
+        <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
+          {`npx taskmark hooks install`}
+        </pre>
+        <p>
+          Next: <Link href="/docs/cloud">Taskmark Cloud</Link> for a hosted
+          team view of the same board,{" "}
+          <Link href="/docs/app-setup">Set up the App</Link> so the board
+          updates itself from git, and the{" "}
+          <Link href="/docs/commands">Commands reference</Link>.
         </p>
       </DocsProse>
     </DocsShell>

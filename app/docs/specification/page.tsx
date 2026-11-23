@@ -33,18 +33,26 @@ export default function DocsSpecificationPage() {
         <h2 id="why-this-matters">Why this matters</h2>
         <p>
           Taskmark stores product memory as plain markdown under the board root.
-          The local board UI parses these files by scanning <code>epics/</code>{" "}
-          — not a generated index.           Cursor commands (<code>/tkmd-plan</code>,{" "}
-          <code>/tkmd-save</code>, <code>/tkmd-save-do</code>,{" "}
-          <code>/tkmd-plan-do</code>, <code>/tkmd-do</code>,{" "}
-          <code>/tkmd-verify</code>) generate the same shape.
+          The local board UI parses these files by scanning{" "}
+          <code>requests/*/epics/</code> and the legacy <code>epics/</code>{" "}
+          folder, not a generated index. The Cursor plugin&apos;s{" "}
+          <code>/tkmd-plan</code> and <code>/tkmd-save</code> write the same
+          shape, and the <Link href="/docs/app">GitHub and Bitbucket App</Link>{" "}
+          edits it when it records work. Request briefs, request logs, and
+          meetings are described in{" "}
+          <Link href="/docs/requests">Request boards</Link>.
         </p>
         <p>That means you may:</p>
         <ul>
-          <li>Let the agent create items via slash commands</li>
+          <li>Create items with the Cursor plugin&apos;s slash commands</li>
           <li>Hand-write or tweak a file in your editor</li>
           <li>Fix typos, AC checkboxes, or copy without running a command</li>
         </ul>
+        <p>
+          Coding agents treat existing items as read-only: they read them as
+          the spec and never edit them (see{" "}
+          <Link href="/docs/agents">Use Taskmark with any AI agent</Link>).
+        </p>
         <p>
           If frontmatter keys or <strong>exact section headings</strong> drift,
           parsers can miss status or work logs. Treat this page as the contract
@@ -74,8 +82,10 @@ export default function DocsSpecificationPage() {
           </li>
           <li>
             Tasks and bugs have <strong>Commits</strong> and{" "}
-            <strong>Work log</strong> tables (even if empty), plus{" "}
-            <strong>Prompt &amp; feedback</strong>
+            <strong>Work log</strong> tables (even if empty), which the App
+            fills, plus a <strong>Prompt &amp; feedback</strong> table that
+            agents no longer write to (see{" "}
+            <a href="#prompt-table">below</a>)
           </li>
           <li>
             Do not maintain child lists, rollups, or logs on parent files —
@@ -106,6 +116,8 @@ created: 2026-07-21
 updated: 2026-07-21T15:02:00Z
 started_at: null
 completed_at: null
+stage: null         # development | testing | production (written by the App)
+shipped_at: null    # set by the App the first time the task reaches production
 ---`}</CodeBlock>
 
         <h3 id="hand-edit-vs-derived">What to edit by hand vs leave alone</h3>
@@ -125,10 +137,12 @@ completed_at: null
                   <code>[ ]</code>/<code>[x]</code>, Notes
                 </td>
                 <td className="px-3 py-2">
-                  <code>status</code> (use <code>blocked</code> /{" "}
-                  <code>cancelled</code> latches or <code>/tkmd-shelf</code>{" "}
-                  instead), Actual (the UI derives it from closed leaf Work log
-                  intervals)
+                  <code>status</code>, <code>completed_at</code>,{" "}
+                  <code>resolvers</code>, <code>stage</code>, and{" "}
+                  <code>shipped_at</code> (the App writes them; a person may
+                  still set <code>blocked</code> / <code>cancelled</code>{" "}
+                  latches or <code>status: shelved</code>), Actual (the UI
+                  derives it from closed leaf Work log intervals)
                 </td>
               </tr>
               <tr className="border-b border-border/60 align-top">
@@ -142,7 +156,8 @@ completed_at: null
               </tr>
               <tr className="align-top">
                 <td className="px-3 py-2 text-foreground">
-                  Leaf Prompt &amp; feedback, Commits, and Work log tables
+                  Notes and Description of a leaf (Commits and Work log rows
+                  are written by the App)
                 </td>
                 <td className="px-3 py-2">
                   Child lists on <code>epic.md</code> / <code>story.md</code> —
@@ -157,14 +172,14 @@ completed_at: null
           <strong>Status</strong> on a leaf: <code>done</code> means
           implemented; <code>shelved</code> means deliberately discarded
           without implementation; <code>cancelled</code> is a separate terminal
-          latch outcome. Backlog, blocked, and in-progress work is incomplete.{" "}
-          <code>/tkmd-do</code> does not transition through{" "}
-          <code>in_progress</code>; when it finishes, executed leaves are{" "}
-          <code>done</code>. <code>/tkmd-shelf</code> changes only eligible
-          task/bug leaves to <code>shelved</code>, sets{" "}
-          <code>completed_at</code>, preserves acceptance criteria and{" "}
-          <code>cancelled: false</code>, and never edits parent markdown.
-          Parent status, implementers, and lifecycle dates are inferred from
+          latch outcome. Backlog, blocked, and in-progress work is incomplete.
+          The App sets <code>done</code> when it closes a task (on its own or
+          after a person accepts a likely close) and moves a reverted task
+          back to <code>in_progress</code>. Agents never change status. To
+          shelve work that will never be implemented, a person sets{" "}
+          <code>status: shelved</code> and <code>completed_at</code> on the
+          task or bug, keeping its criteria unchecked and{" "}
+          <code>cancelled: false</code>. Parent status, implementers, and lifecycle dates are inferred from
           leaves in the UI: a terminal mix containing done rolls up to done;
           without done, any shelved descendant rolls up to shelved; all-cancelled
           rolls up to cancelled. Hide completed treats all three terminal
@@ -173,7 +188,10 @@ completed_at: null
 
         <h2 id="epic">Epic — <code>epic.md</code></h2>
         <p>
-          Path: <code>epics/{"{id}-{slug}"}/epic.md</code>
+          Path: <code>requests/{"{request-slug}"}/epics/{"{id}-{slug}"}/epic.md</code>{" "}
+          on a <Link href="/docs/requests">request board</Link>, or{" "}
+          <code>epics/{"{id}-{slug}"}/epic.md</code> on a legacy board. Paths
+          below start at the epic folder.
         </p>
         <ul>
           <li>
@@ -232,9 +250,9 @@ As a …, I want … so that ….
 - [ ] Criterion one
 - [ ] Criterion two`}</CodeBlock>
         <p>
-          The board UI treats unchecked <code>- [ ]</code> vs checked{" "}
-          <code>- [x]</code> under <strong>Acceptance criteria</strong> as the
-          source of leaf completion (together with Work log state on the item).
+          The board UI shows unchecked <code>- [ ]</code> and checked{" "}
+          <code>- [x]</code> items under <strong>Acceptance criteria</strong>.
+          When the App closes a task it ticks the criteria the change covers.
         </p>
 
         <h2 id="task">Task — <code>T-&lt;identity&gt;-&lt;random&gt;.md</code></h2>
@@ -243,7 +261,7 @@ As a …, I want … so that ….
           <code>…/stories/…/items/{"{id}-{slug}"}.md</code>
           <br />
           Path (epic-direct):{" "}
-          <code>epics/{"{epic-id}-{slug}"}/items/{"{id}-{slug}"}.md</code>
+          <code>…/epics/{"{epic-id}-{slug}"}/items/{"{id}-{slug}"}.md</code>
         </p>
         <ul>
           <li>
@@ -350,7 +368,7 @@ What is wrong / expected vs actual.
           <code>assets/</code> folder. Commit them with the board so everyone
           sees the same thing:
         </p>
-        <CodeBlock>{`epics/E-MM-k7m2p9b3-checkout/
+        <CodeBlock>{`requests/checkout/epics/E-MM-k7m2p9b3-checkout/
 ├── epic.md
 ├── assets/
 │   └── flow.png
@@ -461,10 +479,15 @@ Reuse the story mockup from the parent folder:
         </ul>
 
         <h2 id="tables">Table formats the UI expects</h2>
+        <p>
+          On a task, both tables below are written by the{" "}
+          <Link href="/docs/app">App</Link> when it records a push or merged
+          pull request. People may add rows by hand; agents do not.
+        </p>
         <h3 id="work-log-table">Work log</h3>
         <CodeBlock>{`| Actor | Started (UTC) | Ended (UTC) | Summary |
 |-------|---------------|-------------|---------|
-| Marco Mendão | 2026-07-28T10:00:00Z | 2026-07-28T10:40:00Z | Implemented route |`}</CodeBlock>
+| Marco Mendão | 2026-07-28T10:00:00Z | 2026-07-28T10:40:00Z | PR #214: Added the login route. |`}</CodeBlock>
         <ul>
           <li>
             Open interval = Ended is empty
@@ -483,20 +506,23 @@ Reuse the story mockup from the parent folder:
 |-----|------|------------|--------|---------|
 | a1b2c3d | taskmark-frontend | 2026-07-28T12:00:00Z | Ada | fix login redirect |`}</CodeBlock>
         <p>
-          In multi-repo workspaces, <strong>Repo</strong> is the short folder
-          name from local <code>REPOS.md</code>.
+          <strong>Repo</strong> is the name of the code repository the commit
+          came from.
         </p>
 
-        <h3 id="prompt-table">Prompt &amp; feedback</h3>
+        <h3 id="prompt-table">Prompt &amp; feedback (legacy)</h3>
         <CodeBlock>{`| When (UTC) | Kind | Author | Summary |
 |------------|------|--------|---------|
 | 2026-07-28T10:00:00Z | prompt | Marco Mendão | Add login redirect |
 | 2026-07-28T11:50:00Z | feedback | Marco Mendão | Looks good |`}</CodeBlock>
         <p>
           <code>Kind</code> is typically <code>prompt</code> or{" "}
-          <code>feedback</code>. Agents write a prompt row on every product-work
-          session: an open matching leaf, a done leaf that still covers the
-          change, or a newly created task/bug. Never on epic or story parents.
+          <code>feedback</code>. Before 2.0, agents wrote these rows on every
+          session. They no longer do, and new items keep the table empty. The
+          only writer left is the App, which adds one row to a task it creates
+          when a person accepts a new task from the review inbox. Existing
+          rows still show in the UI, and <code>/tkmd-changelog</code> reads
+          them as a fallback.
         </p>
 
         <h2 id="manual-checklist">Manual create / edit checklist</h2>
@@ -518,6 +544,10 @@ Reuse the story mockup from the parent folder:
           <li>
             Do not add estimate or owner fields. Actual comes only from real,
             closed Work log intervals
+          </li>
+          <li>
+            Leave <code>stage</code> and <code>shipped_at</code> unset; the App
+            writes them
           </li>
         </ol>
         <p>

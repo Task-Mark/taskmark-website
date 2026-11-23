@@ -87,8 +87,8 @@ export function SiteFooter() {
         <Separator />
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
           <p>
-            © {new Date().getFullYear()} Taskmark. Open source · MIT · Built for
-            Cursor.
+            © {new Date().getFullYear()} Taskmark. Open source · MIT · Works
+            with any AI agent.
           </p>
           <p>
             Latest version{" "}

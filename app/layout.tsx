@@ -24,7 +24,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 const siteDescription =
-  "Taskmark — product memory for agent work. Local markdown boards for Cursor with static sizing and conflict-free leaf updates."
+  "Taskmark: product memory for agent work. Markdown boards in git that any AI coding agent can read, kept true by the GitHub and Bitbucket App."
 
 export const viewport: Viewport = {
   themeColor: [

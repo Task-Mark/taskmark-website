@@ -22,15 +22,15 @@ export const FEATURES: FeatureItem[] = [
     id: "feature-memory",
     title: "Product memory for agents",
     description:
-      "Chat is not a backlog. The board is the product context agents read and update — so planning survives the session.",
+      "Chat is not a backlog. The board is the product context any agent reads as its spec, so planning survives the session.",
     icon: Brain,
     accent: "bg-violet-400",
   },
   {
     id: "feature-agent-log",
-    title: "Agents report their own work",
+    title: "The board updates itself from git",
     description:
-      "You cannot pre-write every task in an agentic project. As features land, the agent records what it actually did, so the board stays true without a human tax.",
+      "On every push and merged pull request the GitHub and Bitbucket App records commits and work, closes tasks it is sure about, and asks a person about the rest.",
     icon: Bot,
     accent: "bg-sky-400",
   },
@@ -38,7 +38,7 @@ export const FEATURES: FeatureItem[] = [
     id: "feature-team",
     title: "Everyone on one board",
     description:
-      "People and agents write the same leaves. Status, contributors, and activity roll up so you can see who shipped what.",
+      "People plan, agents build, and the App records what shipped. Status, contributors, and activity roll up so you can see who shipped what.",
     icon: Users,
     accent: "bg-emerald-400",
   },
@@ -62,7 +62,7 @@ export const FEATURES: FeatureItem[] = [
     id: "feature-boards",
     title: "Hierarchical boards",
     description:
-      "Epics, stories, tasks, and bugs as markdown — nested product memory the agent can read and update, without a generated dashboard.",
+      "Requests, epics, stories, tasks, and bugs as markdown: nested product memory any agent can read, without a generated dashboard.",
     icon: FolderTree,
     accent: "bg-cyan-400",
   },

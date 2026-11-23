@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Workflows",
   description:
-    "Taskmark leaf-only writes, shelving, work logs, actual minutes, and when to plan, save, save-do, plan-do, report, or commit.",
+    "The Taskmark 2.0 loop: plan on the board, implement on a task-id branch with any agent, push, let the GitHub and Bitbucket App reconcile, review its proposals, and ship through stages.",
 }
 
 export default function DocsWorkflowsPage() {
@@ -19,86 +19,132 @@ export default function DocsWorkflowsPage() {
       <DocsTitle
         eyebrow="Workflows"
         title="Core workflows"
-        lead="How plan and do stay on leaf files, how sessions become Actual, and how multi-repo days work."
+        lead="Agents read the board, code moves through branches, and the App writes what happened back to the board."
       />
       <DocsProse>
-        <h2 id="daily-loop">Plan, do, commit</h2>
+        <h2 id="daily-loop">Plan, branch, push, reconcile</h2>
         <ol>
           <li>
-            Canonical board in <code>&lt;common&gt;-taskmark</code> (or{" "}
-            <code>taskmark/</code> in single mode)
+            <strong>Plan.</strong> Write the request brief and its epics,
+            stories, and tasks (see{" "}
+            <Link href="/docs/requests">Request boards</Link>), by hand or with
+            the Cursor plugin: <code>/tkmd-plan</code> from prose,{" "}
+            <code>/tkmd-save</code> after Cursor Plan mode. Planning only adds
+            new files
           </li>
           <li>
-            <code>/tkmd-verify</code> when the board was created on an older
-            Taskmark — repairs scaffold, deletes leftover generated files, and
-            strips legacy item markdown. Never commits
+            <strong>Implement.</strong> Point any agent at the task (see{" "}
+            <Link href="/docs/agents">Use Taskmark with any AI agent</Link>) or
+            run <code>/tkmd-do</code> in Cursor. The work happens on a branch
+            named <code>&lt;task-id&gt;-&lt;slug&gt;</code>. The agent never
+            edits the board. <code>/tkmd-save-do</code> and{" "}
+            <code>/tkmd-plan-do</code> plan and implement in one step
           </li>
           <li>
-            <code>/tkmd-plan</code> to search existing work and add only the
-            smallest useful hierarchy from prose (new files only)
+            <strong>Commit and push.</strong> Keep the task id in the branch
+            name or the commit message. <code>npx taskmark hooks install</code>{" "}
+            adds a <code>Task: &lt;id&gt;</code> trailer for you. In Cursor,{" "}
+            <code>/tkmd-commit</code> commits every dirty repository with a
+            one-line message
           </li>
           <li>
-            After Cursor Plan mode, <code>/tkmd-save</code> to turn that plan
-            into epic/story/task/bug items and keep diagrams on them — never
-            commits, never implements
+            <strong>Open and merge a pull request.</strong> On every push and
+            merged pull request the{" "}
+            <Link href="/docs/app">GitHub and Bitbucket App</Link> records the
+            commits and a work log row on the task, and closes it when the id
+            is explicit, every acceptance criterion is covered, CI is green,
+            and the work reached production
           </li>
           <li>
-            <code>/tkmd-save-do</code> when you want that Cursor plan saved and
-            the newly created items implemented immediately. Prefer save-only
-            then <code>/tkmd-do</code> later when you want to review the board
-            first
+            <strong>Review.</strong> Likely closes and new tasks the App is not
+            sure about wait in the{" "}
+            <Link href="/docs/app#review-inbox">review inbox</Link> for a person
+            to accept or reject
           </li>
           <li>
-            <code>/tkmd-plan-do</code> when you want the prose plan and
-            immediate implementation of only the newly created items. Prefer
-            plan-only then <code>/tkmd-do</code> later when you want to review
-            the board first
+            <strong>Ship.</strong> As the work moves from <code>develop</code>{" "}
+            to <code>quality</code> to <code>main</code>, the App moves the
+            task to development, testing, and production. Only production
+            counts as shipped in forecasts and the client view
           </li>
           <li>
-            Implement existing targets with <code>/tkmd-do</code> in product
-            repos — never commits; does not set <code>in_progress</code>;
-            finished leaves are <code>done</code>
-          </li>
-          <li>
-            If planned work will never be implemented, use{" "}
-            <code>/tkmd-shelf</code> — eligible leaves become{" "}
-            <code>shelved</code> without changing parent markdown or committing
-          </li>
-          <li>
-            <code>/tkmd-changelog</code> when you want Unreleased notes in board{" "}
-            <code>CHANGELOG.md</code>; <code>/tkmd-version</code> when you are
-            ready to promote them and set that SemVer on every linked product.
-            Neither commits, and neither writes a README changelog
-          </li>
-          <li>
-            <code>/tkmd-reportme</code> when you want a personal report of work
-            you finished since the last report (gitignored{" "}
-            <code>.reports/</code>; never commits)
-          </li>
-          <li>
-            <code>/tkmd-commit</code> when you want git commits (simple
-            one-liners; no push by default)
+            <strong>Release notes.</strong> <code>/tkmd-changelog</code> builds
+            Unreleased notes in board <code>CHANGELOG.md</code> from done work;{" "}
+            <code>/tkmd-version</code> promotes them and sets that SemVer on
+            every linked product. <code>/tkmd-reportme</code> writes a personal,
+            gitignored report of work you finished since the last one
           </li>
         </ol>
+        <p>
+          On a board created before 2.0, run <code>/tkmd-verify</code> once to
+          repair the scaffold and <code>npx taskmark migrate</code> to move to
+          request boards.
+        </p>
+
+        <h2 id="who-writes-what">Who writes what</h2>
+        <div className="overflow-x-auto border-2 border-border bg-card shadow-sm">
+          <table className="w-full min-w-[32rem] text-left text-sm">
+            <thead className="border-b-2 border-border bg-muted/60 font-head text-foreground">
+              <tr>
+                <th className="px-3 py-2">Who</th>
+                <th className="px-3 py-2">Writes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border/60 align-top">
+                <td className="px-3 py-2 text-foreground">People</td>
+                <td className="px-3 py-2">
+                  Briefs, meetings, request log entries, new items, edits to
+                  titles and descriptions, shelving, and decisions in the
+                  review inbox
+                </td>
+              </tr>
+              <tr className="border-b border-border/60 align-top">
+                <td className="px-3 py-2 text-foreground">
+                  <code>/tkmd-plan</code>, <code>/tkmd-save</code>
+                </td>
+                <td className="px-3 py-2">New item files only</td>
+              </tr>
+              <tr className="border-b border-border/60 align-top">
+                <td className="px-3 py-2 text-foreground">
+                  Coding agents, <code>/tkmd-do</code>
+                </td>
+                <td className="px-3 py-2">
+                  Product code only. Never board files
+                </td>
+              </tr>
+              <tr className="align-top">
+                <td className="px-3 py-2 text-foreground">The App</td>
+                <td className="px-3 py-2">
+                  On tasks and bugs: <code>status</code>, dates, resolvers,
+                  checked criteria, <code>stage</code>,{" "}
+                  <code>shipped_at</code>, Commits and Work log rows, and new
+                  tasks a person accepted
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h2 id="shelving">Shelve discarded work</h2>
         <p>
-          <code>/tkmd-shelf</code> closes work without claiming it was
-          implemented. A leaf receives <code>status: shelved</code> and a{" "}
-          <code>completed_at</code> timestamp, while acceptance criteria,
-          resolvers, and <code>cancelled: false</code> remain unchanged. Story
-          and epic targets cascade to their eligible task/bug descendants only.
-        </p>
-        <p>
-          Shelved work is visually distinct from done, is terminal for parent
-          rollups, and is removed by Hide completed. The command never commits
-          or pushes.
+          <code>/tkmd-shelf</code> was removed in 2.0. To close work without
+          claiming it was implemented, a person sets{" "}
+          <code>status: shelved</code> and a <code>completed_at</code>{" "}
+          timestamp on the task or bug, leaving its acceptance criteria and{" "}
+          <code>cancelled: false</code> as they are. Shelved work is visually
+          distinct from done, is terminal for parent rollups, and is removed by
+          Hide completed. If a shelved task is later named in a change, the
+          App only records the commits.
         </p>
 
         <h2 id="overall">Overall tree</h2>
         <p>
-          The local board’s default view is <strong>Overall</strong>: one nested
-          list, not three stacked tables. Expand an epic to see its stories and
+          A request board opens on the{" "}
+          <Link href="/docs/requests#screens">request screens</Link>. The
+          Overall tree is still there under <strong>Board files</strong> as All
+          epics, and it is the default view of a board without requests. It is
+          one nested list, not three stacked tables. Expand an epic to see its stories and
           epic-direct tasks/bugs; expand a story to see its tasks and bugs.
           At each level, incomplete items sort before complete ones, then newest
           first. Hide completed treats <code>done</code>, <code>shelved</code>,
@@ -116,18 +162,16 @@ export default function DocsWorkflowsPage() {
         <p>
           Parent status, points, Actual, implementers, lifecycle dates, and
           aggregated Prompt &amp; feedback / Commits / Work log are read-time
-          views over descendant leaves. Commands write only new item files or
-          the executed leaf — never parent rollups.
+          views over descendant leaves. Nothing writes parent rollups.
         </p>
 
         <h2 id="leaf-only">Leaf-only writes</h2>
         <p>
-          Two people can create and finish different tasks without merging parent
-          files. <code>/tkmd-plan</code>, <code>/tkmd-save</code>,{" "}
-          <code>/tkmd-save-do</code>, <code>/tkmd-plan-do</code>, and{" "}
-          <code>/tkmd-do</code> change only new
-          or target item markdown — not parent <code>epic.md</code> /{" "}
-          <code>story.md</code> lists, rollups, or generated board files.
+          Two people can create and finish different tasks without merging
+          parent files. Planning adds only new item files, and the App writes
+          only the task and bug files a change touches. Nothing edits parent{" "}
+          <code>epic.md</code> / <code>story.md</code> lists, rollups, or
+          generated board files.
         </p>
         <p>
           At read time the UI derives parent child lists, status, points,
@@ -137,8 +181,10 @@ export default function DocsWorkflowsPage() {
 
         <h2 id="work-logs">Work logs and Actual</h2>
         <p>
-          Leaves keep a Work log. <strong>Actual</strong> is the sum of closed
-          Started → Ended intervals on task/bug leaves. Epics and stories sum
+          Leaves keep a Work log, filled by the App: one row per push or merged
+          pull request that touches the task, from the first commit time to the
+          merge or push time. <strong>Actual</strong> is the sum of closed
+          Started to Ended intervals on task/bug leaves. Epics and stories sum
           their descendant leaves. There is no time estimate or owner property.
         </p>
         <ul>
@@ -150,36 +196,21 @@ export default function DocsWorkflowsPage() {
             Never hand-set Actual in frontmatter
           </li>
         </ul>
-        <h3 id="shared-batch">Shared-batch</h3>
-        <p>
-          When one sitting delivers many leaves, measure one batch span and
-          allocate milliseconds by points. Same Started on each leaf; Ended =
-          Started + allocated slice. Do not copy the full batch onto every task.
-        </p>
-
         <h2 id="prompt-feedback">Prompt &amp; feedback log</h2>
         <p>
-          Written on leaves whenever an agent does product work. Append a{" "}
-          <code>prompt</code> row when the user asks for work; append{" "}
-          <code>feedback</code> when they accept, reject, or give later notes.
-          Author comes from git identity when available. Prefer an open
-          matching task/bug; if the change is follow-up on finished work,
-          append to that done leaf; create a new leaf only when nothing fits.
-          Never write these rows on <code>epic.md</code> or{" "}
-          <code>story.md</code>. Parent views aggregate descendant rows.
+          Before 2.0, agents appended <code>prompt</code> and{" "}
+          <code>feedback</code> rows on leaves during every session. They no
+          longer write to the board, so the table stays empty on new items.
+          Existing rows still show in the UI.
         </p>
 
         <h2 id="commits-log">Commits log</h2>
         <p>
           Append-only table on the leaf: SHA | Repo | Date (UTC) | Author |
-          Message. In multi-repo workspaces the Repo column is the short folder
-          name from local <code>REPOS.md</code>.{" "}
-          <code>/tkmd-commit</code> is how commits land;{" "}
-          <code>/tkmd-plan</code>, <code>/tkmd-save</code>,{" "}
-          <code>/tkmd-save-do</code>, <code>/tkmd-plan-do</code>,{" "}
-          <code>/tkmd-do</code>, <code>/tkmd-verify</code>,{" "}
-          <code>/tkmd-changelog</code>, <code>/tkmd-version</code>, and{" "}
-          <code>/tkmd-reportme</code> do not commit.
+          Message. The App adds the commits of each change that belong to the
+          task, skipping merge commits and its own commits, and never adds the
+          same SHA twice. <code>/tkmd-commit</code> is the only slash command
+          that commits; the others never do.
         </p>
         <p>
           Related: <Link href="/docs/commands">Commands</Link>,{" "}

@@ -11,7 +11,7 @@ import { DOCS_COMMANDS } from "@/lib/docs-nav"
 export const metadata: Metadata = {
   title: "Commands",
   description:
-    "Taskmark slash commands: /tkmd-init, /tkmd-verify, /tkmd-plan, /tkmd-save, /tkmd-save-do, /tkmd-plan-do, /tkmd-do, /tkmd-shelf, /tkmd-changelog, /tkmd-version, /tkmd-reportme, and /tkmd-commit.",
+    "Taskmark Cursor slash commands (/tkmd-init, /tkmd-verify, /tkmd-plan, /tkmd-save, /tkmd-save-do, /tkmd-plan-do, /tkmd-do, /tkmd-changelog, /tkmd-version, /tkmd-reportme, /tkmd-commit) and the taskmark CLI (migrate, stages, hooks install, app, ai).",
 }
 
 export default function DocsCommandsPage() {
@@ -19,11 +19,19 @@ export default function DocsCommandsPage() {
     <DocsShell currentPath="/docs/commands">
       <DocsTitle
         eyebrow="Commands"
-        title="Slash commands reference"
-        lead="Type these in Cursor chat. /tkmd-commit is the only command that commits."
+        title="Commands reference"
+        lead="Slash commands of the Cursor plugin, and the taskmark CLI that works with any editor. /tkmd-commit is the only slash command that commits."
       />
       <DocsProse>
-        <h2 id="index">Commands index</h2>
+        <p>
+          The slash commands come with the optional Cursor plugin. Other
+          agents work from the board with a short project instruction instead:
+          see <Link href="/docs/agents">Use Taskmark with any AI agent</Link>.
+          No command changes an existing item: status, commits, work logs, and
+          stages are written by the{" "}
+          <Link href="/docs/app">GitHub and Bitbucket App</Link>.
+        </p>
+        <h2 id="index">Slash commands index</h2>
         <div className="overflow-x-auto border-2 border-border bg-card shadow-sm">
           <table className="w-full min-w-[36rem] text-left text-sm">
             <thead className="border-b-2 border-border bg-muted/60 font-head text-foreground">
@@ -92,9 +100,11 @@ export default function DocsCommandsPage() {
             dashboard README after the static README is in the right place
           </li>
           <li>
-            Strips retired frontmatter and parent-only child lists / log
-            sections, while leaving leaf Prompt &amp; feedback, Commits, and
-            Work log in place
+            Strips retired frontmatter and parent child lists. It is
+            maintainer-only and the only command that rewrites existing item
+            files, and it never touches status, dates, resolvers, criteria,
+            or Prompt &amp; feedback, Commits, and Work log rows, on leaves or
+            parents
           </li>
           <li>
             Extra <code>taskmark/</code> copies in product repos are reported,
@@ -116,8 +126,9 @@ export default function DocsCommandsPage() {
         </p>
         <ul>
           <li>
-            If exact or overlapping work exists, creates nothing and reports
-            the match for execution or follow-up feedback
+            If exact or overlapping work exists, creates nothing, reports the
+            match, and suggests <code>/tkmd-do</code> on it (for open work or a
+            follow-up on done work)
           </li>
           <li>
             Fits tasks/bugs under an existing story or epic, stories under an
@@ -126,8 +137,13 @@ export default function DocsCommandsPage() {
           </li>
           <li>
             Writes <strong>only new item files</strong> (including any new
-            parent files in the plan). It does not edit existing parent{" "}
-            <code>epic.md</code> / <code>story.md</code> child lists or rollups
+            parent files in the plan). It never changes an existing epic,
+            story, task, or bug. Once written, new items are read-only like any
+            other
+          </li>
+          <li>
+            Leaves the Commits and Work log tables of new tasks empty; the App
+            fills them
           </li>
           <li>
             Splits broad work into cohesive stories and independently executable
@@ -159,7 +175,7 @@ export default function DocsCommandsPage() {
           </li>
           <li>
             Uses the same search, dedupe, hierarchy, and new-files-only rules as{" "}
-            <code>/tkmd-plan</code>
+            <code>/tkmd-plan</code>, and leaves the log tables empty
           </li>
           <li>
             Prefer this after Plan mode instead of retyping the plan as prose
@@ -188,8 +204,11 @@ export default function DocsCommandsPage() {
             parent; otherwise implements each newly created leaf
           </li>
           <li>
-            Does not set <code>in_progress</code>; executed leaves become{" "}
-            <code>done</code>
+            The implementation follows <code>/tkmd-do</code>: it works on a
+            branch named after the new item id (the highest new parent when
+            several items were created) and changes no board file, not even the
+            items it just created. The App marks them done after the work is
+            merged
           </li>
           <li>
             Use <code>/tkmd-save</code> when you want to review the board items
@@ -213,8 +232,11 @@ export default function DocsCommandsPage() {
             parent; otherwise implements each newly created leaf
           </li>
           <li>
-            Does not set <code>in_progress</code>; executed leaves become{" "}
-            <code>done</code>
+            The implementation follows <code>/tkmd-do</code>: it works on a
+            branch named after the new item id (the highest new parent when
+            several items were created) and changes no board file, not even the
+            items it just created. The App marks them done after the work is
+            merged
           </li>
           <li>
             Use <code>/tkmd-plan</code> when you want to review the board items
@@ -224,56 +246,56 @@ export default function DocsCommandsPage() {
 
         <h2 id="tkmd-do">/tkmd-do</h2>
         <p>
-          Implements the requested work on the board. It{" "}
-          <strong>never commits</strong> (no git commit, no multi-repo commit).
-          It does <strong>not</strong> move items through{" "}
-          <code>in_progress</code>. When the agent stops, leaves it executed
-          are <code>done</code>.
+          Implements a board item, using it as the spec: the request brief,
+          the item description, and its acceptance or fix criteria. It{" "}
+          <strong>never edits the board</strong> and{" "}
+          <strong>never commits or pushes</strong>. The App marks the item done
+          when the work is merged and CI passes.
         </p>
         <ul>
           <li>
-            Mutates only the target leaf markdown (status, acceptance criteria,
-            Prompt &amp; feedback, work log on that file)
+            Accepts an id, a markdown path, or an unambiguous title
           </li>
           <li>
-            Follow-up on a done task logs Prompt &amp; feedback there; a new
-            leaf is created only when nothing fits
+            Before changing code in each repository, switches to a branch whose
+            name contains the item id: it stays on the current branch if the
+            name already has the id, otherwise it creates{" "}
+            <code>&lt;id&gt;-&lt;short-slug&gt;</code>, for example{" "}
+            <code>T-MM-457b0290-login-mockup</code>. For a story or epic target
+            it uses that story or epic id
           </li>
           <li>
-            Cancelled and shelved leaves are terminal and are not mandatory
-            implementation scope
+            A story or epic target makes every open, non-cancelled, non-shelved
+            descendant task or bug mandatory scope
           </li>
           <li>
-            Does not write parent files or generated indexes
+            A target that is already done is treated as a follow-up: it just
+            implements, and logs nothing on the item
           </li>
           <li>
-            Use <Link href="/docs/commands#tkmd-commit">/tkmd-commit</Link> when
-            you want git commits
+            Never changes status, dates, resolvers, checkboxes, or any log
+            table, and never creates items. If nothing fits, it suggests{" "}
+            <code>/tkmd-plan-do</code> or <code>/tkmd-plan</code>
+          </li>
+          <li>
+            Commits must keep the id in the branch name or the message.{" "}
+            <Link href="#cli-hooks">
+              <code>npx taskmark hooks install</code>
+            </Link>{" "}
+            adds a <code>Task: &lt;id&gt;</code> trailer automatically. Use{" "}
+            <Link href="#tkmd-commit">/tkmd-commit</Link> when you want git
+            commits
           </li>
         </ul>
-
-        <h2 id="tkmd-shelf">/tkmd-shelf</h2>
         <p>
-          Discards planned work that will never be implemented. It marks
-          eligible task/bug leaves <code>status: shelved</code> and sets{" "}
-          <code>completed_at</code>, while preserving unchecked acceptance
-          criteria and keeping the outcome distinct from <code>done</code>.
+          <code>/tkmd-shelf</code> was removed in 2.0. To drop work that will
+          never be implemented, set <code>status: shelved</code> on the item
+          by hand (see{" "}
+          <Link href="/docs/specification#hand-edit-vs-derived">
+            what to edit by hand
+          </Link>
+          ).
         </p>
-        <ul>
-          <li>
-            A story or epic target shelves every open, non-cancelled,
-            non-shelved descendant leaf
-          </li>
-          <li>
-            Never edits parent markdown; parent status is derived at read time
-          </li>
-          <li>
-            Never sets <code>cancelled: true</code>, commits, or pushes
-          </li>
-          <li>
-            Shelved work is terminal and is hidden by Hide completed
-          </li>
-        </ul>
 
         <h2 id="tkmd-changelog">/tkmd-changelog</h2>
         <p>
@@ -363,10 +385,119 @@ export default function DocsCommandsPage() {
         <ul>
           <li>Does not replace <code>/tkmd-do</code> — implement first, commit when you choose</li>
           <li>
-            Commit SHAs belong on leaf Commits tables; parent commit views are
-            aggregated in the UI
+            The App records the commits on the matching task after you push.
+            On a task branch, the git hook adds the <code>Task:</code> trailer
           </li>
         </ul>
+
+        <h2 id="cli">CLI commands</h2>
+        <p>
+          The <code>taskmark</code> CLI ships with <code>@taskmark/ui</code>{" "}
+          and works with any editor. Besides <code>serve</code>,{" "}
+          <code>dev</code>, <code>build</code>, <code>sync</code>, and{" "}
+          <code>preview</code> (see <Link href="/docs/setup">Setup</Link> and{" "}
+          <Link href="/docs/cloud">Cloud</Link>), it has these board commands.
+          Run them from the board folder or pass <code>--board &lt;path&gt;</code>.
+        </p>
+
+        <h3 id="cli-migrate">
+          <code>npx taskmark migrate</code>
+        </h3>
+        <p>
+          Moves a legacy <code>epics/</code> board to <code>requests/</code>,
+          one request per epic. <code>--dry-run</code> shows what would change
+          without writing. See{" "}
+          <Link href="/docs/requests#migrate">Request boards</Link>.
+        </p>
+
+        <h3 id="cli-stages">
+          <code>npx taskmark stages</code>
+        </h3>
+        <p>
+          Reads the stage branches (<code>develop</code>, <code>quality</code>,{" "}
+          <code>main</code> and their aliases) in your local clones of the code
+          repositories and shows the stage each task has reached.{" "}
+          <strong>It only shows stages and writes nothing</strong>: the App
+          writes stages to the board.
+        </p>
+        <ul>
+          <li>
+            Code repositories come from <code>--repo &lt;path&gt;</code>{" "}
+            (repeatable), else <code>&quot;taskmark&quot;: {"{"} &quot;repos&quot;: [...] {"}"}</code>{" "}
+            in the board <code>package.json</code>, else <code>REPOS.md</code>
+          </li>
+          <li>
+            Branch names can be set in the board <code>package.json</code>{" "}
+            under <code>taskmark.branches</code> (<code>development</code>,{" "}
+            <code>testing</code>, <code>production</code>)
+          </li>
+          <li>
+            <code>--fetch</code> fetches the repositories first;{" "}
+            <code>--quiet</code> prints nothing unless something fails
+          </li>
+        </ul>
+
+        <h3 id="cli-hooks">
+          <code>npx taskmark hooks install</code>
+        </h3>
+        <p>
+          Installs one git hook, <code>prepare-commit-msg</code>, in each code
+          repository (the same repository list as <code>stages</code>, or{" "}
+          <code>--repo &lt;path&gt;</code>). When the branch name carries a
+          task id and the commit message does not mention it yet, the hook
+          appends <code>Task: &lt;id&gt;</code>. It skips merge commits, never
+          writes to the board, and leaves a hook that Taskmark did not write
+          alone. Installing again removes the <code>post-merge</code> hook
+          older versions added.
+        </p>
+
+        <h3 id="cli-app">
+          <code>npx taskmark app</code>
+        </h3>
+        <p>
+          Connects the board&apos;s project to the{" "}
+          <Link href="/docs/app">GitHub and Bitbucket App</Link>, using the
+          board sync token in <code>.config</code>:
+        </p>
+        <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
+          {`npx taskmark app status
+npx taskmark app connect github|bitbucket [--repo <owner>/<repo>]... [--board-repo <provider>:<owner>/<repo>[@branch][:root]] [--mode shadow|write] [--no-open]
+npx taskmark app mode shadow|write
+npx taskmark app enable
+npx taskmark app disable`}
+        </pre>
+        <p>
+          <code>connect</code> saves the code and board repositories, then
+          opens the GitHub App install page or the Bitbucket authorization
+          page. By default the code repositories are the board&apos;s repos (
+          <code>taskmark.repos</code>, else <code>REPOS.md</code>) on that
+          provider, the board repository is the board&apos;s own git origin,
+          and a new connection starts in shadow mode. See{" "}
+          <Link href="/docs/app-setup#connect">Set up the App</Link>.
+        </p>
+
+        <h3 id="cli-ai">
+          <code>npx taskmark ai</code>
+        </h3>
+        <p>
+          Sets the project&apos;s own AI key for the App, using the board sync
+          token in <code>.config</code>:
+        </p>
+        <pre className="overflow-x-auto border-2 border-border bg-card p-4 font-mono text-sm text-foreground shadow-sm">
+          {`npx taskmark ai set --provider anthropic|openai [--model <id>] [--key <key>] [--base-url <url>]
+npx taskmark ai status
+npx taskmark ai clear`}
+        </pre>
+        <p>
+          Without <code>--key</code>, the key is read from{" "}
+          <code>TASKMARK_AI_KEY</code> or typed at a hidden prompt.{" "}
+          <code>status</code> shows the provider, the model, and the last four
+          characters of the key; <code>clear</code> removes it, and the App
+          falls back to the server default. Default models are{" "}
+          <code>claude-opus-5-5</code> for Claude and <code>gpt-4o-mini</code>{" "}
+          for OpenAI. See{" "}
+          <Link href="/docs/app-setup#ai-key">Set up the App</Link>.
+        </p>
       </DocsProse>
     </DocsShell>
   )

@@ -18,7 +18,15 @@ export const DOCS_NAV: DocsNavItem[] = [
   {
     href: "/docs/setup",
     title: "Setup",
-    description: "Install the Cursor plugin and create your first board.",
+    description:
+      "Create your first board, open the local UI, and install the optional Cursor plugin.",
+  },
+  {
+    href: "/docs/agents",
+    title: "Any AI agent",
+    badge: "New",
+    description:
+      "Point Claude Code, Codex, Cursor, Copilot, Gemini, or any other agent at the board.",
   },
   {
     href: "/docs/cloud",
@@ -28,10 +36,31 @@ export const DOCS_NAV: DocsNavItem[] = [
       "Hosted shared board and how a local Taskmark board syncs to it.",
   },
   {
+    href: "/docs/app",
+    title: "GitHub & Bitbucket App",
+    badge: "New",
+    description:
+      "How the App reconciles the board on every push and merged pull request.",
+  },
+  {
+    href: "/docs/app-setup",
+    title: "Set up the App",
+    badge: "New",
+    description:
+      "Create the GitHub App or Bitbucket consumer, configure the API, connect a project, and add an AI key.",
+  },
+  {
     href: "/docs/commands",
     title: "Commands",
     description:
-      "Slash commands: init, verify, plan, save, save-do, plan-do, do, shelf, changelog, version, reportme, and commit.",
+      "Cursor slash commands (init, verify, plan, save, save-do, plan-do, do, changelog, version, reportme, commit) and the taskmark CLI (migrate, stages, hooks, app, ai).",
+  },
+  {
+    href: "/docs/requests",
+    title: "Request boards",
+    badge: "New",
+    description:
+      "The 2.0 layout: requests with a brief, epics, and a log; meetings; stages; migration.",
   },
   {
     href: "/docs/structure",
@@ -53,7 +82,7 @@ export const DOCS_NAV: DocsNavItem[] = [
     href: "/docs/workflows",
     title: "Workflows",
     description:
-      "Overall tree, leaf-only writes, work logs, and when to plan, save, save-do, plan-do, report, or commit.",
+      "Plan, branch, push, and let the App reconcile; review inbox, stages, and the board screens.",
   },
 ]
 
@@ -67,18 +96,19 @@ export const DOCS_COMMANDS = [
     id: "tkmd-verify",
     slash: "/tkmd-verify",
     purpose:
-      "Migrate an existing board: repair scaffold, delete leftover generated files, strip legacy item markdown",
+      "Migrate an existing board: repair scaffold, delete leftover generated files, strip retired frontmatter and parent child lists",
   },
   {
     id: "tkmd-plan",
     slash: "/tkmd-plan",
-    purpose: "Fit the smallest useful hierarchy to existing board work from prose",
+    purpose:
+      "Fit the smallest useful hierarchy to existing board work from prose (new items only)",
   },
   {
     id: "tkmd-save",
     slash: "/tkmd-save",
     purpose:
-      "After Cursor Plan mode, turn the plan into epic/story/task/bug items and carry plan visuals into those items",
+      "After Cursor Plan mode, turn the plan into new epic/story/task/bug items and carry plan visuals into those items",
   },
   {
     id: "tkmd-save-do",
@@ -95,12 +125,8 @@ export const DOCS_COMMANDS = [
   {
     id: "tkmd-do",
     slash: "/tkmd-do",
-    purpose: "Implement work; never commits; executed leaves become done",
-  },
-  {
-    id: "tkmd-shelf",
-    slash: "/tkmd-shelf",
-    purpose: "Discard never-implemented work as shelved; never commits",
+    purpose:
+      "Implement an item on a task-id branch; never edits the board and never commits",
   },
   {
     id: "tkmd-changelog",

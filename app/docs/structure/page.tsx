@@ -32,15 +32,21 @@ export default function DocsStructurePage() {
     ├── .gitignore      # ignores REPOS.md and .reports/
     ├── REPOS.md        # local only — generated, not committed
     ├── .reports/       # /tkmd-reportme output — local only
-    └── epics/
-        └── E-MM-k7m2p9b3-user-auth/
-            ├── epic.md
-            └── stories/
-                └── S-MM-n4q8w1a2-login/
-                    ├── story.md
-                    └── items/
-                        ├── T-MM-a8f31c2d-api.md
-                        └── B-MM-f8h1j4c5-token.md`}
+    ├── meetings/
+    │   └── 2026-11-18-kickoff.md
+    └── requests/
+        └── user-auth/
+            ├── brief.md
+            ├── log/
+            └── epics/
+                └── E-MM-k7m2p9b3-user-auth/
+                    ├── epic.md
+                    └── stories/
+                        └── S-MM-n4q8w1a2-login/
+                            ├── story.md
+                            └── items/
+                                ├── T-MM-a8f31c2d-api.md
+                                └── B-MM-f8h1j4c5-token.md`}
         </pre>
 
         <h2 id="multi-repo">Multiple git projects</h2>
@@ -54,7 +60,8 @@ export default function DocsStructurePage() {
 ├── .gitignore
 ├── REPOS.md        # local only
 ├── .reports/       # /tkmd-reportme — local only
-├── epics/
+├── meetings/
+├── requests/
 └── .git/`}
         </pre>
         <p>
@@ -63,9 +70,18 @@ export default function DocsStructurePage() {
           <code>REPOS.md</code> on this machine.
         </p>
 
+        <p>
+          This is the Taskmark 2.0 request layout. Boards created earlier keep
+          every epic directly under <code>epics/</code>; they still work, and{" "}
+          <code>npx taskmark migrate</code> moves them to{" "}
+          <code>requests/</code>. See{" "}
+          <Link href="/docs/requests">Request boards</Link>.
+        </p>
+
         <h2 id="what-is-not-in-git">What is not in git</h2>
         <p>
-          The UI scans <code>epics/</code>. Committed boards do not include a
+          The UI scans <code>requests/</code>, <code>meetings/</code>, and the
+          legacy <code>epics/</code>. Committed boards do not include a
           generated index, sizing seed file, velocity file, or board README.{" "}
           <code>CHANGELOG.md</code> at the board root is optional and is written
           only by <code>/tkmd-changelog</code> and <code>/tkmd-version</code>
@@ -91,9 +107,11 @@ export default function DocsStructurePage() {
             <code>items/</code> (epic-direct — no story required)
           </li>
           <li>
-            Plan and do write only new or target leaf files. Parent child
-            lists, status, points, people, dates, and logs are derived in the UI
-            at read time
+            Planning writes only new item files, agents never edit existing
+            ones, and the <Link href="/docs/app">App</Link> writes status,
+            stages, commits, and work logs on task and bug files. Parent child
+            lists, status, points, people, dates, and logs are derived in the
+            UI at read time
           </li>
         </ul>
 

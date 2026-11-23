@@ -37,8 +37,9 @@ export function LandingHero() {
             Product memory for agent work
           </h1>
           <p className="max-w-lg text-base text-muted-foreground sm:text-lg">
-            Local markdown boards that keep epics, stories, and tasks in sync
-            with Cursor — so planning survives the chat.
+            Markdown boards in git that any AI coding agent can read, kept in
+            sync with your code by the GitHub and Bitbucket App, so planning
+            survives the chat.
           </p>
           <div className="flex flex-wrap gap-3" id="get-started">
             <Button

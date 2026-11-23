@@ -8,9 +8,9 @@ const LINES = [
   { prompt: true, text: "/tkmd-plan \"Ship landing page\"" },
   { prompt: false, text: "Planned E-MM-4b9b509e · 6 stories" },
   { prompt: true, text: "/tkmd-do T-MM-f84c1351" },
-  { prompt: false, text: "Implemented T-MM-f84c1351 · marked done · no commit" },
+  { prompt: false, text: "Implemented T-MM-f84c1351 on its own branch · board untouched" },
   { prompt: true, text: "/tkmd-commit" },
-  { prompt: false, text: "Committed linked projects" },
+  { prompt: false, text: "Committed · the App closes the task after merge" },
 ] as const
 
 const CHAR_MS = 28
